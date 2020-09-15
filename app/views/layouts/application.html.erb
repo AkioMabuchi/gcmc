@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GCMC</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all'%>
+    <%= javascript_pack_tag 'application' %>
+  </head>
+
+  <body>
+  <header>
+    <a href="/" class="header-logo"></a>
+    <ul class="header-menu">
+      <li>
+        <a href="/projects">
+          プロジェクト
+        </a>
+      </li>
+      <li>
+        <a href="/users">
+          ユーザー
+        </a>
+      </li>
+      <li>
+        <a href="/board">
+          ボード
+        </a>
+      </li>
+      <li>
+        <a href="/events">
+          イベント
+        </a>
+      </li>
+    </ul>
+    <% if false %>
+    <%= react_component("HeaderUser") %>
+    <% else %>
+    <%= react_component("HeaderGuest") %>
+    <% end %>
+  </header>
+    <%= yield %>
+  </body>
+</html>

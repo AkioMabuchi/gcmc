@@ -1,0 +1,26 @@
+<h1>ログイン</h1>
+<div class="big-container">
+  <div class="small-container">
+    <form method="post" action="/login" class="login-form">
+      <h4>メールアドレス</h4>
+      <input type="email" name="email">
+      <h4 style="margin-top: 20px">パスワード</h4>
+      <input type="password" name="password">
+      <a href="/login/forgot-password" class="forgot-password">パスワードをお忘れですか？</a>
+      <button type="submit">ログイン</button>
+    </form>
+  </div>
+  <div class="small-container">
+    <div class="sns-login-form">
+      <form method="post" action="/login" class="sns-login">
+        <button type="submit" class="twitter">Twitterでログイン</button>
+      </form>
+      <form method="post" action="/login" class="sns-login" style="margin-top: 30px">
+        <button type="submit" class="github">GitHubでログイン</button>
+      </form>
+    </div>
+    <div class="login-notice">
+      アカウントをお持ちでない方は<a href="/signup">新規登録</a>
+    </div>
+  </div>
+</div>

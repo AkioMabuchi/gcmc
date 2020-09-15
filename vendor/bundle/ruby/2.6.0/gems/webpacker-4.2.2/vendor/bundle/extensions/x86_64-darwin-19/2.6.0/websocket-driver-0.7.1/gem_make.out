@@ -1,0 +1,15 @@
+current directory: /Users/amestric/RailsProjects/gcmc/vendor/bundle/ruby/2.6.0/gems/webpacker-4.2.2/vendor/bundle/gems/websocket-driver-0.7.1/ext/websocket-driver
+/Users/amestric/.rbenv/versions/2.6.1/bin/ruby -I /Users/amestric/.rbenv/versions/2.6.1/lib/ruby/2.6.0 -r ./siteconf20200915-39194-1fu16m.rb extconf.rb
+creating Makefile
+
+current directory: /Users/amestric/RailsProjects/gcmc/vendor/bundle/ruby/2.6.0/gems/webpacker-4.2.2/vendor/bundle/gems/websocket-driver-0.7.1/ext/websocket-driver
+make "DESTDIR=" clean
+
+current directory: /Users/amestric/RailsProjects/gcmc/vendor/bundle/ruby/2.6.0/gems/webpacker-4.2.2/vendor/bundle/gems/websocket-driver-0.7.1/ext/websocket-driver
+make "DESTDIR="
+compiling websocket_mask.c
+linking shared-object websocket_mask.bundle
+
+current directory: /Users/amestric/RailsProjects/gcmc/vendor/bundle/ruby/2.6.0/gems/webpacker-4.2.2/vendor/bundle/gems/websocket-driver-0.7.1/ext/websocket-driver
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 websocket_mask.bundle ./.gem.20200915-39194-s0r61s
