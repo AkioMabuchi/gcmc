@@ -10,6 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 2020_09_17_122656) do
+
+  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "permalink"
+    t.string "name"
+    t.string "email"
+    t.string "new_email"
+    t.boolean "is_certificated"
+    t.boolean "is_premium"
+    t.string "password_digest"
+    t.string "description"
+    t.string "url"
+    t.string "location"
+    t.datetime "birth"
+    t.string "twitter_uid"
+    t.string "twitter_url"
+    t.string "github_uid"
+    t.string "github_url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "image"
+  end
 
 end

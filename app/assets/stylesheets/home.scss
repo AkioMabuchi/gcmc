@@ -4,6 +4,9 @@
 
 *{
   box-sizing: border-box;
+  &.focus{
+    outline: none;
+  }
 }
 
 a{
@@ -17,15 +20,19 @@ a{
 body{
   margin: 0;
   padding-top: 60px;
+  padding-bottom: 100px;
   background-color: white;
+  min-height: 1000px;
+  position: relative;
 }
 
 button{
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
   padding: 0;
-  margin: 0;
-  &:focus{
-    outline: none;
-  }
+  appearance: none;
 }
 
 h1{
@@ -67,6 +74,17 @@ h6{
 p{
   margin: 0;
   padding: 0;
+}
+
+ul{
+  margin: 0;
+  padding: 0;
+}
+
+li{
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 // -------------------- HEADER --------------------
@@ -185,6 +203,65 @@ header{
     }
   }
 
+  button.user-button{
+    @media(max-width: 1000px){
+      display: none;
+    }
+    @media(min-width: 1000px){
+      display: block;
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      width: 50px;
+      height: 50px;
+      img{
+        display: block;
+        width: 50px;
+        height: 50px;
+        border-radius: 25px;
+      }
+    }
+  }
+
+  div.popup-menu{
+    padding: 10px;
+    position: absolute;
+    top: 55px;
+    right: 5px;
+    width: 300px;
+    height: 320px;
+    border: 1px solid #9B9B9B;
+    background-color: white;
+    z-index: 1000;
+    div.popup-menu-name{
+      padding-top: 5px;
+      padding-bottom: 15px;
+      line-height: 30px;
+      font-size: 20px;
+      font-weight: 300;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    ul{
+      li{
+        border-top: 1px solid #E6E6E6;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 2px;
+        a,button{
+          display: block;
+          height: 30px;
+          line-height: 30px;
+          font-size: 18px;
+          color: #BFBFBF;
+          &:hover{
+            color: black;
+          }
+        }
+      }
+    }
+  }
   div.pull-down-menu{
     overflow-y: hidden;
     transition: height 1s;
@@ -206,7 +283,30 @@ header{
 }
 
 // -------------------- FOOTER --------------------
+footer{
+  width: 100%;
+  min-height: 100px;
+  background-color: #DAE6E3;
+  position: absolute;
+  bottom: 0;
+}
 
+// -------------------- FLASH-NOTICE --------------------
+div.flash-notice{
+  width: 100%;
+  background-color: #FFA0A0;
+  position: fixed;
+  bottom: 0;
+  z-index: 100000;
+  transition: height 1s;
+  p{
+    padding-top: 10px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 22px;
+    color: white;
+  }
+}
 // -------------------- TOP-SECTION -------------------
 
 div.top-section{
@@ -218,6 +318,7 @@ div.top-section{
 div.features-section{
   width: 100%;
   background-color: #F7F7F7;
+  padding-bottom: 20px;
   h2{
     margin: 0;
     padding: 20px 0;

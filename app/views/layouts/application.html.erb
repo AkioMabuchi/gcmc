@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>GCMC</title>
+    <%= display_meta_tags(default_meta_tags) %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -33,13 +34,26 @@
           イベント
         </a>
       </li>
+      <li>
+        <a href="/articles">
+          記事一覧
+        </a>
+      </li>
     </ul>
-    <% if false %>
-    <%= react_component("HeaderUser") %>
+    <% if @current_user %>
+    <%= react_component("HeaderUser",{permalink: @current_user.permalink, name: @current_user.name, image: @current_user.image.url}) %>
     <% else %>
     <%= react_component("HeaderGuest") %>
     <% end %>
   </header>
     <%= yield %>
+  <footer>
+  </footer>
+  <% if flash[:notice] %>
+  <div id="react-flash-notice" class="flash-notice" style="height: 50px">
+    <p><%= flash[:notice] %></p>
+    <%= react_component("FlashNotice") %>
+  </div>
+  <% end %>
   </body>
 </html>

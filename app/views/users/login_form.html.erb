@@ -1,5 +1,5 @@
 <h1>ログイン</h1>
-<div class="big-container">
+<div class="big-container" style="margin-bottom: 100px">
   <div class="small-container">
     <form method="post" action="/login" class="login-form">
       <h4>メールアドレス</h4>
@@ -12,10 +12,10 @@
   </div>
   <div class="small-container">
     <div class="sns-login-form">
-      <form method="post" action="/login" class="sns-login">
+      <form method="post" action="/auth/twitter" class="sns-login">
         <button type="submit" class="twitter">Twitterでログイン</button>
       </form>
-      <form method="post" action="/login" class="sns-login" style="margin-top: 30px">
+      <form method="post" action="/auth/github" class="sns-login" style="margin-top: 30px">
         <button type="submit" class="github">GitHubでログイン</button>
       </form>
     </div>
