@@ -5,17 +5,7 @@
 </div>
 <div class="big-container" style="margin-bottom: 100px">
   <div class="small-container">
-    <form method="post" action="/login" class="login-form">
-      <h4>ユーザー名</h4>
-      <input type="text" name="name">
-      <h4 style="margin-top: 20px">メールアドレス</h4>
-      <input type="email" name="email">
-      <h4 style="margin-top: 20px">パスワード<small>（8字以上、32字以内）</small></h4>
-      <input type="password" name="password">
-      <h4 style="margin-top: 20px">パスワード<small>（確認用）</small></h4>
-      <input type="password" name="password_confirmation">
-      <button type="submit">新規登録</button>
-    </form>
+    <%= react_component("SignupForm") %>
   </div>
   <div class="small-container">
     <div class="sns-login-form">

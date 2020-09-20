@@ -4,4 +4,15 @@ class ProjectsController < ApplicationController
 
   def show
   end
+
+  def create_form
+
+  end
+
+  def create
+  end
+
+  def attends
+
+  end
 end

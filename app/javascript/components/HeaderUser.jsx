@@ -71,6 +71,7 @@ class HeaderUser extends React.Component {
                 <div className={`pull-down-menu ${this.state.pullDownMenu}`}>
 
                 </div>
+                <a href={"/projects/create"} className={'new-project-button'}>新規プロジェクト</a>
                 <button className={'user-button'} onClick={()=>{this.onClickUserButton()}}>
                     <img src={this.props.image} alt={''} />
                 </button>

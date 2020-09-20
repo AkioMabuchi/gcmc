@@ -38,6 +38,24 @@ class UsersController < ApplicationController
 
   end
 
+  def confirm_exists_permalink
+    user = User.find_by(permalink: params[:permalink])
+    if user
+      render plain: "exists"
+    else
+      render plain: "vacant"
+    end
+  end
+
+  def confirm_exists_email
+    user = User.find_by(email: params[:email])
+    if user
+      render plain: "exists"
+    else
+      render plain: "vacant"
+    end
+  end
+
   def signup_done
 
   end
@@ -83,7 +101,7 @@ class UsersController < ApplicationController
           redirect_to("/settings/sns")
         else # On Login with Twitter
           session[:user_id] = twitter_user.id
-          redirect_to("/users/#{twitter_user.permalink}")
+          redirect_to("/users/user/#{twitter_user.permalink}")
         end
       else
         if session[:user_id] # On Twitter Connection
@@ -141,7 +159,7 @@ class UsersController < ApplicationController
           redirect_to("/settings/sns")
         else # On Login with GitHub
           session[:user_id] = github_user.id
-          redirect_to("/users/#{github_user.permalink}")
+          redirect_to("/users/user/#{github_user.permalink}")
         end
       else
         if session[:user_id]

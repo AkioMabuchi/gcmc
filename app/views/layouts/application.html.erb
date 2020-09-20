@@ -40,6 +40,10 @@
         </a>
       </li>
     </ul>
+    <form action="/search" method="get" class="header-search-form">
+      <input type="text" name="content" placeholder="検索">
+      <button type="submit"><i class="fas fa-search"></i></button>
+    </form>
     <% if @current_user %>
     <%= react_component("HeaderUser",{permalink: @current_user.permalink, name: @current_user.name, image: @current_user.image.url}) %>
     <% else %>

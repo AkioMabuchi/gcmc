@@ -25,7 +25,7 @@ class HeaderGuest extends React.Component {
   render() {
     return (
         <div>
-          <a href={"/login"} className={"login-button"} style={{"right":"130px"}}>ログイン</a>
+          <a href={"/login"} className={"login-button"} style={{"right":"125px"}}>ログイン</a>
           <a href={"/signup"} className={"login-button"} style={{"right":"10px"}}>新規登録</a>
           <button className={'hamburgerButton'} onClick={() => {this.onClickHamburgerButton()}}>
             <div className={`hamburgerIcon ${this.state.hamburgerImage}`}></div>
