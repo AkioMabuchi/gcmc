@@ -15,4 +15,8 @@ class ProjectsController < ApplicationController
   def attends
 
   end
+
+  def settings
+
+  end
 end

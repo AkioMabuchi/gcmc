@@ -58,6 +58,8 @@ GEM
       zeitwerk (~> 2.2, >= 2.2.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
+    attr_encrypted (3.1.0)
+      encryptor (~> 3.0.0)
     babel-source (5.8.35)
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
@@ -90,6 +92,7 @@ GEM
     concurrent-ruby (1.1.6)
     connection_pool (2.2.2)
     crass (1.0.6)
+    encryptor (3.0.0)
     erubi (1.9.0)
     excon (0.76.0)
     execjs (2.7.0)
@@ -320,6 +323,7 @@ PLATFORMS
   x86-mswin32
 
 DEPENDENCIES
+  attr_encrypted
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.2)
   byebug

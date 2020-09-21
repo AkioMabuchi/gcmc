@@ -1,18 +1,13 @@
 Rails.application.routes.draw do
-  get 'articles/index'
   root "home#top"
 
   get "/terms", to: "home#terms"
   get "/privacy", to: "home#privacy"
   get "/contact", to: "home#contact"
   get "/about", to: "home#about"
-  get "/projects", to: "projects#index"
-  get "/projects/create", to: "projects#create_form"
-  get "/projects/attends", to: "projects#attends"
-  get "/projects/project/:permalink", to: "projects#show"
 
-  get "/users", to: "users#index"
-  get "/users/user/:permalink", to: "users#show"
+
+
 
   get "/board", to: "board#index"
 
@@ -22,13 +17,16 @@ Rails.application.routes.draw do
 
   get "/login", to: "users#login_form"
   get "/login/forgot-password", to: "users#forgot_password_form"
-
   post "/login", to: "users#login"
   post "/logout", to: "users#logout"
+
   get "/signup", to: "users#signup_form"
   post "/signup", to: "users#signup"
   post "/signup/confirm/permalink", to: "users#confirm_exists_permalink"
   post "/signup/confirm/email", to: "users#confirm_exists_email"
+  get "/signup/notice", to: "users#signup_notice"
+  get "/signup/confirmation", to: "users#signup_confirmation"
+  post "/signup/confirmation", to: "users#signup_confirm"
   get "/signup/done", to: "users#signup_done"
 
   get "/auth/twitter/callback", to: "users#twitter_callback"
@@ -38,10 +36,21 @@ Rails.application.routes.draw do
   get "/auth/failure", to: "users#auth_failure"
 
   get "/search", to: "home#search"
-  get "/settings/sns", to: "users#sns_form"
-  get "/settings/sns/done", to: "users#sns_done"
 
-  get "/settings/projects/:permalink", to: "projects#settings_form"
+  get "/users", to: "users#index"
+  get "/users/user/:permalink", to: "users#show"
+  get "/users/invitations", to: "users#invitations"
+  get "/users/settings/profile", to: "users#profile_form"
+  get "/users/settings/profile/done", to: "users#profile_done"
+  get "/users/settings/sns", to: "users#sns_form"
+  get "/users/settings/sns/done", to: "users#sns_done"
+
+  get "/projects", to: "projects#index"
+  get "/projects/project/:permalink", to: "projects#show"
+  get "/projects/create", to: "projects#create_form"
+  get "/projects/attends", to: "projects#attends"
+  get "/projects/settings", to: "projects#settings"
+
 
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

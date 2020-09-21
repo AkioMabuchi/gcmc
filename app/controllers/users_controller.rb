@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  protect_from_forgery :except => ["logout", "twitter_post", "github_post"]
+  protect_from_forgery :except => ["login", "logout", "signup", "twitter_post", "github_post"]
 
-  before_action :forbid_login_user, only: ["login_form","login","signup_form","signup"]
+  before_action :forbid_login_user, only: %w[login_form login signup_form signup]
 
 
   def index
@@ -17,9 +17,11 @@ class UsersController < ApplicationController
   def login
     user = User.find_by(email: params[:email])
     if user && user.authenticate(params[:password])
-
+      session[:user_id] = user.id
+      redirect_to("/users/user/#{user.permalink}")
+    else
+      redirect_to("/login")
     end
-    redirect_to("/")
   end
 
   def logout
@@ -35,12 +37,147 @@ class UsersController < ApplicationController
   end
 
   def signup
+    permalink = params[:permalink]
+    name = params[:name]
+    email = params[:email]
+    password = params[:password]
+    password_confirmation = params[:password]
+    agreement = params[:agreement]
+
+    is_genuine = "true"
+
+    if permalink == ""
+      is_genuine = nil
+      flash[:permalink_warning] = "入力してください"
+    elsif permalink.length > 24
+      is_genuine = nil
+      flash[:permalink_warning] = "24字以内で入力してください"
+    elsif !permalink.match(/^[0-9a-zA-Z\\-]*$/)
+      is_genuine = nil
+      flash[:permalink_warning] = "英数字およびハイフンのみ利用可能です"
+    elsif User.find_by(permalink: permalink)
+      is_genuine = nil
+      flash[:permalink_warning] = "そのユーザーIDは既に使用されています"
+    else
+      flash[:permalink] = permalink
+    end
+
+    if name == ""
+      is_genuine = nil
+      flash[:name_warning] = "入力してください"
+    elsif name.length > 24
+      is_genuine = nil
+      flash[:name_warning] = "24字以内で入力してください"
+    else
+      flash[:name] = name
+    end
+
+    if email == ""
+      is_genuine = nil
+      flash[:email_warning] = "入力してください"
+    elsif !email.match(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
+      is_genuine = nil
+      flahs[:email_warning] = "メールアドレスを入力してください"
+    elsif User.find_by(email: email)
+      is_genuine = nil
+      flash[:email_warning] = "そのメールアドレスは既に使用されています"
+    else
+      flash[:email] = email
+    end
+
+    if password.length < 8 || password.length > 32
+      is_genuine = nil
+      flash[:password_warning] = "8字以上、32字以下のパスワードを入力してください"
+    else
+      flash[:password] = password
+    end
+
+    if password != password_confirmation
+      is_genuine = nil
+      flash[:password_confirmation_warning] = "もう一度入力してください"
+    else
+      flash[:password_confirmation] = password_confirmation
+    end
+
+    if !agreement
+      is_genuine = nil
+      flash[:agreement_warning] = "利用規約に同意してください"
+    else
+      flash[:agreement] = true
+    end
+
+    if is_genuine
+      hash_code = generate_random_token(32)
+      confirmation_number_1 = rand(9).to_s
+      confirmation_number_2 = rand(9).to_s
+      confirmation_number_3 = rand(9).to_s
+      confirmation_number_4 = rand(9).to_s
+      confirmation_number_5 = rand(9).to_s
+      user = SignupConfirmation.new(
+          hash_code: hash_code,
+          permalink: permalink,
+          name: name,
+          email: email,
+          password: password,
+          confirmation_number_1: confirmation_number_1,
+          confirmation_number_2: confirmation_number_2,
+          confirmation_number_3: confirmation_number_3,
+          confirmation_number_4: confirmation_number_4,
+          confirmation_number_5: confirmation_number_5
+      )
+
+      if user.save
+        redirect_to("/signup/notice")
+      else
+        flash[:notice] = "新規登録に失敗しました"
+        redirect_to("/signup")
+      end
+    else
+      redirect_to("/signup")
+    end
+  end
+
+  def signup_notice
+
+  end
+
+  def signup_confirmation
+    @hash_code = params[:hash]
+    unless SignupConfirmation.find_by(hash_code: @hash_code)
+      redirect_to("/")
+    end
+  end
+
+  def signup_confirm
+    signup_confirmation = SignupConfirmation.find_by(hash_code: params[:hash_code])
+    if signup_confirmation
+      if true
+        user = User.new(
+            permalink: signup_confirmation.permalink,
+            name: signup_confirmation.name,
+            email: signup_confirmation.email,
+            password: signup_confirmation.password,
+            password_confirmation: signup_confirmation.password
+        )
+        if user.save
+          signup_confirmation.destroy
+          redirect_to("/")
+        else
+          redirect_to("/")
+        end
+      else
+        redirect_to("/")
+      end
+    end
+
+  end
+
+  def signup_done
 
   end
 
   def confirm_exists_permalink
-    user = User.find_by(permalink: params[:permalink])
-    if user
+    if User.find_by(permalink: params[:permalink])
       render plain: "exists"
     else
       render plain: "vacant"
@@ -48,16 +185,12 @@ class UsersController < ApplicationController
   end
 
   def confirm_exists_email
-    user = User.find_by(email: params[:email])
-    if user
+
+    if User.find_by(email: params[:email])
       render plain: "exists"
     else
       render plain: "vacant"
     end
-  end
-
-  def signup_done
-
   end
 
   def sns_form
@@ -119,8 +252,6 @@ class UsersController < ApplicationController
           password = generate_random_token(32)
           new_user = User.new(
               permalink: permalink,
-              is_certificated: true,
-              is_premium: false,
               name: params[:name],
               password: password,
               password_confirmation: password,
@@ -176,8 +307,6 @@ class UsersController < ApplicationController
           password = generate_random_token(32)
           new_user = User.new(
               permalink: permalink,
-              is_certificated: true,
-              is_premium: false,
               name: params[:name],
               password: password,
               password_confirmation: password,

@@ -40,6 +40,8 @@ gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'omniauth-github'
 
+gem 'attr_encrypted'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 

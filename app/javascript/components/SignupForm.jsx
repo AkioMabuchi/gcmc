@@ -3,7 +3,7 @@ import React from "react"
 class SignupForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state={
+    this.state = {
       styleOfPermalink: "normal",
       noticeOfPermalink: "",
       styleOfName: "normal",
@@ -162,27 +162,40 @@ class SignupForm extends React.Component {
     }
   }
 
-  render(){
-    return(
+  render() {
+    return (
         <div>
           <form action={'/signup'} method={'POST'} className={'signup-form'}>
             <h4>ユーザーID<small>（必須、24字以内の英数字およびハイフンのみ）</small></h4>
-            <input type={'text'} name={'permalink'} className={this.state.styleOfPermalink} onChange={(e)=>{this.onChangeInputPermalink(e)}}/>
+            <input type={'text'} name={'permalink'} className={this.state.styleOfPermalink} onChange={(e) => {
+              this.onChangeInputPermalink(e)
+            }}/>
             <p className={this.state.styleOfPermalink}>{this.state.noticeOfPermalink}</p>
             <h4>ユーザー名<small>（必須、24字以内）</small></h4>
-            <input type={'text'} name={'name'} className={this.state.styleOfName} onChange={(e)=>{this.onChangeInputName(e)}}/>
+            <input type={'text'} name={'name'} className={this.state.styleOfName} onChange={(e) => {
+              this.onChangeInputName(e)
+            }}/>
             <p className={this.state.styleOfName}>{this.state.noticeOfName}</p>
             <h4>メールアドレス<small>（必須）</small></h4>
-            <input type={'email'} name={'email'} className={this.state.styleOfEmail} onChange={(e)=>{this.onChangeInputEmail(e)}}/>
+            <input type={'email'} name={'email'} className={this.state.styleOfEmail} onChange={(e) => {
+              this.onChangeInputEmail(e)
+            }}/>
             <p className={this.state.styleOfEmail}>{this.state.noticeOfEmail}</p>
             <h4>パスワード<small>（8字以上、32字以内）</small></h4>
-            <input type={'password'} name={'password'} className={this.state.styleOfPassword} onChange={(e)=>{this.onChangeInputPassword(e)}}/>
+            <input type={'password'} name={'password'} className={this.state.styleOfPassword} onChange={(e) => {
+              this.onChangeInputPassword(e)
+            }}/>
             <p className={this.state.styleOfPassword}>{this.state.noticeOfPassword}</p>
             <h4>パスワード<small>（確認用）</small></h4>
-            <input type={'password'} name={'password_confirmation'} className={this.state.styleOfPasswordConfirmation} onChange={(e)=>{this.onChangeInputPasswordConfirmation(e)}}/>
+            <input type={'password'} name={'password_confirmation'} className={this.state.styleOfPasswordConfirmation}
+                   onChange={(e) => {
+                     this.onChangeInputPasswordConfirmation(e)
+                   }}/>
             <p className={this.state.styleOfPasswordConfirmation}>{this.state.noticeOfPasswordConfirmation}</p>
             <div className={'agreement'}>
-              <input type={'checkbox'} name={'agreement'} onChange={(e)=>{this.onChangeInputAgreement(e)}}/>
+              <input type={'checkbox'} name={'agreement'} onChange={(e) => {
+                this.onChangeInputAgreement(e)
+              }}/>
               利用規約に同意します
             </div>
             <button type={'submit'} disabled={this.state.buttonDisabled}>新規登録</button>
