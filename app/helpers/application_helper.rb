@@ -33,7 +33,7 @@ module ApplicationHelper
             card: "summary",
             site: "@AkioMabuchi"
         },
-        viewport: "width=device-width, initial-scale=0.9",
+        viewport: "width=device-width, initial-scale=0.8",
         robots: "noindex" #構築時の検索結果除外、完成時に外す
     }
   end

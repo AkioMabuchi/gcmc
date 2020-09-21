@@ -3,6 +3,7 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
 *{
+  font-family: "Hiragino Kaku Gothic Pro", "Hiragino Kaku Gothic ProN";
   box-sizing: border-box;
   &.focus{
     outline: none;
@@ -29,11 +30,14 @@ body{
 input{
   outline: none;
   appearance: none;
+  -webkit-appearance: none;
+  border-radius: 0;
 }
 
 input[type="checkbox"]{
   outline: black;
   appearance: auto;
+  border-radius: 0;
 }
 
 button{
