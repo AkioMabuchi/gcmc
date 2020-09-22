@@ -9,6 +9,9 @@
       </configuration>
     </facet>
   </component>
+  <component name="ModuleRunConfigurationManager">
+    <shared />
+  </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$/../../vendor/bundle/ruby/2.6.0/gems/impressionist-2.0.0/tests/test_app">
       <sourceFolder url="file://$MODULE_DIR$/../../vendor/bundle/ruby/2.6.0/gems/impressionist-2.0.0/tests/test_app/test" isTestSource="true" />

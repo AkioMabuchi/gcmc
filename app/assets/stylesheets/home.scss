@@ -20,7 +20,6 @@ a{
 
 body{
   margin: 0;
-  padding-top: 60px;
   padding-bottom: 100px;
   background-color: white;
   min-height: 1000px;
@@ -50,7 +49,7 @@ button{
 }
 
 h1{
-  margin: 0;
+  margin: 60px 0 0;
   padding-top: 30px;
   padding-bottom: 30px;
   font-size: 32px;
@@ -104,14 +103,7 @@ li{
 // -------------------- HEADER --------------------
 
 header{
-  width: 100%;
-  height: 60px;
-  background-color: #00FFBF;
-  position: fixed;
-  top: 0;
-  left: 0;
-
-  .header-logo {
+  a.header-logo {
     display: block;
     width: 100px;
     height: 40px;
@@ -120,374 +112,546 @@ header{
     background-size: cover;
     top: 10px;
     left: 8px;
-    &:hover{
+
+    &:hover {
       background-image: image_url("HeaderLogoHover.png");
     }
   }
 
-  ul.header-menu{
-    @media(max-width: 1050px){
-      display: none;
+  a.guest-button {
+    width: 105px;
+    height: 40px;
+    border: 3px solid white;
+    border-radius: 8px;
+    text-align: center;
+    line-height: 20px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    position: absolute;
+    &:hover {
+      border-color: #CCFFF2;
+      color: #CCFFF2;
     }
-    @media(min-width: 1050px){
-      display: flex;
-      margin: 0;
-      padding: 0;
-      position: absolute;
-      top: 20px;
-      left: 120px;
-    }
-    li{
-      font-size: 18px;
-      color: white;
+  }
+  &.top-guest{
+    background-image: image_url("HeaderTopGuestBackground.png");
+    background-size: 100% 100%;
+    color: white;
+    position: relative;
+
+    h1{
+      margin-top: 0;
       font-weight: 600;
-      list-style: none;
-      line-height: 20px;
-      padding-right: 10px;
-      padding-left: 10px;
-      a{
+      text-align: left;
+      transition: color 1s;
+      &.hide{
+        color: transparent;
+      }
+      &.show{
         color: white;
-        &:hover{
-          color: #CCFFF2;
-        }
       }
     }
-  }
 
-  form.header-search-form{
-    @media(max-width: 1050px){
-      display: none;
-    }
-    @media(min-width: 1050px){
-      display: block;
-      margin: 0;
-      padding: 0;
-      width: 190px;
-      height: 30px;
-      position: absolute;
-      top: 15px;
-      right: 250px;
-
-      input[type="text"] {
-        display: block;
-        width: 150px;
-        height: 30px;
-        line-height: 20px;
-        background-color: #B3FFEC;
-        color: #008060;
-        outline: none;
-        padding: 5px 5px 5px 10px;
-        border: none;
-        position: absolute;
-        top: 0;
-        left: 0;
-        &::placeholder{
-          color: #8AE6CF;
-        }
+    p{
+      font-weight: 400;
+      text-align: left;
+      transition: color 1s;
+      &.hide{
+        color: transparent;
       }
-
-      button[type="submit"]{
-        display: block;
-        width: 40px;
-        height: 30px;
-        position: absolute;
-        top: 0;
-        right: 0;
-        background-color: #00CC99;
+      &.show{
         color: white;
-        font-size: 20px;
-        line-height: 30px;
       }
     }
-  }
 
-  a.guest-button{
-    @media(max-width: 1050px){
-      display: none;
-    }
-    @media(min-width: 1050px){
-      display: block;
-      width: 105px;
-      height: 40px;
-      border: 3px solid white;
-      border-radius: 8px;
+    a.signup-button{
+      border-style: solid;
+      border-color: white;
       text-align: center;
-      line-height: 20px;
-      padding-top: 7px;
-      padding-bottom: 7px;
-      font-size: 18px;
-      font-weight: 600;
+      background-color: rgba(0, 255, 191, 0.3);
       color: white;
-      position: absolute;
-      top: 10px;
+      font-weight: 600;
       &:hover{
+        background-color: rgba(0, 255, 191, 0.5);
         border-color: #CCFFF2;
         color: #CCFFF2;
       }
-      &:nth-child(1){
-        right: 125px;
-      }
-      &:nth-child(2){
-        right: 10px;
-      }
     }
-  }
-  button.hamburgerButton{
-    @media (min-width: 1050px) {
-      display: none;
-    }
-    @media(max-width: 1050px) {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      width: 50px;
-      height: 40px;
-      padding: 0;
-      border: 0;
-      background: none;
-      cursor: pointer;
-      div.hamburgerIcon {
+
+    @media(max-width: 800px){
+      width: 100%;
+      height: 360px;
+      h1{
+        padding-top: 90px;
+        padding-right: 10px;
+        padding-left: 30px;
+        font-size: 32px;
+        line-height: 40px;
+      }
+      p{
+        padding-top: 20px;
+        padding-left: 30px;
+        font-size: 16px;
+        line-height: 20px;
+      }
+      a.login-button{
         width: 50px;
         height: 40px;
+        background-image: image_url("LoginButton.png");
         background-size: cover;
-
-        &.close {
-          background-image: image_url("HamburgerButtonOpen");
-
-          &:hover {
-            background-image: image_url("HamburgerButtonOpenHover");
-          }
-        }
-
-        &.open {
-          background-image: image_url("HamburgerButtonClose");
-
-          &:hover {
-            background-image: image_url("HamburgerButtonCloseHover");
-          }
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        &:hover{
+          background-image: image_url("LoginButtonHover.png");
         }
       }
-    }
-  }
-
-  a.new-project-button{
-    @media(max-width: 1050px){
-      display: none;
-    }
-    @media(min-width: 1050px){
-      display: block;
-      width: 160px;
-      height: 40px;
-      background-color: #8C66FF;
-      text-align: center;
-      font-size: 18px;
-      font-weight: 600;
-      padding-top: 10px;
-      padding-bottom: 10px;
-      line-height: 20px;
-      color: white;
-      border-radius: 8px;
-      position: absolute;
-      top: 10px;
-      right: 70px;
-    }
-  }
-  button.user-button{
-    @media(max-width: 1050px){
-      display: none;
-    }
-    @media(min-width: 1050px){
-      display: block;
-      position: absolute;
-      top: 5px;
-      right: 10px;
-      width: 50px;
-      height: 50px;
-      img{
-        display: block;
-        width: 50px;
-        height: 50px;
-        border-radius: 25px;
+      a.guest-button{
+        display: none;
       }
-    }
-  }
-
-  div.popup-menu{
-    @media(max-width: 1050px){
-      display: none;
-    }
-    @media(min-width: 1050px) {
-      padding: 10px;
-      position: absolute;
-      top: 55px;
-      right: 5px;
-      width: 300px;
-      height: 320px;
-      border: 1px solid #9B9B9B;
-      background-color: white;
-      z-index: 1000;
-      div.popup-menu-name {
-        padding-top: 5px;
-        padding-bottom: 15px;
+      a.signup-button{
+        width: 160px;
+        height: 40px;
+        border-width: 3px;
+        border-radius: 8px;
+        padding-top: 2px;
+        padding-bottom: 2px;
         line-height: 30px;
-        font-size: 20px;
-        font-weight: 300;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        color: black;
-      }
-
-      ul {
-        li {
-          border-top: 1px solid #E6E6E6;
-          padding-top: 5px;
-          padding-bottom: 5px;
-          padding-left: 2px;
-
-          a, button {
-            display: block;
-            height: 30px;
-            line-height: 30px;
-            font-size: 18px;
-            color: #BFBFBF;
-
-            &:hover {
-              color: black;
-            }
-          }
-        }
+        font-size: 16px;
+        position: absolute;
+        right: calc(50% - 80px);
+        bottom: 20px;
       }
     }
-  }
-  div.pull-down-menu{
-    overflow-y: hidden;
-    transition: height 0.75s;
-    background-color: #008060;
-    position: absolute;
-    top: 60px;
-    right: 0;
-    left: 0;
-    padding-right: 10px;
-    padding-left: 10px;
-    ul.pull-down-menu{
-      padding-top: 5px;
-      padding-bottom: 15px;
-      li{
+    @media(min-width: 800px){
+      width: 100%;
+      height: 540px;
+      h1{
+        padding-top: 120px;
+        padding-left: 60px;
+        font-size: 48px;
+        line-height: 50px;
+      }
+      p{
+        padding-top: 50px;
+        padding-left: 60px;
+        font-size: 24px;
+        line-height: 30px;
+      }
+      a.login-button{
+        display: none;
+      }
+      a.guest-button{
+        display: block;
+        &:nth-child(1){
+          top: 10px;
+          right: 125px;
+        }
+        &:nth-child(2){
+          top: 10px;
+          right: 10px;
+        }
+      }
+      a.signup-button{
+        width: 240px;
+        height: 60px;
+        border-width: 5px;
+        border-radius: 12px;
         padding-top: 5px;
         padding-bottom: 5px;
-        border-bottom: 1px solid #004D39;
-        a{
-          line-height: 30px;
-          font-size: 18px;
-          font-weight: 400;
+        line-height: 40px;
+        font-size: 24px;
+        position: absolute;
+        right: calc(50% - 120px);
+        bottom: 30px;
+      }
+    }
+  }
+  &.common {
+    width: 100%;
+    height: 60px;
+    background-color: #00FFBF;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+
+
+    ul.header-menu {
+      @media(max-width: 1050px) {
+        display: none;
+      }
+      @media(min-width: 1050px) {
+        display: flex;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        top: 20px;
+        left: 120px;
+      }
+
+      li {
+        font-size: 18px;
+        color: white;
+        font-weight: 600;
+        list-style: none;
+        line-height: 20px;
+        padding-right: 10px;
+        padding-left: 10px;
+
+        a {
           color: white;
-          &:hover{
+
+          &:hover {
             color: #CCFFF2;
           }
         }
       }
     }
 
-    form.menu-search-form{
-      display: block;
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 30px;
-      position: relative;
-
-      input[type="text"] {
-        display: block;
-        width: calc(100% - 40px);
-        height: 30px;
-        line-height: 20px;
-        background-color: #B3FFEC;
-        color: #008060;
-        outline: none;
-        padding: 5px 5px 5px 10px;
-        border: none;
-        position: absolute;
-        top: 0;
-        left: 0;
-        &::placeholder{
-          color: #8AE6CF;
-        }
+    form.header-search-form {
+      @media(max-width: 1050px) {
+        display: none;
       }
-
-      button[type="submit"]{
+      @media(min-width: 1050px) {
         display: block;
-        width: 40px;
+        margin: 0;
+        padding: 0;
+        width: 190px;
         height: 30px;
-        background-color: #00E6AC;
-        color: white;
-        font-size: 20px;
-        line-height: 30px;
         position: absolute;
-        top: 0;
-        right: 0;
+        top: 15px;
+        right: 250px;
+
+        input[type="text"] {
+          display: block;
+          width: 150px;
+          height: 30px;
+          line-height: 20px;
+          background-color: #B3FFEC;
+          color: #008060;
+          outline: none;
+          padding: 5px 5px 5px 10px;
+          border: none;
+          position: absolute;
+          top: 0;
+          left: 0;
+
+          &::placeholder {
+            color: #8AE6CF;
+          }
+        }
+
+        button[type="submit"] {
+          display: block;
+          width: 40px;
+          height: 30px;
+          position: absolute;
+          top: 0;
+          right: 0;
+          background-color: #00CC99;
+          color: white;
+          font-size: 20px;
+          line-height: 30px;
+        }
       }
     }
 
-    .bottom-menu{
-      margin-top: 20px;
-      background-color: #009973;
-      ul{
-        padding-right: 10px;
-        padding-left: 10px;
-        li{
-          padding-top: 5px;
-          padding-bottom: 5px;
-          padding-left: 2px;
-          div.user-info{
-            height: 60px;
-            position: relative;
-            img{
-              display: block;
-              width: 50px;
-              height: 50px;
-              border-radius: 25px;
-              position: absolute;
-              top: 5px;
-              left: 0;
-            }
-            div.user-name{
-              height: 30px;
-              line-height: 30px;
-              font-size: 20px;
-              font-weight: 300;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              color: white;
-              position: absolute;
-              top: 15px;
-              left: 60px;
+    a.guest-button {
+      @media(max-width: 1050px) {
+        display: none;
+      }
+      @media(min-width: 1050px) {
+        display: block;
+        &:nth-child(1) {
+          top: 10px;
+          right: 125px;
+        }
+        &:nth-child(2) {
+          top: 10px;
+          right: 10px;
+        }
+      }
+    }
+
+    button.hamburgerButton {
+      @media (min-width: 1050px) {
+        display: none;
+      }
+      @media(max-width: 1050px) {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 50px;
+        height: 40px;
+        padding: 0;
+        border: 0;
+        background: none;
+        cursor: pointer;
+        div.hamburgerIcon {
+          width: 50px;
+          height: 40px;
+          background-size: cover;
+
+          &.close {
+            background-image: image_url("HamburgerButtonOpen");
+
+            &:hover {
+              background-image: image_url("HamburgerButtonOpenHover");
             }
           }
-          a,button{
+
+          &.open {
+            background-image: image_url("HamburgerButtonClose");
+
+            &:hover {
+              background-image: image_url("HamburgerButtonCloseHover");
+            }
+          }
+        }
+      }
+    }
+
+    a.new-project-button {
+      @media(max-width: 1050px) {
+        display: none;
+      }
+      @media(min-width: 1050px) {
+        display: block;
+        width: 160px;
+        height: 40px;
+        background-color: #8C66FF;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 600;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        line-height: 20px;
+        color: white;
+        border-radius: 8px;
+        position: absolute;
+        top: 10px;
+        right: 70px;
+      }
+    }
+
+    button.user-button {
+      @media(max-width: 1050px) {
+        display: none;
+      }
+      @media(min-width: 1050px) {
+        display: block;
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        width: 50px;
+        height: 50px;
+        img {
+          display: block;
+          width: 50px;
+          height: 50px;
+          border-radius: 25px;
+        }
+      }
+    }
+
+    div.popup-menu {
+      @media(max-width: 1050px) {
+        display: none;
+      }
+      @media(min-width: 1050px) {
+        padding: 10px;
+        position: absolute;
+        top: 55px;
+        right: 5px;
+        width: 300px;
+        height: 320px;
+        border: 1px solid #9B9B9B;
+        background-color: white;
+        z-index: 1000;
+        div.popup-menu-name {
+          padding-top: 5px;
+          padding-bottom: 15px;
+          line-height: 30px;
+          font-size: 20px;
+          font-weight: 300;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          color: black;
+        }
+
+        ul {
+          li {
+            border-top: 1px solid #E6E6E6;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 2px;
+
+            a, button {
+              display: block;
+              height: 30px;
+              line-height: 30px;
+              font-size: 18px;
+              color: #BFBFBF;
+
+              &:hover {
+                color: black;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    div.pull-down-menu {
+      overflow-y: hidden;
+      transition: height 0.75s;
+      background-color: #008060;
+      position: absolute;
+      top: 60px;
+      right: 0;
+      left: 0;
+      padding-right: 10px;
+      padding-left: 10px;
+
+      ul.pull-down-menu {
+        padding-top: 5px;
+        padding-bottom: 15px;
+
+        li {
+          padding-top: 5px;
+          padding-bottom: 5px;
+          border-bottom: 1px solid #004D39;
+
+          a {
             line-height: 30px;
             font-size: 18px;
             font-weight: 400;
             color: white;
-            &:hover{
+
+            &:hover {
               color: #CCFFF2;
             }
           }
-          &:nth-child(n+2){
-            border-top: 1px solid #00664D;
+        }
+      }
+
+      form.menu-search-form {
+        display: block;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 30px;
+        position: relative;
+
+        input[type="text"] {
+          display: block;
+          width: calc(100% - 40px);
+          height: 30px;
+          line-height: 20px;
+          background-color: #B3FFEC;
+          color: #008060;
+          outline: none;
+          padding: 5px 5px 5px 10px;
+          border: none;
+          position: absolute;
+          top: 0;
+          left: 0;
+
+          &::placeholder {
+            color: #8AE6CF;
+          }
+        }
+
+        button[type="submit"] {
+          display: block;
+          width: 40px;
+          height: 30px;
+          background-color: #00E6AC;
+          color: white;
+          font-size: 20px;
+          line-height: 30px;
+          position: absolute;
+          top: 0;
+          right: 0;
+        }
+      }
+
+      .bottom-menu {
+        margin-top: 20px;
+        background-color: #009973;
+
+        ul {
+          padding-right: 10px;
+          padding-left: 10px;
+
+          li {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 2px;
+
+            div.user-info {
+              height: 60px;
+              position: relative;
+
+              img {
+                display: block;
+                width: 50px;
+                height: 50px;
+                border-radius: 25px;
+                position: absolute;
+                top: 5px;
+                left: 0;
+              }
+
+              div.user-name {
+                height: 30px;
+                line-height: 30px;
+                font-size: 20px;
+                font-weight: 300;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                color: white;
+                position: absolute;
+                top: 15px;
+                left: 60px;
+              }
+            }
+
+            a, button {
+              line-height: 30px;
+              font-size: 18px;
+              font-weight: 400;
+              color: white;
+
+              &:hover {
+                color: #CCFFF2;
+              }
+            }
+
+            &:nth-child(n+2) {
+              border-top: 1px solid #00664D;
+            }
           }
         }
       }
-    }
-    &.close{
-      height: 0;
-    }
-    &.open-guest{
-      height: 375px;
-    }
-    &.open-user{
-      height: 645px;
+
+      &.close {
+        height: 0;
+      }
+
+      &.open-guest {
+        height: 375px;
+      }
+
+      &.open-user {
+        height: 645px;
+      }
     }
   }
 }

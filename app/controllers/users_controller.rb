@@ -108,25 +108,26 @@ class UsersController < ApplicationController
 
     if is_genuine
       hash_code = generate_random_token(32)
-      confirmation_number_1 = rand(9).to_s
-      confirmation_number_2 = rand(9).to_s
-      confirmation_number_3 = rand(9).to_s
-      confirmation_number_4 = rand(9).to_s
-      confirmation_number_5 = rand(9).to_s
+      number_1 = rand(9).to_s
+      number_2 = rand(9).to_s
+      number_3 = rand(9).to_s
+      number_4 = rand(9).to_s
+      number_5 = rand(9).to_s
       user = SignupConfirmation.new(
           hash_code: hash_code,
           permalink: permalink,
           name: name,
           email: email,
           password: password,
-          confirmation_number_1: confirmation_number_1,
-          confirmation_number_2: confirmation_number_2,
-          confirmation_number_3: confirmation_number_3,
-          confirmation_number_4: confirmation_number_4,
-          confirmation_number_5: confirmation_number_5
+          confirmation_number_1: number_1,
+          confirmation_number_2: number_2,
+          confirmation_number_3: number_3,
+          confirmation_number_4: number_4,
+          confirmation_number_5: number_5
       )
 
       if user.save
+        SignupConfirmationMailer.send_text(name, email, hash_code, number_1, number_2, number_3, number_4, number_5).deliver
         redirect_to("/signup/notice")
       else
         flash[:notice] = "新規登録に失敗しました"

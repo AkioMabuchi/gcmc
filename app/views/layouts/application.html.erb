@@ -11,13 +11,19 @@
   </head>
 
   <body>
-  <header>
+  <% if @header_top_guest %>
+    <header class="top-guest">
+      <%= react_component("HeaderTopGuest") %>
+    </header>
+  <% else %>
+    <header class="common">
     <% if @current_user %>
       <%= react_component("Header", {mode: "user", permalink: @current_user.permalink, name: @current_user.name, image: @current_user.image.url, invitations: @current_user.invitations}) %>
     <% else %>
       <%= react_component("Header", {mode: "guest"}) %>
     <% end %>
-  </header>
+    </header>
+  <% end %>
     <%= yield %>
   <footer>
   </footer>

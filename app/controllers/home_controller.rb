@@ -1,5 +1,8 @@
 class HomeController < ApplicationController
   def top
+    unless @current_user
+      @header_top_guest = true
+    end
   end
 
   def terms
