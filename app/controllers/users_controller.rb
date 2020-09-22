@@ -127,7 +127,7 @@ class UsersController < ApplicationController
       )
 
       if user.save
-        SignupConfirmationMailer.send_text(name, email, hash_code, number_1, number_2, number_3, number_4, number_5).deliver
+        SignupConfirmationMailer.send_text(name, email, hash_code, number_1, number_2, number_3, number_4, number_5).deliver_now
         redirect_to("/signup/notice")
       else
         flash[:notice] = "新規登録に失敗しました"

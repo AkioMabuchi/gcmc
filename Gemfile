@@ -42,6 +42,8 @@ gem 'omniauth-github'
 
 gem 'attr_encrypted'
 
+gem 'aws-ses'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
