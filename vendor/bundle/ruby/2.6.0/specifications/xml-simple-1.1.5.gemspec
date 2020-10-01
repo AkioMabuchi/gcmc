@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib".freeze]
   s.authors = ["Maik Schmidt".freeze]
   s.date = "2014-10-30"
-  s.email = "contact@maik-schmidt.de".freeze
+  s.email = "contact_form@maik-schmidt.de".freeze
   s.homepage = "https://github.com/maik/xml-simple".freeze
   s.licenses = ["Ruby".freeze]
   s.rubygems_version = "3.0.1".freeze

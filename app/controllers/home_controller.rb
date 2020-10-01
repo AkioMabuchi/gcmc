@@ -1,8 +1,7 @@
 class HomeController < ApplicationController
+  protect_from_forgery except: :contact
   def top
-    unless @current_user
-      @header_top_guest = true
-    end
+
   end
 
   def terms
@@ -11,7 +10,20 @@ class HomeController < ApplicationController
   def privacy
   end
 
+  def contact_form
+  end
+
   def contact
+    email = params[:email]
+    title = params[:title]
+    message = params[:message]
+
+    ContactMailer.send_text(email, title, message).deliver_now
+    redirect_to("/contact/done")
+  end
+
+  def contact_done
+
   end
 
   def about

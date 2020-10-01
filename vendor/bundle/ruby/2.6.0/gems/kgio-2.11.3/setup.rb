@@ -519,13 +519,13 @@ class ConfigTable
 
     # For only multipackage
     def packages
-      raise '[setup.rb fatal] multi-package metaconfig API packages() called for single-package; contact application package vendor' unless @installer
+      raise '[setup.rb fatal] multi-package metaconfig API packages() called for single-package; contact_form application package vendor' unless @installer
       @installer.packages
     end
 
     # For only multipackage
     def declare_packages(list)
-      raise '[setup.rb fatal] multi-package metaconfig API declare_packages() called for single-package; contact application package vendor' unless @installer
+      raise '[setup.rb fatal] multi-package metaconfig API declare_packages() called for single-package; contact_form application package vendor' unless @installer
       @installer.packages = list
     end
   end

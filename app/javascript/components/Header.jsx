@@ -138,19 +138,13 @@ class Header extends React.Component {
         }
         return(
             <div>
-                <a href={'/'} className={'header-logo'}/>
+                <a href={'/'} className={'logo'}/>
                 <ul className={'header-menu'}>
                     <li>
                         <a href={'/projects'}>プロジェクト</a>
                     </li>
                     <li>
                         <a href={"/users"}>ユーザー</a>
-                    </li>
-                    <li>
-                        <a href={"/board"}>ボード</a>
-                    </li>
-                    <li>
-                        <a href={"/events"}>イベント</a>
                     </li>
                     <li>
                         <a href={"/articles"}>記事一覧</a>
@@ -171,12 +165,6 @@ class Header extends React.Component {
                         </li>
                         <li>
                             <a href={'/users'}>ユーザー</a>
-                        </li>
-                        <li>
-                            <a href={'/board'}>ボード</a>
-                        </li>
-                        <li>
-                            <a href={'/events'}>イベント</a>
                         </li>
                         <li>
                             <a href={'/articles'}>記事一覧</a>

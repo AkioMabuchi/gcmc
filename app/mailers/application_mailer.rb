@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "info@gcmatchingcenter.com"
+  default from: "GCMC@gcmatchingcenter.com"
   layout 'mailer'
 end

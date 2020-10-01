@@ -1,6 +1,10 @@
 class ApplicationController < ActionController::Base
   before_action :set_current_user
 
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404
+  rescue_from ActionController::RoutingError, with: :render_404
+  rescue_from Exception, with: :render_500
+
   def set_current_user
     @current_user = User.find_by(id: session[:user_id])
     unless @current_user
@@ -22,13 +26,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def ensure_user_exists
-    unless User.find_by(permalink: params[:permalink])
-      flash[:notice] = "そのユーザーは存在しません"
-      redirect_to("/users")
-    end
+  def render_403
+
   end
-  def ensure_correct_user
+
+  def render_404
+    render file: Rails.root.join("public/404.html"), status: 404, layout: false, content_type: 'text/html'
+  end
+
+  def render_500
 
   end
 end

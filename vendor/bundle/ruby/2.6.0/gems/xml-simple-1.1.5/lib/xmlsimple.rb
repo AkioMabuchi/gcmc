@@ -1,6 +1,6 @@
 # = XmlSimple
 #
-# Author::    Maik Schmidt <contact@maik-schmidt.de>
+# Author::    Maik Schmidt <contact_form@maik-schmidt.de>
 # Copyright:: Copyright (c) 2003-2014 Maik Schmidt
 # License::   Distributes under the same terms as Ruby.
 #

@@ -11,21 +11,34 @@
   </head>
 
   <body>
-  <% if @header_top_guest %>
-    <header class="top-guest">
-      <%= react_component("HeaderTopGuest") %>
-    </header>
-  <% else %>
-    <header class="common">
+  <header>
     <% if @current_user %>
       <%= react_component("Header", {mode: "user", permalink: @current_user.permalink, name: @current_user.name, image: @current_user.image.url, invitations: @current_user.invitations}) %>
     <% else %>
       <%= react_component("Header", {mode: "guest"}) %>
     <% end %>
-    </header>
-  <% end %>
+  </header>
     <%= yield %>
   <footer>
+    <ul class="menu">
+      <li>
+        <a href="/about">GCMCについて</a>
+      </li>
+      <li>
+        <a href="/terms">利用規約</a>
+      </li>
+      <li>
+        <a href="/privacy">プライバシーポリシー</a>
+      </li>
+      <li>
+        <a href="/contact">お問い合わせ</a>
+      </li>
+    </ul>
+    <h5>公式Twitter</h5>
+    <a href="https://twitter.com/official_gcmc" target="_blank" class="twitter">
+      <%= image_tag "Twitter.png" %>
+    </a>
+    <address>Copyright <i class="far fa-copyright"></i> 2020 GCMC All Rights Reserved.</address>
   </footer>
   <% if flash[:notice] %>
   <div id="react-flash-notice" class="flash-notice" style="height: 50px">

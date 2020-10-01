@@ -6012,7 +6012,7 @@
     - application/vnd.commonspace
   registered: true
 - !ruby/object:MIME::Type
-  content-type: application/vnd.contact.cmsg
+  content-type: application/vnd.contact_form.cmsg
   friendly:
     en: CIM Database
   encoding: base64
@@ -6022,7 +6022,7 @@
     person:
     - Frank_Patz
     template:
-    - application/vnd.contact.cmsg
+    - application/vnd.contact_form.cmsg
   registered: true
 - !ruby/object:MIME::Type
   content-type: application/vnd.coreos.ignition+json

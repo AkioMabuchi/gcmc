@@ -20,6 +20,7 @@ a{
 
 body{
   margin: 0;
+  padding-top: 60px;
   padding-bottom: 100px;
   background-color: white;
   min-height: 1000px;
@@ -31,6 +32,14 @@ input{
   appearance: none;
   -webkit-appearance: none;
   border-radius: 0;
+}
+
+textarea{
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 0;
+  resize: none;
 }
 
 input[type="checkbox"]{
@@ -49,7 +58,6 @@ button{
 }
 
 h1{
-  margin: 60px 0 0;
   padding-top: 30px;
   padding-bottom: 30px;
   font-size: 32px;
@@ -100,10 +108,22 @@ li{
   list-style: none;
 }
 
+address{
+  font-style: normal;
+}
+
 // -------------------- HEADER --------------------
 
-header{
-  a.header-logo {
+header {
+  $breakpoint: 900px;
+  width: 100%;
+  height: 60px;
+  background-color: #00FFBF;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  a.logo {
     display: block;
     width: 100px;
     height: 40px;
@@ -131,178 +151,264 @@ header{
     font-weight: 600;
     color: white;
     position: absolute;
+
     &:hover {
       border-color: #CCFFF2;
       color: #CCFFF2;
     }
   }
-  &.top-guest{
-    background-image: image_url("HeaderTopGuestBackground.png");
-    background-size: 100% 100%;
-    color: white;
-    position: relative;
 
-    h1{
-      margin-top: 0;
-      font-weight: 600;
-      text-align: left;
-      transition: color 1s;
-      &.hide{
-        color: transparent;
-      }
-      &.show{
-        color: white;
-      }
+  ul.header-menu {
+    @media(max-width: $breakpoint) {
+      display: none;
+    }
+    @media(min-width: $breakpoint) {
+      display: flex;
+      margin: 0;
+      padding: 0;
+      position: absolute;
+      top: 20px;
+      left: 120px;
     }
 
-    p{
-      font-weight: 400;
-      text-align: left;
-      transition: color 1s;
-      &.hide{
-        color: transparent;
-      }
-      &.show{
-        color: white;
-      }
-    }
-
-    a.signup-button{
-      border-style: solid;
-      border-color: white;
-      text-align: center;
-      background-color: rgba(0, 255, 191, 0.3);
+    li {
+      font-size: 18px;
       color: white;
       font-weight: 600;
-      &:hover{
-        background-color: rgba(0, 255, 191, 0.5);
-        border-color: #CCFFF2;
-        color: #CCFFF2;
-      }
-    }
+      list-style: none;
+      line-height: 20px;
+      padding-right: 10px;
+      padding-left: 10px;
 
-    @media(max-width: 800px){
-      width: 100%;
-      height: 360px;
-      h1{
-        padding-top: 90px;
-        padding-right: 10px;
-        padding-left: 30px;
-        font-size: 32px;
-        line-height: 40px;
-      }
-      p{
-        padding-top: 20px;
-        padding-left: 30px;
-        font-size: 16px;
-        line-height: 20px;
-      }
-      a.login-button{
-        width: 50px;
-        height: 40px;
-        background-image: image_url("LoginButton.png");
-        background-size: cover;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        &:hover{
-          background-image: image_url("LoginButtonHover.png");
+      a {
+        color: white;
+
+        &:hover {
+          color: #CCFFF2;
         }
-      }
-      a.guest-button{
-        display: none;
-      }
-      a.signup-button{
-        width: 160px;
-        height: 40px;
-        border-width: 3px;
-        border-radius: 8px;
-        padding-top: 2px;
-        padding-bottom: 2px;
-        line-height: 30px;
-        font-size: 16px;
-        position: absolute;
-        right: calc(50% - 80px);
-        bottom: 20px;
-      }
-    }
-    @media(min-width: 800px){
-      width: 100%;
-      height: 540px;
-      h1{
-        padding-top: 120px;
-        padding-left: 60px;
-        font-size: 48px;
-        line-height: 50px;
-      }
-      p{
-        padding-top: 50px;
-        padding-left: 60px;
-        font-size: 24px;
-        line-height: 30px;
-      }
-      a.login-button{
-        display: none;
-      }
-      a.guest-button{
-        display: block;
-        &:nth-child(1){
-          top: 10px;
-          right: 125px;
-        }
-        &:nth-child(2){
-          top: 10px;
-          right: 10px;
-        }
-      }
-      a.signup-button{
-        width: 240px;
-        height: 60px;
-        border-width: 5px;
-        border-radius: 12px;
-        padding-top: 5px;
-        padding-bottom: 5px;
-        line-height: 40px;
-        font-size: 24px;
-        position: absolute;
-        right: calc(50% - 120px);
-        bottom: 30px;
       }
     }
   }
-  &.common {
-    width: 100%;
-    height: 60px;
-    background-color: #00FFBF;
-    position: fixed;
-    top: 0;
-    left: 0;
 
+  form.header-search-form {
+    @media(max-width: $breakpoint) {
+      display: none;
+    }
+    @media(min-width: $breakpoint) {
+      display: block;
+      margin: 0;
+      padding: 0;
+      width: 190px;
+      height: 30px;
+      position: absolute;
+      top: 15px;
+      right: 250px;
 
-
-    ul.header-menu {
-      @media(max-width: 1050px) {
-        display: none;
-      }
-      @media(min-width: 1050px) {
-        display: flex;
-        margin: 0;
-        padding: 0;
+      input[type="text"] {
+        display: block;
+        width: 150px;
+        height: 30px;
+        line-height: 20px;
+        background-color: #B3FFEC;
+        color: #008060;
+        outline: none;
+        padding: 5px 5px 5px 10px;
+        border: none;
         position: absolute;
-        top: 20px;
-        left: 120px;
+        top: 0;
+        left: 0;
+
+        &::placeholder {
+          color: #8AE6CF;
+        }
       }
+
+      button[type="submit"] {
+        display: block;
+        width: 40px;
+        height: 30px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: #00CC99;
+        color: white;
+        font-size: 20px;
+        line-height: 30px;
+      }
+    }
+  }
+
+  a.guest-button {
+    @media(max-width: $breakpoint) {
+      display: none;
+    }
+    @media(min-width: $breakpoint) {
+      display: block;
+      &:nth-child(1) {
+        top: 10px;
+        right: 125px;
+      }
+      &:nth-child(2) {
+        top: 10px;
+        right: 10px;
+      }
+    }
+  }
+
+  button.hamburgerButton {
+    @media (min-width: $breakpoint) {
+      display: none;
+    }
+    @media(max-width: $breakpoint) {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 50px;
+      height: 40px;
+      padding: 0;
+      border: 0;
+      background: none;
+      cursor: pointer;
+      div.hamburgerIcon {
+        width: 50px;
+        height: 40px;
+        background-size: cover;
+
+        &.close {
+          background-image: image_url("HamburgerButtonOpen");
+
+          &:hover {
+            background-image: image_url("HamburgerButtonOpenHover");
+          }
+        }
+
+        &.open {
+          background-image: image_url("HamburgerButtonClose");
+
+          &:hover {
+            background-image: image_url("HamburgerButtonCloseHover");
+          }
+        }
+      }
+    }
+  }
+
+  a.new-project-button {
+    @media(max-width: $breakpoint) {
+      display: none;
+    }
+    @media(min-width: $breakpoint) {
+      display: block;
+      width: 160px;
+      height: 40px;
+      background-color: #8C66FF;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 600;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      line-height: 20px;
+      color: white;
+      border-radius: 8px;
+      position: absolute;
+      top: 10px;
+      right: 70px;
+    }
+  }
+
+  button.user-button {
+    @media(max-width: $breakpoint) {
+      display: none;
+    }
+    @media(min-width: $breakpoint) {
+      display: block;
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      width: 50px;
+      height: 50px;
+      img {
+        display: block;
+        width: 50px;
+        height: 50px;
+        border-radius: 25px;
+      }
+    }
+  }
+
+  div.popup-menu {
+    @media(max-width: $breakpoint) {
+      display: none;
+    }
+    @media(min-width: $breakpoint) {
+      padding: 10px;
+      position: absolute;
+      top: 55px;
+      right: 5px;
+      width: 300px;
+      height: 320px;
+      border: 1px solid #9B9B9B;
+      background-color: white;
+      z-index: 1000;
+      div.popup-menu-name {
+        padding-top: 5px;
+        padding-bottom: 15px;
+        line-height: 30px;
+        font-size: 20px;
+        font-weight: 300;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: black;
+      }
+
+      ul {
+        li {
+          border-top: 1px solid #E6E6E6;
+          padding-top: 5px;
+          padding-bottom: 5px;
+          padding-left: 2px;
+
+          a, button {
+            display: block;
+            height: 30px;
+            line-height: 30px;
+            font-size: 18px;
+            color: #BFBFBF;
+
+            &:hover {
+              color: black;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  div.pull-down-menu {
+    overflow-y: hidden;
+    transition: height 0.75s;
+    background-color: #008060;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    left: 0;
+    padding-right: 10px;
+    padding-left: 10px;
+
+    ul.pull-down-menu {
+      padding-top: 5px;
+      padding-bottom: 15px;
 
       li {
-        font-size: 18px;
-        color: white;
-        font-weight: 600;
-        list-style: none;
-        line-height: 20px;
-        padding-right: 10px;
-        padding-left: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #004D39;
 
         a {
+          line-height: 30px;
+          font-size: 18px;
+          font-weight: 400;
           color: white;
 
           &:hover {
@@ -312,222 +418,90 @@ header{
       }
     }
 
-    form.header-search-form {
-      @media(max-width: 1050px) {
-        display: none;
-      }
-      @media(min-width: 1050px) {
+    form.menu-search-form {
+      display: block;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 30px;
+      position: relative;
+
+      input[type="text"] {
         display: block;
-        margin: 0;
-        padding: 0;
-        width: 190px;
+        width: calc(100% - 40px);
         height: 30px;
-        position: absolute;
-        top: 15px;
-        right: 250px;
-
-        input[type="text"] {
-          display: block;
-          width: 150px;
-          height: 30px;
-          line-height: 20px;
-          background-color: #B3FFEC;
-          color: #008060;
-          outline: none;
-          padding: 5px 5px 5px 10px;
-          border: none;
-          position: absolute;
-          top: 0;
-          left: 0;
-
-          &::placeholder {
-            color: #8AE6CF;
-          }
-        }
-
-        button[type="submit"] {
-          display: block;
-          width: 40px;
-          height: 30px;
-          position: absolute;
-          top: 0;
-          right: 0;
-          background-color: #00CC99;
-          color: white;
-          font-size: 20px;
-          line-height: 30px;
-        }
-      }
-    }
-
-    a.guest-button {
-      @media(max-width: 1050px) {
-        display: none;
-      }
-      @media(min-width: 1050px) {
-        display: block;
-        &:nth-child(1) {
-          top: 10px;
-          right: 125px;
-        }
-        &:nth-child(2) {
-          top: 10px;
-          right: 10px;
-        }
-      }
-    }
-
-    button.hamburgerButton {
-      @media (min-width: 1050px) {
-        display: none;
-      }
-      @media(max-width: 1050px) {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        width: 50px;
-        height: 40px;
-        padding: 0;
-        border: 0;
-        background: none;
-        cursor: pointer;
-        div.hamburgerIcon {
-          width: 50px;
-          height: 40px;
-          background-size: cover;
-
-          &.close {
-            background-image: image_url("HamburgerButtonOpen");
-
-            &:hover {
-              background-image: image_url("HamburgerButtonOpenHover");
-            }
-          }
-
-          &.open {
-            background-image: image_url("HamburgerButtonClose");
-
-            &:hover {
-              background-image: image_url("HamburgerButtonCloseHover");
-            }
-          }
-        }
-      }
-    }
-
-    a.new-project-button {
-      @media(max-width: 1050px) {
-        display: none;
-      }
-      @media(min-width: 1050px) {
-        display: block;
-        width: 160px;
-        height: 40px;
-        background-color: #8C66FF;
-        text-align: center;
-        font-size: 18px;
-        font-weight: 600;
-        padding-top: 10px;
-        padding-bottom: 10px;
         line-height: 20px;
-        color: white;
-        border-radius: 8px;
+        background-color: #B3FFEC;
+        color: #008060;
+        outline: none;
+        padding: 5px 5px 5px 10px;
+        border: none;
         position: absolute;
-        top: 10px;
-        right: 70px;
-      }
-    }
+        top: 0;
+        left: 0;
 
-    button.user-button {
-      @media(max-width: 1050px) {
-        display: none;
+        &::placeholder {
+          color: #8AE6CF;
+        }
       }
-      @media(min-width: 1050px) {
+
+      button[type="submit"] {
         display: block;
+        width: 40px;
+        height: 30px;
+        background-color: #00E6AC;
+        color: white;
+        font-size: 20px;
+        line-height: 30px;
         position: absolute;
-        top: 5px;
-        right: 10px;
-        width: 50px;
-        height: 50px;
-        img {
-          display: block;
-          width: 50px;
-          height: 50px;
-          border-radius: 25px;
-        }
+        top: 0;
+        right: 0;
       }
     }
 
-    div.popup-menu {
-      @media(max-width: 1050px) {
-        display: none;
-      }
-      @media(min-width: 1050px) {
-        padding: 10px;
-        position: absolute;
-        top: 55px;
-        right: 5px;
-        width: 300px;
-        height: 320px;
-        border: 1px solid #9B9B9B;
-        background-color: white;
-        z-index: 1000;
-        div.popup-menu-name {
-          padding-top: 5px;
-          padding-bottom: 15px;
-          line-height: 30px;
-          font-size: 20px;
-          font-weight: 300;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          color: black;
-        }
+    .bottom-menu {
+      margin-top: 20px;
+      background-color: #009973;
 
-        ul {
-          li {
-            border-top: 1px solid #E6E6E6;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            padding-left: 2px;
-
-            a, button {
-              display: block;
-              height: 30px;
-              line-height: 30px;
-              font-size: 18px;
-              color: #BFBFBF;
-
-              &:hover {
-                color: black;
-              }
-            }
-          }
-        }
-      }
-    }
-
-    div.pull-down-menu {
-      overflow-y: hidden;
-      transition: height 0.75s;
-      background-color: #008060;
-      position: absolute;
-      top: 60px;
-      right: 0;
-      left: 0;
-      padding-right: 10px;
-      padding-left: 10px;
-
-      ul.pull-down-menu {
-        padding-top: 5px;
-        padding-bottom: 15px;
+      ul {
+        padding-right: 10px;
+        padding-left: 10px;
 
         li {
           padding-top: 5px;
           padding-bottom: 5px;
-          border-bottom: 1px solid #004D39;
+          padding-left: 2px;
 
-          a {
+          div.user-info {
+            height: 60px;
+            position: relative;
+
+            img {
+              display: block;
+              width: 50px;
+              height: 50px;
+              border-radius: 25px;
+              position: absolute;
+              top: 5px;
+              left: 0;
+            }
+
+            div.user-name {
+              height: 30px;
+              line-height: 30px;
+              font-size: 20px;
+              font-weight: 300;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              color: white;
+              position: absolute;
+              top: 15px;
+              left: 60px;
+            }
+          }
+
+          a, button {
             line-height: 30px;
             font-size: 18px;
             font-weight: 400;
@@ -537,121 +511,24 @@ header{
               color: #CCFFF2;
             }
           }
-        }
-      }
 
-      form.menu-search-form {
-        display: block;
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 30px;
-        position: relative;
-
-        input[type="text"] {
-          display: block;
-          width: calc(100% - 40px);
-          height: 30px;
-          line-height: 20px;
-          background-color: #B3FFEC;
-          color: #008060;
-          outline: none;
-          padding: 5px 5px 5px 10px;
-          border: none;
-          position: absolute;
-          top: 0;
-          left: 0;
-
-          &::placeholder {
-            color: #8AE6CF;
-          }
-        }
-
-        button[type="submit"] {
-          display: block;
-          width: 40px;
-          height: 30px;
-          background-color: #00E6AC;
-          color: white;
-          font-size: 20px;
-          line-height: 30px;
-          position: absolute;
-          top: 0;
-          right: 0;
-        }
-      }
-
-      .bottom-menu {
-        margin-top: 20px;
-        background-color: #009973;
-
-        ul {
-          padding-right: 10px;
-          padding-left: 10px;
-
-          li {
-            padding-top: 5px;
-            padding-bottom: 5px;
-            padding-left: 2px;
-
-            div.user-info {
-              height: 60px;
-              position: relative;
-
-              img {
-                display: block;
-                width: 50px;
-                height: 50px;
-                border-radius: 25px;
-                position: absolute;
-                top: 5px;
-                left: 0;
-              }
-
-              div.user-name {
-                height: 30px;
-                line-height: 30px;
-                font-size: 20px;
-                font-weight: 300;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                color: white;
-                position: absolute;
-                top: 15px;
-                left: 60px;
-              }
-            }
-
-            a, button {
-              line-height: 30px;
-              font-size: 18px;
-              font-weight: 400;
-              color: white;
-
-              &:hover {
-                color: #CCFFF2;
-              }
-            }
-
-            &:nth-child(n+2) {
-              border-top: 1px solid #00664D;
-            }
+          &:nth-child(n+2) {
+            border-top: 1px solid #00664D;
           }
         }
       }
+    }
 
-      &.close {
-        height: 0;
-      }
+    &.close {
+      height: 0;
+    }
 
-      &.open-guest {
-        height: 375px;
-      }
+    &.open-guest {
+      height: 375px;
+    }
 
-      &.open-user {
-        height: 645px;
-      }
+    &.open-user {
+      height: 645px;
     }
   }
 }
@@ -661,8 +538,55 @@ footer{
   width: 100%;
   min-height: 100px;
   background-color: #DAE6E3;
+  color: #79807E;
   position: absolute;
   bottom: 0;
+
+  ul.menu{
+    padding-top: 5px;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content:center;
+    li{
+      padding: 5px 10px;
+      a{
+        line-height: 20px;
+        font-size: 14px;
+        color: #79807E;
+        &:hover{
+          color: #919997;
+        }
+      }
+    }
+  }
+
+  h5{
+    text-align: center;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 30px;
+  }
+
+  a.twitter{
+    width: 40px;
+    height: 40px;
+    margin-top: 5px;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+    text-align: center;
+    img{
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  address{
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 5px;
+    font-size: 12px;
+  }
 }
 
 // -------------------- FLASH-NOTICE --------------------
@@ -683,10 +607,125 @@ div.flash-notice{
 }
 // -------------------- TOP-SECTION -------------------
 
-div.top-section{
-  width: 100%;
-  height: 540px;
-  background-color: black;
+div.top-section {
+  background-image: image_url("TopSectionBackground.png");
+  background-size: cover;
+  @media(max-width: 800px){
+    width: 100%;
+    height: 320px;
+  }
+  @media(min-width: 800px){
+    width: 100%;
+    height: 480px;
+  }
+  div.top-section-main {
+    background-image: image_url("TopSectionBackground2.png");
+    background-size: 100% 100%;
+
+    h1 {
+      margin-top: 0;
+      font-weight: 600;
+      text-align: left;
+      transition: color 1s;
+
+      &.hide {
+        color: transparent;
+      }
+
+      &.show {
+        color: white;
+      }
+    }
+
+    p {
+      font-weight: 400;
+      text-align: left;
+      transition: color 1s;
+
+      &.hide {
+        color: transparent;
+      }
+
+      &.show {
+        color: white;
+      }
+    }
+
+    a.signup-button {
+      border-style: solid;
+      border-color: white;
+      text-align: center;
+      background-color: rgba(0, 255, 191, 0.3);
+      color: white;
+      font-weight: 600;
+
+      &:hover {
+        background-color: rgba(0, 255, 191, 0.5);
+        border-color: #CCFFF2;
+        color: #CCFFF2;
+      }
+    }
+
+    @media(max-width: 800px) {
+      width: 100%;
+      height: 320px;
+      h1 {
+        padding-top: 90px;
+        padding-right: 10px;
+        padding-left: 30px;
+        font-size: 32px;
+        line-height: 40px;
+      }
+      p {
+        padding-top: 20px;
+        padding-left: 30px;
+        font-size: 16px;
+        line-height: 20px;
+      }
+      a.signup-button {
+        width: 160px;
+        height: 40px;
+        border-width: 3px;
+        border-radius: 8px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        line-height: 30px;
+        font-size: 16px;
+        position: absolute;
+        right: calc(50% - 80px);
+        bottom: 20px;
+      }
+    }
+    @media(min-width: 800px) {
+      width: 100%;
+      height: 480px;
+      h1 {
+        padding-top: 120px;
+        padding-left: 60px;
+        font-size: 48px;
+        line-height: 50px;
+      }
+      p {
+        padding-top: 50px;
+        padding-left: 60px;
+        font-size: 24px;
+        line-height: 30px;
+      }
+      a.signup-button {
+        width: 240px;
+        height: 60px;
+        border-width: 5px;
+        border-radius: 12px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        line-height: 40px;
+        font-size: 24px;
+        position: absolute;
+        right: calc(50% - 120px);
+        bottom: 30px;
+      }
+    }
+  }
 }
 
 div.features-section{
@@ -716,5 +755,57 @@ div.features-section{
     color: #00CC99;
     background-color: white;
     line-height: 20px;
+  }
+}
+
+form.contact-form{
+  @media (max-width: 500px) {
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+  @media (min-width: 500px) {
+    width: 480px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  padding: 10px 15px 30px;
+  border: 1px solid #BFBFBF;
+  h4{
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 30px;
+    &:nth-child(n+2){
+      margin-top: 20px;
+    }
+  }
+
+  input[type="text"],
+  input[type="email"]{
+    width: 100%;
+    height: 30px;
+    border: 1px solid #BFBFBF;
+    padding-left: 5px;
+    appearance: none;
+  }
+
+  textarea{
+    border: 1px solid #BFBFBF;
+    width: 100%;
+    height: 200px;
+    padding-left: 5px;
+  }
+
+  button[type="submit"]{
+    display: block;
+    margin-top: 30px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 160px;
+    height: 40px;
+    background-color: #00FFBF;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
   }
 }

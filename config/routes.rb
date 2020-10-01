@@ -3,17 +3,13 @@ Rails.application.routes.draw do
 
   get "/terms", to: "home#terms"
   get "/privacy", to: "home#privacy"
-  get "/contact", to: "home#contact"
+  get "/contact", to: "home#contact_form"
+  post "/contact", to: "home#contact"
+  get "/contact/done", to: "home#contact_done"
   get "/about", to: "home#about"
 
-
-
-
-  get "/board", to: "board#index"
-
-  get "/events", to: "events#index"
   
-  get "/articles", to: "articles#index"
+
 
   get "/login", to: "users#login_form"
   get "/login/forgot-password", to: "users#forgot_password_form"
@@ -51,6 +47,7 @@ Rails.application.routes.draw do
   get "/projects/attends", to: "projects#attends"
   get "/projects/settings", to: "projects#settings"
 
+  get "/articles", to: "articles#index"
 
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
