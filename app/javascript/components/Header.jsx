@@ -59,7 +59,7 @@ class Header extends React.Component {
         if(this.props.mode === "user"){
             headerRightSide = (
                 <div>
-                    <a href={"/projects/create"} className={'new-project-button'}>新規プロジェクト</a>
+                    <a href={"/new"} className={'new-project-button'}>新規プロジェクト</a>
                     <button className={'user-button'} onClick={()=>{this.onClickUserButton()}}>
                         <img src={this.props.image} alt={''} />
                     </button>
@@ -78,7 +78,7 @@ class Header extends React.Component {
                             <a href={'/users/invitations'}>招待一覧（{this.props.invitations}件）</a>
                         </li>
                         <li>
-                            <a href={'/projects/create'}>新規プロジェクト</a>
+                            <a href={'/new'}>新規プロジェクト</a>
                         </li>
                         <li>
                             <a href={'/projects/attends'}>参加中のプロジェクト</a>

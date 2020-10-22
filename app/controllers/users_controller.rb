@@ -1,8 +1,5 @@
 class UsersController < ApplicationController
-  protect_from_forgery :except => ["login", "logout", "signup", "twitter_post", "github_post"]
-
-  before_action :forbid_login_user, only: %w[login_form login signup_form signup]
-
+  protect_from_forgery except: %w[login logout signup twitter_post github_post]
 
   def index
   end
@@ -11,7 +8,7 @@ class UsersController < ApplicationController
   end
 
   def login_form
-
+    raise Forbidden if @current_user
   end
 
   def login
@@ -20,7 +17,7 @@ class UsersController < ApplicationController
       session[:user_id] = user.id
       redirect_to("/users/user/#{user.permalink}")
     else
-      redirect_to("/login")
+      redirect_to "/"
     end
   end
 

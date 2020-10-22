@@ -1,3 +1,203 @@
 // Place all the styles related to the projects controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+div.project-index-big-container{
+  @media(min-width: 900px) {
+    width: 860px;
+    margin-right: auto;
+    margin-left: auto;
+    display: -webkit-flex;
+    display: flex;
+  }
+}
+
+ul.projects{
+  width: 560px;
+  padding-left: 40px;
+  li{
+    width: 520px;
+    padding: 19px;
+    border: 1px solid #BFBFBF;
+    border-radius: 10px;
+    a.thumbnail{
+      img{
+        width: 480px;
+        height: 252px;
+      }
+    }
+    &:nth-child(n+2) {
+      margin-top: 20px;
+    }
+
+    a.title{
+      padding-top: 10px;
+      padding-bottom: 10px;
+      color: black;
+      font-size: 20px;
+      line-height: 25px;
+      &:hover{
+        color: #00FFBF;
+      }
+    }
+    div.content{
+      padding-top: 5px;
+      padding-bottom: 5px;
+      color: #9B9B9B;
+      font-size: 12px;
+      line-height: 15px;
+    }
+    div.owner{
+      height: 70px;
+      position: relative;
+      a:nth-child(1){
+        display: block;
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        top: 10px;
+        left: 0;
+        img{
+          display: block;
+          width: 50px;
+          height: 50px;
+          border-radius: 25px;
+        }
+      }
+      a:nth-child(2){
+        height: 20px;
+        line-height: 20px;
+        position: absolute;
+        top: 25px;
+        left: 60px;
+        font-size: 16px;
+        color: black;
+        &:hover{
+          color: #9B9B9B;
+        }
+      }
+    }
+    table.status{
+      font-size: 16px;
+      tbody{
+        tr{
+          td:nth-child(2),
+          td:nth-child(4){
+            padding-right: 10px;
+          }
+        }
+      }
+    }
+  }
+}
+// -------------------- SEARCH FORM --------------------
+form.project-search-form{
+  width: 300px;
+  padding: 20px 15px 30px;
+  border: 1px solid #BFBFBF;
+  border-radius: 10px;
+  h4{
+  }
+
+  input[type="text"]{
+    width: 100%;
+    height: 30px;
+    border: none;
+    background-color: #E6E6E6;
+    padding-left: 5px;
+    &::placeholder{
+      color: #BFBFBF;
+    }
+  }
+  div.checkboxes{
+    p{
+      &:nth-child(n+2){
+        padding-left: 20px;
+      }
+    }
+  }
+
+}
+// -------------------- NEW PROJECT FORM --------------------
+
+form.new-project-form{
+  @media(max-width: 500px){
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+  @media(min-width: 500px){
+    width: 480px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  margin-bottom: 200px;
+  padding: 20px 15px 30px;
+  border: 1px solid #BFBFBF;
+  border-radius: 10px;
+
+  p{
+    margin-top: 30px;
+  }
+  h4{
+    font-size: 18px;
+    line-height: 20px;
+    small{
+      font-size: 12px;
+      color: #BFBFBF;
+    }
+    &:nth-child(n+2){
+      margin-top: 20px;
+    }
+  }
+
+  h5{
+    font-size: 12px;
+    line-height: 20px;
+    color: #BFBFBF;
+  }
+
+  input[type="text"]{
+    margin-top: 5px;
+    width: 100%;
+    height: 30px;
+    border: 1px solid #BFBFBF;
+    appearance: none;
+  }
+
+  textarea{
+    margin-top: 5px;
+    border: 1px solid #BFBFBF;
+    width: 100%;
+    height: 300px;
+  }
+
+  select{
+    margin-top: 5px;
+    padding-left: 3px;
+    width: 200px;
+    height: 30px;
+    border: 1px solid #BFBFBF;
+  }
+
+  img{
+    margin-top: 5px;
+    margin-bottom: 10px;
+    display: block;
+    width: 240px;
+    height: 126px;
+  }
+
+  button[type="submit"]{
+    display: block;
+    margin-top: 30px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 160px;
+    height: 40px;
+    background-color: #00FFBF;
+    color: white;
+    font-size: 20px;
+    border-radius: 10px;
+    letter-spacing: 2px;
+  }
+}

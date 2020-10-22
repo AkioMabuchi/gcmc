@@ -44,9 +44,8 @@ Rails.application.routes.draw do
   post "/new", to: "projects#create"
 
   get "/projects", to: "projects#index"
-  get "/projects/project/:permalink", to: "projects#show"
-  get "/projects/attends", to: "projects#attends"
-  get "/projects/settings", to: "projects#settings"
+  get "/projects/:permalink", to: "projects#show"
+  get "/projects/:permalink/settings", to: "projects#settings"
 
   get "/articles", to: "articles#index"
 
