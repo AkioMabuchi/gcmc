@@ -6,7 +6,7 @@ class ProjectsController < ApplicationController
   end
 
   def create_form
-    raise RuntimeError
+    raise Forbidden
   end
 
   def create
