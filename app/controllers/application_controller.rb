@@ -1,6 +1,9 @@
 class ApplicationController < ActionController::Base
+  class Forbidden < ActionController::ActionControllerError; end
+
   before_action :set_current_user
 
+  rescue_from Forbidden, with: :render_403
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
   rescue_from ActionController::RoutingError, with: :render_404
   rescue_from Exception, with: :render_500
@@ -27,7 +30,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_403
-
+    render file: Rails.root.join("public/403.html"), status: 403, layout: false, content_type: 'text/html'
   end
 
   def render_404

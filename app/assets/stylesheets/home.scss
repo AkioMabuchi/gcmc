@@ -3,7 +3,12 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
 *{
-  font-family: "Hiragino Kaku Gothic Pro", "Hiragino Kaku Gothic ProN";
+  font-family: "ヒラギノ丸ゴ Pro W4",
+  "ヒラギノ丸ゴ Pro",
+  "Hiragino Maru Gothic Pro",
+  "Hiragino Kaku Gothic Pro",
+  "HG丸ｺﾞｼｯｸM-PRO",
+  "HGMaruGothicMPRO", serif;
   box-sizing: border-box;
   &.focus{
     outline: none;
@@ -115,7 +120,7 @@ address{
 // -------------------- HEADER --------------------
 
 header {
-  $breakpoint: 900px;
+  $breakpoint: 1000px;
   width: 100%;
   height: 60px;
   background-color: #00FFBF;
@@ -125,13 +130,13 @@ header {
 
   a.logo {
     display: block;
-    width: 100px;
-    height: 40px;
+    width: 180px;
+    height: 50px;
     position: absolute;
     background-image: image-url("HeaderLogo.png");
     background-size: cover;
-    top: 10px;
-    left: 8px;
+    top: 5px;
+    left: 10px;
 
     &:hover {
       background-image: image_url("HeaderLogoHover.png");
@@ -168,7 +173,7 @@ header {
       padding: 0;
       position: absolute;
       top: 20px;
-      left: 120px;
+      left: 200px;
     }
 
     li {

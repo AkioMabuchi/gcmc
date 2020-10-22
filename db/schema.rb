@@ -10,7 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_21_014830) do
+ActiveRecord::Schema.define(version: 2020_10_22_071544) do
+
+  create_table "projects", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "permalink"
+    t.string "owner_user_id"
+    t.string "image"
+    t.string "title"
+    t.text "content"
+    t.string "engine"
+    t.string "platform"
+    t.string "genre"
+    t.string "scale"
+    t.string "features"
+    t.boolean "is_published"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "signup_confirmations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "hash_code"

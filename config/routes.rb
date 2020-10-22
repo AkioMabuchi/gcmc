@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   get "/contact/done", to: "home#contact_done"
   get "/about", to: "home#about"
 
-  
 
 
   get "/login", to: "users#login_form"
@@ -41,9 +40,11 @@ Rails.application.routes.draw do
   get "/users/settings/sns", to: "users#sns_form"
   get "/users/settings/sns/done", to: "users#sns_done"
 
+  get "/new", to: "projects#create_form"
+  post "/new", to: "projects#create"
+
   get "/projects", to: "projects#index"
   get "/projects/project/:permalink", to: "projects#show"
-  get "/projects/create", to: "projects#create_form"
   get "/projects/attends", to: "projects#attends"
   get "/projects/settings", to: "projects#settings"
 
