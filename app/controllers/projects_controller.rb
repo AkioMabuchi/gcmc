@@ -1,5 +1,38 @@
 class ProjectsController < ApplicationController
-  protect_from_forgery except: %w[create]
+  def create_form
+    unless @current_user
+      raise Forbidden
+    end
+  end
+
+  def create
+    project = Project.new(
+        permalink: params[:permalink],
+        owner_user_id: session[:user_id],
+        title: params[:title],
+        image: params[:image],
+        content: params[:content],
+        engine_id: params[:engine],
+        platform_id: params[:platform],
+        genre_id: params[:genre],
+        scale_id: params[:scale],
+        is_published: true
+    )
+
+    if params[:is_not_adult]
+      if project.save
+        permalink = project.permalink
+        redirect_to "/projects/#{permalink}"
+      else
+        redirect_to "/new"
+      end
+    else
+      redirect_to "/new"
+    end
+  end
+
+  def mine
+  end
 
   def index
     projects_raw = Project.where(is_published: true)
@@ -38,49 +71,48 @@ class ProjectsController < ApplicationController
   end
 
   def show
-  end
+    @project = Project.find_by(permalink: params[:permalink])
 
-  def create_form
-    raise Forbidden if @current_user.nil?
-
-    @engines = Engine.all.as_json(only: [:id, :name])
-    @platforms = Platform.all.as_json(only: [:id, :name])
-    @genres = Genre.all.as_json(only: [:id, :name])
-    @scales = Scale.all.as_json(only: [:id, :name])
-
-  end
-
-  def create
-    project = Project.new(
-        permalink: params[:permalink],
-        owner_user_id: session[:user_id],
-        title: params[:title],
-        image: params[:image],
-        content: params[:content],
-        engine_id: params[:engine],
-        platform_id: params[:platform],
-        genre_id: params[:genre],
-        scale_id: params[:scale],
-        is_published: true
-    )
-
-    if params[:is_not_adult]
-      if project.save
-        permalink = project.permalink
-        redirect_to "/projects/#{permalink}"
-      else
-        redirect_to "/new"
-      end
-    else
-      redirect_to "/new"
+    unless @project
+      raise ActiveRecord::RecordNotFound
     end
   end
 
-  def attends
+  def basic_setting_form
+    @project = Project.find_by(permalink: params[:permalink])
 
+    unless @project
+      raise ActiveRecord::RecordNotFound
+    end
+
+    unless @project.owner_user.id == session[:user_id]
+      raise Forbidden
+    end
   end
 
-  def settings
+  def tags_setting_form
+    @project = Project.find_by(permalink: params[:permalink])
 
+    unless @project
+      raise ActiveRecord::RecordNotFound
+    end
+  end
+
+  def environment_setting_form
+  end
+
+  def wants_setting_form
+  end
+
+  def publish_setting_form
+  end
+
+  def destroy_form
+  end
+
+  def join_form
+  end
+
+  def join_requests_form
   end
 end

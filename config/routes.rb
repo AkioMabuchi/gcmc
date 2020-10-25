@@ -33,19 +33,19 @@ Rails.application.routes.draw do
   get "/search", to: "home#search"
 
   get "/users", to: "users#index"
-  get "/users/user/:permalink", to: "users#show"
-  get "/users/invitations", to: "users#invitations"
-  get "/users/settings/profile", to: "users#profile_form"
-  get "/users/settings/profile/done", to: "users#profile_done"
-  get "/users/settings/sns", to: "users#sns_form"
-  get "/users/settings/sns/done", to: "users#sns_done"
+  get "/users/:permalink", to: "users#show"
 
   get "/new", to: "projects#create_form"
   post "/new", to: "projects#create"
 
   get "/projects", to: "projects#index"
   get "/projects/:permalink", to: "projects#show"
-  get "/projects/:permalink/settings", to: "projects#settings"
+  get "/projects/:permalink/settings", to: "projects#basic_setting_form"
+  get "/projects/:permalink/settings/tags", to: "projects#tags_setting_form"
+  get "/projects/:permalink/settings/environment", to: "projects#environment_setting_form"
+  get "/projects/:permalink/settings/wants", to: "projects#wants_setting_form"
+  get "/projects/:permalink/settings/publish", to: "projects#publish_setting_form"
+  get "/projects/:permalink/settings/destroy", to: "projects#destroy_form"
 
   get "/articles", to: "articles#index"
 

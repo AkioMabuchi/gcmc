@@ -232,7 +232,7 @@ class UsersController < ApplicationController
           redirect_to("/settings/sns")
         else # On Login with Twitter
           session[:user_id] = twitter_user.id
-          redirect_to("/users/user/#{twitter_user.permalink}")
+          redirect_to("/users/#{twitter_user.permalink}")
         end
       else
         if session[:user_id] # On Twitter Connection
