@@ -1,12 +1,23 @@
 import React from "react"
-import PropTypes from "prop-types"
+
 class ProjectSearchForm extends React.Component {
-  render () {
-    return (
-      <React.Fragment>
-      </React.Fragment>
-    );
-  }
+    constructor(props) {
+        super(props);
+    }
+
+    render(){
+        return(
+            <div>
+                <form action={"/projects"} method={"GET"} className={"project-search-form"}>
+                    <input type={"text"} name={"query"} placeholder={"検索ワードを入力"}/>
+                    <h4>ゲームエンジン</h4>
+                    <div className={"checkboxes"}>
+                    </div>
+                    <button type={'submit'}>検索</button>
+                </form>
+            </div>
+        )
+    }
 }
 
 export default ProjectSearchForm

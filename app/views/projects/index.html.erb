@@ -1,17 +1,7 @@
 <h1>プロジェクト一覧</h1>
 <div class="project-index-big-container">
   <div class="project-index-search-container">
-    <form action="/projects" method="get" class="project-search-form">
-      <input type="text" name="query" placeholder="検索ワードを入力">
-      <h4>ゲームエンジン</h4>
-      <div class="checkboxes">
-        <p><input type="checkbox" name="engine">すべて</p>
-        <p><input type="checkbox" name="engine_unity">Unity</p>
-        <p><input type="checkbox" name="engine_ue">Unreal Engine</p>
-        <p><input type="checkbox" name="engine_cocos">Cocos2d-x</p>
-      </div>
-      <button type="submit">検索</button>
-    </form>
+    <%= react_component("ProjectSearchForm") %>
   </div>
   <div class="project-list-container">
     <ul class="projects">
@@ -31,7 +21,7 @@
               <img src="<%= project[:user_image] %>">
             </a>
             <a href="<%= "/users/#{project[:user_permalink]}" %>">
-              <%= project[:name] %>
+              <%= project[:user_name] %>
             </a>
           </div>
           <table class="status">

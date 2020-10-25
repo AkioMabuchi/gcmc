@@ -11,7 +11,7 @@ class CreateProjectForm extends React.Component {
     render(){
         return(
             <div>
-                <form action={"/new"} method={"POST"} className={"new-project-form"}>
+                <form action={"/new"} method={"POST"} className={"new-project-form"} encType={"multipart/form-data"}>
                     <h4>プロジェクトID<small>（必須）</small></h4>
                     <h5>リンク名に使われます</h5>
                     <input type={"text"} name={"permalink"}/>
@@ -23,42 +23,46 @@ class CreateProjectForm extends React.Component {
                     <input type={"file"} name={"image"}/>
                     <h4>プロジェクト内容</h4>
                     <textarea name={"content"}/>
-                    <h4>ゲームエンジン</h4>
+                    <h4>制作環境</h4>
                     <select name={"engine"}>
-                        <option value={"undefined"}>未定</option>
-                        <option value={"Unity"}>Unity</option>
-                        <option value={"Unreal Engine"}>Unreal Engine</option>
-                        <option value={"Cocos2d-x"}>Cocos2d-x</option>
-                        <option value={"RPGツクールMV"}>RPGツクールMV</option>
-                        <option value={"RPGツクールMZ"}>RPGツクールMZ</option>
-                        <option value={"HSP"}>HSP</option>
-                        <option value={"others"}>その他</option>
+                        {
+                            this.props.engines.map((engine)=>{
+                                return(
+                                    <option value={engine.id}>{engine.name}</option>
+                                )
+                            })
+                        }
                     </select>
-                    <h4>プラットフォーム</h4>
+                    <h4>対応機種</h4>
                     <select name={"platform"}>
-                        <option value={"undefined"}>未定</option>
-                        <option value={"iOS Android"}>iOS、Android</option>
-                        <option value={"iOS"}>iOS</option>
-                        <option value={"Android"}>Android</option>
-                        <option value={"WebGL"}>WebGL</option>
-                        <option value={"Windows Mac"}>Windows、MacOS X</option>
-                        <option value={"Windows"}>Windows</option>
-                        <option value={"Mac"}>MacOS X</option>
-                        <option value={"Switch"}>Nintendo Switch</option>
-                        <option value={"others"}>その他</option>
+                        {
+                            this.props.platforms.map((platform)=>{
+                                return(
+                                    <option value={platform.id}>{platform.name}</option>
+                                )
+                            })
+                        }
                     </select>
                     <h4>ジャンル</h4>
-                    <input type={"text"} name={"genre"}/>
+                    <select name={"genre"}>
+                        {
+                            this.props.genres.map((genre)=>{
+                                return(
+                                    <option value={genre.id}>{genre.name}</option>
+                                )
+                            })
+                        }
+                    </select>
                     <h4>開発規模</h4>
                     <select name={"scale"}>
-                        <option value={"未定"}>未定</option>
-                        <option value={"極めて小規模"}>極めて小規模</option>
-                        <option value={"小規模"}>小規模</option>
-                        <option value={"中規模"}>中規模</option>
-                        <option value={"大規模"}>大規模</option>
+                        {
+                            this.props.scales.map((scale)=>{
+                                return(
+                                    <option value={scale.id}>{scale.name}</option>
+                                )
+                            })
+                        }
                     </select>
-                    <h4>プロジェクトの特徴、環境</h4>
-                    <input type={"text"} name={"features"}/>
                     <p>
                     <input type={"checkbox"} name={"is_not_adult"}/>アダルトゲームのプロジェクトではありません
                     </p>
