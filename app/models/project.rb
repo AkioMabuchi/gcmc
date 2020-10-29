@@ -4,10 +4,6 @@ class Project < ApplicationRecord
   validates :permalink, presence: true, uniqueness: {case_sensitive: true}
   validates :owner_user_id, presence: true
   validates :title, presence: true
-  validates :engine_id, presence: true
-  validates :platform_id, presence: true
-  validates :genre_id, presence: true
-  validates :scale_id, presence: true
 
   def owner_user
     User.find_by(id: self.owner_user_id)

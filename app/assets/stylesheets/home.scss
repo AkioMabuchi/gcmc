@@ -6,9 +6,11 @@
   font-family: "ヒラギノ丸ゴ Pro W4",
   "ヒラギノ丸ゴ Pro",
   "Hiragino Maru Gothic Pro",
+  "ヒラギノ角ゴ Pro W3",
   "Hiragino Kaku Gothic Pro",
   "HG丸ｺﾞｼｯｸM-PRO",
-  "HGMaruGothicMPRO", serif;
+  "HGMaruGothicMPRO",
+  sans-serif;
   box-sizing: border-box;
   &.focus{
     outline: none;
@@ -25,11 +27,7 @@ a{
 
 body{
   margin: 0;
-  padding-top: 60px;
-  padding-bottom: 300px;
   background-color: white;
-  min-height: 1000px;
-  position: relative;
 }
 
 input{
@@ -52,6 +50,12 @@ textarea{
 }
 
 input[type="checkbox"]{
+  outline: black;
+  appearance: auto;
+  border-radius: 0;
+}
+
+input[type="radio"]{
   outline: black;
   appearance: auto;
   border-radius: 0;
@@ -121,6 +125,10 @@ address{
   font-style: normal;
 }
 
+div.main-content{
+  padding-top: 60px;
+  min-height: 1000px;
+}
 // -------------------- HEADER --------------------
 
 header {
@@ -549,8 +557,6 @@ footer{
   min-height: 100px;
   background-color: #DAE6E3;
   color: #79807E;
-  position: absolute;
-  bottom: 0;
 
   ul.menu{
     padding-top: 5px;
@@ -615,6 +621,7 @@ div.flash-notice{
     color: white;
   }
 }
+
 // -------------------- TOP-SECTION -------------------
 
 div.top-section {
@@ -737,20 +744,29 @@ div.top-section {
     }
   }
 }
-
+// -------------------- FEATURES-SECTION -------------------
 div.features-section{
   width: 100%;
   background-color: #F7F7F7;
-  padding-bottom: 20px;
+  padding-bottom: 50px;
   h2{
     margin: 0;
-    padding: 20px 0;
+    padding: 30px 0 40px;
     line-height: 30px;
-    font-size: 24px;
     color: #00CC99;
     font-weight: 400;
     text-align: center;
-
+    br{
+      @media(min-width: 840px){
+        display: none;
+      }
+    }
+    @media(max-width: 500px) {
+      font-size: 16px;
+    }
+    @media(min-width: 500px) {
+      font-size: 24px;
+    }
   }
   a.more{
     display: block;
@@ -766,8 +782,241 @@ div.features-section{
     background-color: white;
     line-height: 20px;
   }
+
+  div.features-big-container{
+    @media(max-width: 640px){
+      width: 240px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+    @media(min-width: 640px)and(max-width: 960px){
+      width: 600px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+    @media(min-width: 960px){
+      display: flex;
+      width: 840px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    div.features-small-container{
+      @media(max-width: 640px){
+        width: 240px;
+        padding-bottom: 40px;
+      }
+      @media(min-width: 640px)and(max-width: 960px){
+        display: flex;
+        width: 600px;
+        padding-bottom: 40px;
+      }
+      @media(min-width: 960px){
+        width: 240px;
+        margin-right: 20px;
+        margin-left: 20px;
+
+      }
+      div.features-image-container{
+        width: 240px;
+        height: 160px;
+        div.features-image{
+          width: 240px;
+          height: 160px;
+          &.image-no1{
+            background-image: image_url("FeatureImage.png");
+          }
+        }
+      }
+      div.features-description-container{
+        @media(max-width: 640px){
+          padding-top: 10px;
+        }
+        @media(min-width: 640px)and(max-width: 960px){
+          width: 400px;
+          padding-left: 20px;
+        }
+        @media(min-width: 960px){
+          padding-top: 10px;
+        }
+        h4{
+          font-size: 20px;
+          letter-spacing: 1px;
+        }
+        p{
+          padding-top: 10px;
+          font-size: 14px;
+          color: #9B9B9B;
+          letter-spacing: 0.5px;
+        }
+      }
+    }
+  }
 }
 
+// -------------------- USAGE-SECTION -------------------
+
+div.usage-section{
+  width: 100%;
+  background-color: #DFF7F1;
+  padding-bottom: 50px;
+  h2{
+    margin: 0;
+    padding: 30px 0 40px;
+    line-height: 30px;
+    color: #00CC99;
+    text-align: center;
+  }
+  h3{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
+    color: #008060;
+  }
+  div.usage-introduction{
+    max-width: 640px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-bottom: 20px;
+    font-size: 14px;
+  }
+  div.usage-big-container{
+    display: flex;
+    width: 1080px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-bottom: 30px;
+    div.usage-small-container{
+      margin-right: 15px;
+      margin-left: 15px;
+      width: 240px;
+      div.usage-image{
+        width: 240px;
+        height: 160px;
+        &.image-no1{
+          background-image: image_url("FeatureImage.png");
+        }
+      }
+      div.usage-description{
+        padding-top: 10px;
+        font-size: 16px;
+        line-height: 20px;
+        color: #57D9B8;
+      }
+    }
+  }
+}
+
+// -------------------- PROJECTS-SECTION -------------------
+
+div.projects-section{
+  h2{
+    margin: 0;
+    padding: 30px 0 40px;
+    line-height: 30px;
+    color: black;
+    text-align: center;
+  }
+
+
+}
+
+// -------------------- CONCLUSION-SECTION -------------------
+
+div.conclusion-section{
+  width: 100%;
+  background-color: #CCFFF2;
+
+  padding-bottom: 50px;
+
+  div.conclusion {
+    padding-top: 30px;
+    @media(max-width: 740px) {
+      margin-right: 10px;
+      margin-left: 10px;
+    }
+    @media(min-width: 740px) {
+      width: 720px;
+      margin-right: auto;
+      margin-left: auto;
+
+    }
+    p {
+      font-size: 14px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+  }
+
+  div.conclusion-notice{
+    padding-top: 30px;
+    @media(max-width: 740px) {
+      margin-right: 10px;
+      margin-left: 10px;
+    }
+    @media(min-width: 740px) {
+      width: 720px;
+      margin-right: auto;
+      margin-left: auto;
+
+    }
+
+    h3{
+      font-size: 22px;
+      line-height: 30px;
+      text-align: center;
+      padding-bottom: 10px;
+      color: #009973;
+    }
+    p{
+      font-size: 14px;
+      text-align: center;
+      line-height: 20px;
+      @media(min-width: 520px) {
+        br{
+          display: none;
+        }
+      }
+    }
+  }
+
+  ul.conclusion-sign{
+    margin-top: 20px;
+    @media(max-width: 460px){
+      width: 220px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+    @media(min-width: 460px){
+      display: flex;
+      width: 440px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+    li{
+      padding: 10px;
+      a{
+        display: block;
+        width: 200px;
+        height: 40px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        font-size: 18px;
+        line-height: 20px;
+        border: 2px solid #00CC99;
+        text-align: center;
+        color: #00CC99;
+        border-radius: 10px;
+        &:hover{
+          color: #00FFBF;
+          border-color: #00FFBF;
+        }
+      }
+    }
+  }
+}
 form.contact-form{
   @media (max-width: 500px) {
     margin-right: 10px;

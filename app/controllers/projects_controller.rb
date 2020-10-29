@@ -1,4 +1,5 @@
 class ProjectsController < ApplicationController
+  protect_from_forgery except: [:create]
   def create_form
     unless @current_user
       raise Forbidden
@@ -6,58 +7,108 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    project = Project.new(
-        permalink: params[:permalink],
-        owner_user_id: session[:user_id],
-        title: params[:title],
-        image: params[:image],
-        content: params[:content],
-        engine_id: params[:engine],
-        platform_id: params[:platform],
-        genre_id: params[:genre],
-        scale_id: params[:scale],
-        is_published: true
-    )
+    permalink = params[:permalink]
+    title = params[:title]
+    image = params[:image]
+    description = params[:description]
 
-    if params[:is_not_adult]
+    is_recordable = "true"
+
+    if permalink == ""
+      is_recordable = nil
+      flash[:permalink_warning] = "入力してください"
+    elsif Regexp.new("^[a-zA-Z0-9_]*$") !~ permalink
+      is_recordable = nil
+      flash[:permalink_warning] = "英数字およびハイフンのみ使用できます"
+    elsif permalink.length > 100
+      is_recordable = nil
+      flash[:permalink_warning] = "プロジェクトIDが長すぎます（100字以下で入力してください）"
+    elsif Project.find_by(permalink: permalink)
+      is_recordable = nil
+      flash[:permalink_warning] = "そのプロジェクトIDは既に使用されています"
+    else
+      flash[:permalink] = permalink
+    end
+
+    if title == ""
+      is_recordable = nil
+      flash[:title_warning] = "入力してください"
+    elsif title.length > 200
+      is_recordable = nil
+      flash[:title_warning] = "タイトルが長すぎます（200字以下で入力してください）"
+    else
+      flash[:title] = title
+    end
+
+    unless params[:is_not_adult]
+      is_recordable = nil
+      flash[:is_not_adult_warning] = "同意してください"
+    end
+
+    if is_recordable
+      project = Project.new(
+          permalink: permalink,
+          owner_user_id: session[:user_id],
+          title: title,
+          image: image,
+          description: description,
+          publish_code: 0
+      )
+
       if project.save
-        permalink = project.permalink
-        redirect_to "/projects/#{permalink}"
+        redirect_to "/projects/#{permalink}/settings"
       else
-        redirect_to "/new"
+        redirect_to "/"
       end
     else
       redirect_to "/new"
     end
+
   end
 
   def mine
   end
 
   def index
-    projects_raw = Project.where(is_published: true)
-    projects = []
-
-    if params[:query].nil?
-      projects_raw.each do |project|
-        projects.append project
-      end
-    elsif params[:query] == ""
-    end
+    @tags = Tag.all.order(sort_number: :asc).as_json(only: [:id, :name])
+    @selected_tags = []
     @projects = []
 
-    index_min = 0
-    index_max = 4
-    if params[:page]
+    projects = Project.where(publish_code: 0).order(updated_at: :asc)
+    if params[:query]
+      if params[:query] != ""
+        projects = projects.reject do |project|
+          is_reject = true
+          if project.title.index(params[:query])
+            is_reject = false
+          end
+          if project.description.index(params[:query])
+            is_reject = false
+          end
+          is_reject
+        end
+      end
 
+      tags = params[:tags]
+      tags = [] if tags.nil?
+      tags.each do |tag|
+        @selected_tags.append tag
+      end
+    else
+      @tags.each do |tag|
+        @selected_tags.append tag[:id]
+      end
     end
 
-    projects[index_min..index_max].each do |project|
+    min_index = 0
+    max_index = 4
+
+    projects[min_index..max_index].each do |project|
       shown_project = {
           project_permalink: project.permalink,
           project_image: project.image.url,
           title: project.title,
-          content: project.content,
+          description: project.description,
           user_permalink: project.owner_user.permalink,
           user_image: project.owner_user.image.url,
           user_name: project.owner_user.name,

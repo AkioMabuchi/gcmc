@@ -18,12 +18,11 @@
       <%= react_component("Header", {mode: "guest"}) %>
     <% end %>
   </header>
+  <div class="main-content">
     <%= yield %>
+  </div>
   <footer>
     <ul class="menu">
-      <li>
-        <a href="/about">GCMCについて</a>
-      </li>
       <li>
         <a href="/terms">利用規約</a>
       </li>

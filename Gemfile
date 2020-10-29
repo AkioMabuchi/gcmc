@@ -41,6 +41,8 @@ gem 'omniauth-github'
 
 gem 'attr_encrypted'
 
+gem 'ransack'
+
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'

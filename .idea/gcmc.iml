@@ -871,6 +871,19 @@
     <orderEntry type="module" module-name="omniauth-oauth2-1.7.0" />
     <orderEntry type="module" module-name="omniauth-twitter-1.4.0" />
     <orderEntry type="module-library">
+      <library name="polyamorous (vbundled(2.3.2)) [path][gem]" type="rubylib">
+        <properties>
+          <option name="version" value="4" />
+        </properties>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/polyamorous-2.3.2/lib" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/polyamorous-2.3.2/lib" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
       <library name="public_suffix (vbundled(4.0.6)) [path][gem]" type="rubylib">
         <properties>
           <option name="version" value="4" />
@@ -1053,6 +1066,30 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="rake-13.0.1" />
+    <orderEntry type="module-library">
+      <library name="ransack (vbundled(2.3.2)) [path][gem]" type="rubylib">
+        <properties>
+          <option name="version" value="4" />
+        </properties>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/ransack-2.3.2/lib" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/ransack-2.3.2/logo" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/ransack-2.3.2/spec" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/ransack-2.3.2/polyamorous" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/ransack-2.3.2/lib" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/ransack-2.3.2/logo" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/ransack-2.3.2/spec" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/ransack-2.3.2/polyamorous" />
+        </SOURCES>
+        <excluded>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/ransack-2.3.2/logo" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/ransack-2.3.2/spec" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/ransack-2.3.2/polyamorous" />
+        </excluded>
+      </library>
+    </orderEntry>
     <orderEntry type="module" module-name="rb-fsevent-0.10.4" />
     <orderEntry type="module" module-name="rb-inotify-0.10.1" />
     <orderEntry type="module-library">

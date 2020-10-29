@@ -1,10 +1,112 @@
-<div class="top-section">
-  <div class="top-section-main">
-    <%= react_component("TopSection") %>
-  </div>
-</div>
-<div class="features-section">
-  <h2>ゲームクリエイター仲間づくりの場所として最高の環境を提供するために</h2>
-  <a href="/about" class="more">もっとくわしく</a>
-</div>
+<% if @current_user %>
 
+<% else %>
+  <div class="top-section">
+    <div class="top-section-main">
+      <%= react_component("TopSection") %>
+    </div>
+  </div>
+  <div class="features-section">
+    <h2>ゲームクリエイター仲間づくりの場所として<br/>最高の環境を提供するために</h2>
+    <div class="features-big-container">
+      <div class="features-small-container">
+        <div class="features-image-container">
+          <div class="features-image image-no1"></div>
+        </div>
+        <div class="features-description-container">
+          <h4>豊富なプロフィール機能</h4>
+          <p>「自分は何ができるのか」を別のユーザーに明確に伝えることによってミスマッチを防ぐため、プロフィールにスキルセットやポートフォリオを記載可能です。</p>
+        </div>
+      </div>
+      <div class="features-small-container">
+        <div class="features-image-container">
+          <div class="features-image image-no1"></div>
+        </div>
+        <div class="features-description-container">
+          <h4>スマートな検索機能</h4>
+          <p>GCMCはユーザーのスキルや役割に応じて、最適なプロジェクトやユーザーを優先的に表示します。これによりスムーズなマッチングを可能にします。</p>
+        </div>
+      </div>
+      <div class="features-small-container">
+        <div class="features-image-container">
+          <div class="features-image image-no1"></div>
+        </div>
+        <div class="features-description-container">
+          <h4>役割別招待機能</h4>
+          <p>GCMCではプロジェクトの募集と、招待されたい役割が一致したユーザーを当プロジェクトに招待することができます。これによりプロジェクトのオーナーはメンバーを探す手間を大幅に省けます。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="usage-section">
+    <h2>How to use GCMC</h2>
+    <div class="usage-introduction">GCMCのユーザーは大きく分けて、プロジェクトの管理および仲間を募る「オーナー」と、プロジェクトの仲間として参加してもらう「メンバー」の2種類に分けられます。</div>
+    <h3>オーナーの場合</h3>
+    <div class="usage-big-container">
+      <div class="usage-small-container">
+        <div class="usage-image image-no1"></div>
+        <div class="usage-description">1：プロジェクトを作成して</div>
+      </div>
+      <div class="usage-small-container">
+        <div class="usage-image image-no1"></div>
+        <div class="usage-description">2：共同開発環境を整備して</div>
+      </div>
+      <div class="usage-small-container">
+        <div class="usage-image image-no1"></div>
+        <div class="usage-description">3：メンバーを招待して</div>
+      </div>
+      <div class="usage-small-container">
+        <div class="usage-image image-no1"></div>
+        <div class="usage-description">4：共同開発スタート！</div>
+      </div>
+    </div>
+    <h3>メンバーの場合</h3>
+    <div class="usage-big-container">
+      <div class="usage-small-container">
+        <div class="usage-image image-no1"></div>
+        <div class="usage-description">1：プロフィールを充実させて</div>
+      </div>
+      <div class="usage-small-container">
+        <div class="usage-image image-no1"></div>
+        <div class="usage-description">2：プロジェクトに応募して</div>
+      </div>
+      <div class="usage-small-container">
+        <div class="usage-image image-no1"></div>
+        <div class="usage-description">3：チームに加入してもらって</div>
+      </div>
+      <div class="usage-small-container">
+        <div class="usage-image image-no1"></div>
+        <div class="usage-description">4：共同開発スタート！</div>
+      </div>
+    </div>
+  </div>
+  <div class="projects-section">
+    <h2>こんなプロジェクトがあります</h2>
+  </div>
+  <div class="conclusion-section">
+    <div class="conclusion">
+      <p>
+        GCMC上のプロジェクトは会社のではありません。そのため、会社のように利益を追求する必要はありません。
+        作りたいゲームを他のメンバーと一緒に作ることができます。
+      </p>
+      <p>
+        会社ではありませんから、ゲーム業界の開発実務経験もいりません。初心者や未経験の方も、スキルアップしたい方も大歓迎です。
+        チームでの開発経験を積みたい方や、チームでの開発によってコミュニケーション能力を高めたい方も大歓迎です。
+      </p>
+    </div>
+    <div class="conclusion-notice">
+      <h3>GCMCは一切無料です！</h3>
+      <p>
+        早速ログインもしくは会員登録を行って<br/>素晴らしい開発仲間と出会いましょう！
+      </p>
+      <ul class="conclusion-sign">
+        <li>
+          <a href="/login">ログイン</a>
+        </li>
+        <li>
+          <a href="/signup">会員登録</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+<% end %>

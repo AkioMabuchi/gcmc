@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_23_104351) do
+ActiveRecord::Schema.define(version: 2020_10_29_114716) do
 
   create_table "engines", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "sort_number"
@@ -33,19 +33,30 @@ ActiveRecord::Schema.define(version: 2020_10_23_104351) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "project_tags", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "project_id"
+    t.integer "tag_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "projects", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "permalink"
     t.string "owner_user_id"
     t.string "image"
     t.string "title"
-    t.text "content"
-    t.boolean "is_published"
+    t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "engine_id"
-    t.integer "platform_id"
-    t.integer "genre_id"
-    t.integer "scale_id"
+    t.integer "publish_code"
+    t.string "using_language"
+    t.string "platform"
+    t.string "source_tool"
+    t.string "communication_tool"
+    t.string "project_tool"
+    t.string "period"
+    t.string "frequency"
+    t.string "location"
   end
 
   create_table "scales", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -69,6 +80,13 @@ ActiveRecord::Schema.define(version: 2020_10_23_104351) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "encrypted_password"
     t.string "encrypted_password_iv"
+  end
+
+  create_table "tags", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "sort_number"
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|

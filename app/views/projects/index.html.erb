@@ -1,7 +1,10 @@
 <h1>プロジェクト一覧</h1>
 <div class="project-index-big-container">
   <div class="project-index-search-container">
-    <%= react_component("ProjectSearchForm") %>
+    <%= react_component("ProjectSearchForm", {
+        tags: @tags,
+        selectedTags: @selected_tags
+    }) %>
   </div>
   <div class="project-list-container">
     <ul class="projects">
@@ -14,7 +17,7 @@
             <%= project[:title] %>
           </a>
           <div class="content">
-            <%= project[:content] %>
+            <%= project[:description] %>
           </div>
           <div class="owner">
             <a href="<%= "/users/#{project[:user_permalink]}" %>">

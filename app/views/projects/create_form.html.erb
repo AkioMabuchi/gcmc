@@ -1,2 +1,8 @@
 <h1>新規プロジェクト</h1>
-<%= react_component("CreateProjectForm") %>
+<%= react_component("CreateProjectForm", {
+    permalink: flash[:permalink],
+    permalinkWarning: flash[:permalink_warning],
+    title: flash[:title],
+    titleWarning: flash[:title_warning],
+    isNotAdultWarning: flash[:is_not_adult_warning]
+}) %>

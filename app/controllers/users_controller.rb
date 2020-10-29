@@ -23,8 +23,9 @@ class UsersController < ApplicationController
 
   def logout
     session[:user_id] = nil
-    redirect_to("/login")
+    redirect_to "/"
   end
+
   def forgot_password_form
 
   end
@@ -346,10 +347,10 @@ class UsersController < ApplicationController
 
   def generate_random_token(length)
     r = ""
-    for _ in 1..length
+    (1..length).each do
       c = rand(36).to_s(36)
       r += c
     end
-    return r
+    r
   end
 end

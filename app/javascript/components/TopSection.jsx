@@ -22,7 +22,6 @@ class TopSection extends React.Component {
             <div>
                 <h1 className={this.state.h1}>一緒にゲームを作ろう！</h1>
                 <p className={this.state.p}>GCMCは他のゲーム開発者をマッチングさせ<br/>共同開発を支援するサービスです</p>
-                <a href={'/signup'} className={'signup-button'}>今すぐ新規登録</a>
             </div>
         )
     }
