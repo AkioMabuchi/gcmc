@@ -1,7 +1,11 @@
 class HomeController < ApplicationController
   protect_from_forgery except: :contact
   def top
+    if @current_user
+      @owner_projects = Project.where(owner_user_id: @current_user.id)
+    else
 
+    end
   end
 
   def terms

@@ -13,9 +13,18 @@
           <a class="thumbnail" href="<%= "/projects/#{project[:project_permalink]}" %>">
             <img src="<%= project[:project_image] %>">
           </a>
-          <a class="title" href="<%= "/projects/#{project[:project_permalink]}" %>">
-            <%= project[:title] %>
-          </a>
+          <div class="tags">
+            <% project[:tags].each do |tag| %>
+              <div class="tag">
+                <%= tag %>
+              </div>
+            <% end %>
+          </div>
+          <div class="title">
+            <a href="<%= "/projects/#{project[:project_permalink]}" %>">
+              <%= project[:title] %>
+            </a>
+          </div>
           <div class="content">
             <%= project[:description] %>
           </div>
@@ -42,5 +51,36 @@
         </li>
       <% end %>
     </ul>
+    <table>
+      <tbody>
+      <tr>
+        <td>
+          <div>
+            <i class="fas fa-angle-double-left"></i>
+          </div>
+        </td>
+        <td>
+          <div>
+            <i class="fas fa-angle-left"></i>
+          </div>
+        </td>
+        <td>
+          <div>
+            1
+          </div>
+        </td>
+        <td>
+          <div>
+            <i class="fas fa-angle-right"></i>
+          </div>
+        </td>
+        <td>
+          <div>
+            <i class="fas fa-angle-double-right"></i>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </div>
 </div>

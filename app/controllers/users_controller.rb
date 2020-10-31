@@ -15,7 +15,7 @@ class UsersController < ApplicationController
     user = User.find_by(email: params[:email])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
-      redirect_to("/users/user/#{user.permalink}")
+      redirect_to "/"
     else
       redirect_to "/"
     end
@@ -230,10 +230,10 @@ class UsersController < ApplicationController
       if twitter_user
         if session[:user_id] # On Twitter Connection Error
           flash[:twitter_connection_error] = "そのTwitterアカウントは既に使用されています"
-          redirect_to("/settings/sns")
+          redirect_to "/settings/sns"
         else # On Login with Twitter
           session[:user_id] = twitter_user.id
-          redirect_to("/users/#{twitter_user.permalink}")
+          redirect_to "/"
         end
       else
         if session[:user_id] # On Twitter Connection
@@ -241,10 +241,10 @@ class UsersController < ApplicationController
           user.twitter_uid = params[:twitter_uid]
           user.twitter_url = params[:twitter_url]
           if user.save
-            redirect_to("/settings/sns/done")
+            redirect_to "/settings/sns"
           else
             flash[:notice] = "Twitterとの連携に失敗しました"
-            redirect_to("/settings/sns")
+            redirect_to "/settings/sns"
           end
         else
           permalink = generate_random_token(16)
@@ -263,19 +263,19 @@ class UsersController < ApplicationController
           )
 
           if new_user.save
-            redirect_to("/signup/done")
+            redirect_to "/"
           else
             flash[:notice] = "Twitterでの新規登録に失敗しました"
-            redirect_to("/signup")
+            redirect_to "/signup"
           end
         end
       end
     else
       flash[:notice] = "Twitter認証に失敗しました"
       if session[:user_id]
-        redirect_to("/settings/sns")
+        redirect_to "/settings/sns"
       else
-        redirect_to("/")
+        redirect_to "/sns"
       end
     end
   end

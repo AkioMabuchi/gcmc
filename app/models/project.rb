@@ -5,6 +5,9 @@ class Project < ApplicationRecord
   validates :owner_user_id, presence: true
   validates :title, presence: true
 
+  def tags
+    ProjectTag.where(project_id: self.id)
+  end
   def owner_user
     User.find_by(id: self.owner_user_id)
   end

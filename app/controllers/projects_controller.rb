@@ -104,9 +104,14 @@ class ProjectsController < ApplicationController
     max_index = 4
 
     projects[min_index..max_index].each do |project|
+      project_tags = []
+      project.tags.each do |project_tag|
+        project_tags.append project_tag.tag.name
+      end
       shown_project = {
           project_permalink: project.permalink,
           project_image: project.image.url,
+          tags: project_tags,
           title: project.title,
           description: project.description,
           user_permalink: project.owner_user.permalink,
@@ -143,22 +148,88 @@ class ProjectsController < ApplicationController
 
   def tags_setting_form
     @project = Project.find_by(permalink: params[:permalink])
+    @tags = Tag.all.order(sort_number: :asc).as_json(only: [:id, :name])
+
+    selected_tags = ProjectTag.where(project_id: @project.id)
+    @selected_tags = []
+
+    selected_tags.each do |selected_tag|
+      @selected_tags.append selected_tag.tag_id
+    end
+
+    puts @selected_tags
 
     unless @project
       raise ActiveRecord::RecordNotFound
     end
+
+    unless @project.owner_user.id == session[:user_id]
+      raise Forbidden
+    end
+  end
+
+  def tags_setting_update
+    project = Project.find_by(permalink: params[:permalink])
+    previous_tags = ProjectTag.where(project_id: project.id)
+    previous_tags.each do |previous_tag|
+      previous_tag.destroy
+    end
+
+    new_tags_id = params[:tags] ? params[:tags] : []
+    new_tags_id.each do |new_tag_id|
+      new_tag = ProjectTag.new(project_id: project.id, tag_id: new_tag_id)
+      new_tag.save
+    end
+
+    redirect_to "/projects/#{project.permalink}/settings/tags"
   end
 
   def environment_setting_form
+    @project = Project.find_by(permalink: params[:permalink])
+
+    unless @project
+      raise ActiveRecord::RecordNotFound
+    end
+
+    unless @project.owner_user.id == session[:user_id]
+      raise Forbidden
+    end
   end
 
   def wants_setting_form
+    @project = Project.find_by(permalink: params[:permalink])
+
+    unless @project
+      raise ActiveRecord::RecordNotFound
+    end
+
+    unless @project.owner_user.id == session[:user_id]
+      raise Forbidden
+    end
   end
 
   def publish_setting_form
+    @project = Project.find_by(permalink: params[:permalink])
+
+    unless @project
+      raise ActiveRecord::RecordNotFound
+    end
+
+    unless @project.owner_user.id == session[:user_id]
+      raise Forbidden
+    end
   end
 
   def destroy_form
+    @project = Project.find_by(permalink: params[:permalink])
+
+    unless @project
+      raise ActiveRecord::RecordNotFound
+    end
+
+    unless @project.owner_user.id == session[:user_id]
+      raise Forbidden
+    end
   end
 
   def join_form

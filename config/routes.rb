@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   get "/projects/:permalink", to: "projects#show"
   get "/projects/:permalink/settings", to: "projects#basic_setting_form"
   get "/projects/:permalink/settings/tags", to: "projects#tags_setting_form"
+  post "/projects/:permalink/settings/tags", to: "projects#tags_setting_update"
   get "/projects/:permalink/settings/environment", to: "projects#environment_setting_form"
   get "/projects/:permalink/settings/wants", to: "projects#wants_setting_form"
   get "/projects/:permalink/settings/publish", to: "projects#publish_setting_form"

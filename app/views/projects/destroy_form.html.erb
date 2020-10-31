@@ -1,2 +1,28 @@
-<h1>Projects#destroy_form</h1>
-<p>Find me in app/views/projects/destroy_form.html.erb</p>
+<h1>プロジェクト設定</h1>
+<div class="project-settings-big-container">
+  <div class="project-settings-small-container">
+    <ul class="project-settings-list">
+      <li>
+        <a href="/projects/<%= params[:permalink] %>/settings">基本設定</a>
+      </li>
+      <li>
+        <a href="/projects/<%= params[:permalink] %>/settings/tags">タグ設定</a>
+      </li>
+      <li>
+        <a href="/projects/<%= params[:permalink] %>/settings/environment">開発環境設定</a>
+      </li>
+      <li>
+        <a href="/projects/<%= params[:permalink] %>/settings/wants">募集一覧設定</a>
+      </li>
+      <li>
+        <a href="/projects/<%= params[:permalink] %>/settings/publish">公開設定</a>
+      </li>
+      <li>
+        <a href="/projects/<%= params[:permalink] %>/settings/destroy">プロジェクト削除</a>
+      </li>
+    </ul>
+  </div>
+  <div class="project-settings-small-container">
+    <%= react_component("ProjectSettingDestroyForm", {project: @project}) %>
+  </div>
+</div>
