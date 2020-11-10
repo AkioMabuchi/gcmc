@@ -1,2 +1,36 @@
-<h1>Users#index</h1>
-<p>Find me in app/views/users/index.html.erb</p>
+<h1>ユーザー一覧</h1>
+<div class="user-index-big-container">
+  <div class="user-index-small-container">
+
+  </div>
+  <div class="user-index-small-container">
+    <ul class="users">
+      <% @users.each do |user| %>
+      <li>
+        <div class="image-name">
+          <div class="user-image">
+            <a href="/users/<%= user.permalink %>">
+              <img src="<%= user.image.url %>" alt="">
+            </a>
+          </div>
+          <div class="user-name">
+            <a href="/users/<%= user.permalink %>">
+              <%= user.name %>
+            </a>
+          </div>
+        </div>
+        <div class="roles">
+          <% user.roles.each do |role| %>
+          <div class="role">
+            <%= role.role.name %>
+          </div>
+          <% end %>
+        </div>
+        <div class="description">
+          <%= user.description %>
+        </div>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
