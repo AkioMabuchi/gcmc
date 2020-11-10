@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'portfolios/show'
   root "home#top"
 
   get "/terms", to: "home#terms"
@@ -7,8 +8,6 @@ Rails.application.routes.draw do
   post "/contact", to: "home#contact"
   get "/contact/done", to: "home#contact_done"
   get "/about", to: "home#about"
-
-
 
   get "/login", to: "users#login_form"
   get "/login/forgot-password", to: "users#forgot_password_form"
@@ -35,18 +34,40 @@ Rails.application.routes.draw do
   get "/users", to: "users#index"
   get "/users/:permalink", to: "users#show"
 
+  get "/settings", to: "users#profile_setting_form"
+  post "/settings", to: "users#profile_setting_update"
+  get "/settings/skills", to: "users#skills_setting_form"
+  post "/settings/skills", to: "users#skills_setting_update"
+  get "/settings/portfolios", to: "users#portfolios_setting_form"
+  post "/settings/portfolios", to: "users#portfolios_setting_update"
+  get "/settings/invitations", to: "users#invitations_setting_form"
+  post "/settings/invitations", to: "users#invitations_setting_update"
+  get "/settings/email", to: "users#email_setting_form"
+  post "/settings/email", to: "users#email_setting_update"
+  get "/settings/password", to: "users#password_setting_form"
+  post "/settings/password", to: "users#password_setting_update"
+  get "/settings/sns", to: "users#sns_setting_form"
+  post "/settings/sns", to: "users#sns_setting_update"
+  get "/settings/destroy", to: "users#destroy_form"
+  post "/settings/destroy", to: "users#destroy"
+
   get "/new", to: "projects#create_form"
   post "/new", to: "projects#create"
 
   get "/projects", to: "projects#index"
   get "/projects/:permalink", to: "projects#show"
   get "/projects/:permalink/settings", to: "projects#basic_setting_form"
+  post "/projects/:permalink/settings", to: "projects#basic_setting_update"
   get "/projects/:permalink/settings/tags", to: "projects#tags_setting_form"
   post "/projects/:permalink/settings/tags", to: "projects#tags_setting_update"
   get "/projects/:permalink/settings/environment", to: "projects#environment_setting_form"
+  post "/projects/:permalink/settings/environment", to: "projects#environment_setting_update"
   get "/projects/:permalink/settings/wants", to: "projects#wants_setting_form"
+  post "/projects/:permalink/settings/wants", to: "projects#wants_setting_update"
   get "/projects/:permalink/settings/publish", to: "projects#publish_setting_form"
+  post "/projects/:permalink/settings/publish", to: "projects#publish_setting_update"
   get "/projects/:permalink/settings/destroy", to: "projects#destroy_form"
+  post "/projects/:permalink/settings/destroy", to: "projects#destroy"
 
   get "/articles", to: "articles#index"
 

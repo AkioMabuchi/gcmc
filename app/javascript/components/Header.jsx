@@ -111,19 +111,16 @@ class Header extends React.Component {
                     </div>
                     <ul>
                         <li>
-                            <a href={"/users/invitations"}>招待一覧（{this.props.invitations}件）</a>
-                        </li>
-                        <li>
-                            <a href={"/projects/attends"}>参加中のプロジェクト</a>
+                            <a href={"/invitations"}>招待一覧（{this.props.invitations}件）</a>
                         </li>
                         <li>
                             <a href={"/projects/settings"}>プロジェクト設定</a>
                         </li>
                         <li>
-                            <a href={`/users/user/${this.props.permalink}`}>プロフィール</a>
+                            <a href={`/users/${this.props.permalink}`}>プロフィール</a>
                         </li>
                         <li>
-                            <a href={"/users/settings/profile"}>アカウント設定</a>
+                            <a href={"/settings"}>アカウント設定</a>
                         </li>
                         <li>
                             <form action={'/logout'} method={'POST'}>

@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  protect_from_forgery except: [:create]
+  protect_from_forgery except: [:create, :basic_setting_update, :tags_setting_update]
   def create_form
     unless @current_user
       raise Forbidden
@@ -12,7 +12,7 @@ class ProjectsController < ApplicationController
     image = params[:image]
     description = params[:description]
 
-    is_recordable = "true"
+    is_recordable = true
 
     if permalink == ""
       is_recordable = nil
@@ -70,19 +70,20 @@ class ProjectsController < ApplicationController
   end
 
   def index
+    @query = params[:q]
     @tags = Tag.all.order(sort_number: :asc).as_json(only: [:id, :name])
     @selected_tags = []
     @projects = []
 
     projects = Project.where(publish_code: 0).order(updated_at: :asc)
-    if params[:query]
-      if params[:query] != ""
+    if params[:q]
+      if params[:q] != ""
         projects = projects.reject do |project|
           is_reject = true
-          if project.title.index(params[:query])
+          if project.title.index(params[:q])
             is_reject = false
           end
-          if project.description.index(params[:query])
+          if project.description.index(params[:q])
             is_reject = false
           end
           is_reject
@@ -135,14 +136,77 @@ class ProjectsController < ApplicationController
   end
 
   def basic_setting_form
-    @project = Project.find_by(permalink: params[:permalink])
+    project = Project.find_by(permalink: params[:permalink])
 
-    unless @project
+    unless project
       raise ActiveRecord::RecordNotFound
     end
 
-    unless @project.owner_user.id == session[:user_id]
+    unless project.owner_user.id == session[:user_id]
       raise Forbidden
+    end
+
+    @new_permalink = flash[:new_permalink] ? flash[:new_permalink] : project.permalink
+    @title = flash[:title] ? flash[:title] : project.title
+    @image = project.image.url
+    @description = flash[:description] ? flash[:description] : project.description
+  end
+
+  def basic_setting_update
+    permalink = params[:permalink]
+    new_permalink = params[:new_permalink]
+    title = params[:title]
+    image = params[:image]
+    description = params[:description]
+
+    is_recordable = true
+
+    unless permalink == new_permalink
+      if new_permalink == ""
+        is_recordable = nil
+        flash[:new_permalink_warning] = "入力してください"
+      elsif Regexp.new("^[a-zA-Z0-9_]*$") !~ new_permalink
+        is_recordable = nil
+        flash[:new_permalink_warning] = "英数字およびハイフンのみ使用できます"
+      elsif new_permalink.length > 100
+        is_recordable = nil
+        flash[:new_permalink_warning] = "プロジェクトIDが長すぎます（100字以下で入力してください）"
+      elsif Project.find_by(permalink: new_permalink)
+        is_recordable = nil
+        flash[:new_permalink_warning] = "そのプロジェクトIDは既に使用されています"
+      else
+        flash[:new_permalink] = permalink
+      end
+    end
+
+
+    if title == ""
+      is_recordable = nil
+      flash[:title_warning] = "入力してください"
+    elsif title.length > 200
+      is_recordable = nil
+      flash[:title_warning] = "タイトルが長すぎます（200字以下で入力してください）"
+    else
+      flash[:title] = title
+    end
+
+    if is_recordable
+      project = Project.find_by(permalink: permalink)
+      project.permalink = new_permalink
+      project.title = title
+      project.image = image if image
+      project.description = description
+
+      if project.save
+        flash[:done] = "更新しました"
+        redirect_to "/projects/#{new_permalink}/settings"
+      else
+        flash[:notice] = "更新に失敗しました"
+        redirect_to "/projects/#{permalink}/settings"
+      end
+
+    else
+      redirect_to "/projects/#{permalink}/settings"
     end
   end
 

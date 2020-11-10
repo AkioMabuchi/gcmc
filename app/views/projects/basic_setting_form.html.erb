@@ -23,6 +23,12 @@
     </ul>
   </div>
   <div class="project-settings-small-container">
-    <%= react_component("ProjectSettingBasicForm", {project: @project}) %>
+    <%= react_component("ProjectSettingBasicForm", {
+        permalink: params[:permalink],
+        newPermalink: @new_permalink,
+        title: @title,
+        image: @image,
+        description: @description
+    }) %>
   </div>
 </div>

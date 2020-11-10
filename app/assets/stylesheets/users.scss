@@ -200,3 +200,128 @@ div.login-notice{
 form.auth-form{
   display: none;
 }
+
+ul.users{
+  li{
+    width: 540px;
+    padding: 0 10px 20px;
+    border-bottom: 1px solid #E6E6E6;
+    div.image-name{
+      height: 50px;
+      position: relative;
+      div.user-image{
+        position: absolute;
+        top: 0;
+        left: 0;
+        a{
+          display: block;
+          width: 50px;
+          height: 50px;
+          img{
+            display: block;
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+
+          }
+        }
+      }
+
+
+      div.user-name{
+        height: 30px;
+        position: absolute;
+        top: 10px;
+        left: 60px;
+        a{
+          font-size: 20px;
+          line-height: 30px;
+          color: black;
+          &:hover{
+            color: #7F7F7F;
+          }
+        }
+      }
+    }
+    div.roles{
+      padding-top: 5px;
+      padding-bottom: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      div.role{
+        margin-top: 5px;
+        margin-right: 5px;
+        border: 1px solid #00CC99;
+        border-radius: 5px;
+        padding: 4px 10px;
+        font-size: 14px;
+        line-height: 20px;
+        color: #00CC99;
+        text-align: center;
+      }
+    }
+    div.description{
+      max-height: 80px;
+      font-size: 14px;
+      color: #979797;
+      overflow-y: hidden;
+    }
+  }
+}
+
+form.setting-profile-form{
+  div.user-image{
+    padding-top: 10px;
+    padding-bottom: 20px;
+    img{
+      display: block;
+      width: 160px;
+      height: 160px;
+      border-radius: 80px;
+    }
+  }
+
+  div.role-tags{
+    p{
+      padding-top: 5px;
+      padding-left: 5px;
+    }
+  }
+
+  div.birth{
+    padding-bottom: 10px;
+    select:nth-child(1){
+      width: 100px;
+    }
+    select:nth-child(2){
+      margin-left: 5px;
+      width: 80px;
+    }
+    select:nth-child(3){
+      margin-left: 5px;
+      width: 80px;
+    }
+  }
+}
+
+form.setting-skills-form{
+  div.skill-sets{
+    padding-top: 10px;
+    border-bottom: 1px solid #E6E6E6;
+    div.skill{
+      padding-bottom: 10px;
+      div.name{
+        button{
+          font-size: 16px;
+          line-height: 20px;
+          color: #00CC99;
+        }
+      }
+      div.level{
+        font-size: 12px;
+        line-height: 20px;
+        color: #BFBFBF;
+      }
+    }
+  }
+}

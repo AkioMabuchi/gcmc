@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  require "date"
+
   class Forbidden < ActionController::ActionControllerError
   end
 
@@ -13,6 +15,14 @@ class ApplicationController < ActionController::Base
     unless @current_user
       session[:user_id] = nil
     end
+  end
+
+  def guest_only
+    raise Forbidden if @current_user
+  end
+
+  def user_only
+    raise Forbidden unless @current_user
   end
 
   private

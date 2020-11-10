@@ -1,4 +1,4 @@
-class ProjectImageUploader < CarrierWave::Uploader::Base
+class UserImageUploader < CarrierWave::Uploader::Base
 
   if Rails.env.production? || Rails.env.staging?
     storage :fog
@@ -7,11 +7,11 @@ class ProjectImageUploader < CarrierWave::Uploader::Base
   end
 
   def store_dir
-    "uploads/images/projects/"
+    "uploads/images/users/"
   end
 
   def default_url(*args)
-    "/NoProjectImage.png"
+    "/NoUserImage.png"
   end
 
   def extension_whitelist

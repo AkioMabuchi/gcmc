@@ -1,7 +1,26 @@
 class UsersController < ApplicationController
-  protect_from_forgery except: %w[login logout signup twitter_post github_post]
+  protect_from_forgery except: [
+      :login,
+      :logout,
+      :profile_setting_update,
+      :skills_setting_update,
+      :portfolios_setting_update,
+      :invitations_setting_update,
+      :email_setting_create,
+      :email_setting_update,
+      :password_setting_update,
+      :sns_setting_update,
+      :destroy,
+      :twitter_post,
+      :github_post
+  ]
+  before_action :user_only, only: [
+      :profile_setting_form,
+      :skills_setting_update
+  ]
 
   def index
+    @users = User.all
   end
 
   def show
@@ -192,11 +211,244 @@ class UsersController < ApplicationController
     end
   end
 
-  def sns_form
+  def profile_setting_form
+    birth_year = 0
+    birth_month = 0
+    birth_day = 0
+    image = "/NoUserImage.png"
+
+    if @current_user.image
+      image = @current_user.image.url
+    end
+
+    if @current_user.birth
+      birth_year = @current_user.birth.strftime("%Y").to_i
+      birth_month = @current_user.birth.strftime("%m").to_i
+      birth_day = @current_user.birth.strftime("%d").to_i
+    end
+
+    @react_info = {
+        permalink: flash[:permalink] ||= @current_user.permalink,
+        permalinkWarning: flash[:permalink_warning],
+        name: flash[:name] ||= @current_user.name,
+        nameWarning: flash[:name_warning],
+        image: image,
+        description: flash[:description] ||= @current_user.description,
+        descriptionWarning: flash[:description_warning],
+        roles: Role.all.order(sort_number: :asc).select(:id, :name),
+        userRoles: UserRole.where(user_id: @current_user.id).pluck(:role_id),
+        location: flash[:location] ||= @current_user.location,
+        locationWarning: flash[:location_warning],
+        birth: {
+            year: birth_year,
+            month: birth_month,
+            day: birth_day
+        },
+        isPublishedBirth: @current_user.is_published_birth ||= false,
+        url: flash[:url] ||= @current_user.url,
+        urlWarning: flash[:url_warning]
+    }.as_json
+  end
+
+  def profile_setting_update
+    user = User.find_by(id: session[:user_id])
+    permalink = params[:permalink]
+    image = params[:image]
+    name = params[:name]
+    roles = params[:roles] ||= []
+    description = params[:description]
+    location = params[:location]
+    birth = DateTime.parse "#{params[:birth_year]}/#{params[:birth_month]}/#{params[:birth_day]}"
+    is_birth_published = !params[:birth_published].nil?
+    url = params[:url]
+
+    is_accept = true
+
+    if user.permalink != permalink
+      if permalink == ""
+        is_accept = false
+        flash[:permalink_warning] = "入力してください"
+      elsif Regexp.new("^[a-zA-Z0-9_]*$") !~ permalink
+        is_accept = false
+        flash[:permalink_warning] = "英数字およびハイフンのみ使用できます"
+      elsif permalink.length > 100
+        is_accept = false
+        flash[:permalink_warning] = "ユーザーIDが長すぎます（100字以内で入力してください）"
+      elsif User.find_by(permalink: permalink)
+        is_accept = false
+        flash[:permalink_warning] = "そのユーザーIDは既に使われています"
+      else
+        flash[:permalink] = permalink
+      end
+    end
+
+    if name == ""
+      is_accept = false
+      flash[:name_warning] = "入力してください"
+    elsif name.length > 100
+      is_accept = false
+      flash[:name_warning] = "ユーザー名が長すぎます（100字以内で入力してください）"
+    else
+      flash[:name] = name
+    end
+
+    if description.length > 240
+      is_accept = false
+      flash[:description_warning] = "240字以内で記述してください"
+    else
+      flash[:description] = description
+    end
+
+    if location.length > 100
+      is_accept = false
+      flash[:location_warning] = "所在地が長すぎます（100字以内で入力してください）"
+    else
+      flash[:location] = location
+    end
+
+    if url.length > 150
+      is_accept = false
+      flash[:url_warning] = "ホームページが長すぎます（150字以内で入力してください）"
+    else
+      flash[:url] = url
+    end
+
+    if is_accept
+      user.permalink = permalink
+      user.image = image if image
+      user.name = name
+      user.description = description
+      user.location = location
+      user.birth = birth
+      user.is_published_birth = is_birth_published
+      user.url = url
+
+      user.save!
+
+      prev_user_roles = UserRole.where(user_id: session[:user_id])
+      prev_user_roles.each do |prev_user_role|
+        prev_user_role.destroy!
+      end
+
+      roles.each do |role|
+        new_role = UserRole.new(user_id: session[:user_id], role_id: role)
+        new_role.save!
+      end
+
+      flash[:done] = "プロフィールを更新しました"
+      redirect_to "/settings"
+    else
+      redirect_to "/settings"
+    end
+
 
   end
 
-  def sns_done
+  def skills_setting_form
+    @react_info = {
+        name: flash[:name],
+        nameWarning: flash[:name_warning],
+        level: flash[:level],
+        levelWarning: flash[:level_warning],
+        skills: Skill.where(user_id: session[:user_id])
+    }.as_json
+
+  end
+
+  def skills_setting_update
+    name = params[:name]
+    level = params[:level]
+    is_accept = true
+
+    if name == ""
+      is_accept = false
+      flash[:name_warning] = "入力してください"
+    elsif name.length > 100
+      is_accept = false
+      flash[:name_warning] = "スキル名が長すぎます（100字以内で入力してください）"
+    else
+      flash[:name] = name
+    end
+
+    if level.length > 100
+      is_accept = false
+      flash[:level_warning] = "レベルが長すぎます（100字以内で入力してください）"
+    else
+      flash[:level] = level
+    end
+
+    if is_accept
+      flash[:name] = nil
+      flash[:name_warning] = nil
+      flash[:level] = nil
+      flash[:level_warning] = nil
+
+      skill = Skill.find_by(name: name)
+      skill = Skill.new(user_id: session[:user_id], name: name) if skill.nil?
+
+      if level == ""
+        skill.destroy!
+      else
+        skill.level = level
+        skill.save!
+      end
+
+      flash[:done] = "スキルセットを更新しました"
+      redirect_to "/settings/skills"
+    else
+      redirect_to "/settings/skills"
+    end
+
+  end
+
+  def portfolios_setting_form
+
+  end
+
+  def portfolios_setting_update
+
+  end
+
+  def invitations_setting_form
+
+  end
+
+  def invitations_setting_update
+
+  end
+
+  def email_setting_form
+
+  end
+
+  def email_setting_update
+
+  end
+
+  def email_setting_create
+
+  end
+
+  def password_setting_form
+  end
+
+  def password_setting_update
+
+  end
+
+  def sns_setting_form
+
+  end
+
+  def sns_setting_update
+
+  end
+
+  def destroy_form
+
+  end
+
+  def destroy
 
   end
 

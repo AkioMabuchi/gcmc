@@ -9,7 +9,7 @@ class ProjectSearchForm extends React.Component {
         return(
             <div>
                 <form action={"/projects"} method={"GET"} className={"project-search-form"}>
-                    <input type={"text"} name={"query"} placeholder={"検索ワードを入力"}/>
+                    <input type={"text"} name={"q"} placeholder={"検索ワードを入力"}/>
                     <div className={"tags"}>
                         <h4>タグ検索</h4>
                         <div className={"checkboxes"}>

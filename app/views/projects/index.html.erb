@@ -51,36 +51,11 @@
         </li>
       <% end %>
     </ul>
-    <table>
-      <tbody>
-      <tr>
-        <td>
-          <div>
-            <i class="fas fa-angle-double-left"></i>
-          </div>
-        </td>
-        <td>
-          <div>
-            <i class="fas fa-angle-left"></i>
-          </div>
-        </td>
-        <td>
-          <div>
-            1
-          </div>
-        </td>
-        <td>
-          <div>
-            <i class="fas fa-angle-right"></i>
-          </div>
-        </td>
-        <td>
-          <div>
-            <i class="fas fa-angle-double-right"></i>
-          </div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <%= react_component("ProjectsPagination",{
+        query: @query,
+        tagAll: nil,
+        tags: @selected_tags,
+        tagMode: "or"
+    }) %>
   </div>
 </div>

@@ -19,6 +19,11 @@
     <% end %>
   </header>
   <div class="main-content">
+    <% if flash[:done] %>
+      <div class="main-content-done">
+        <%= flash[:done] %>
+      </div>
+    <% end %>
     <%= yield %>
   </div>
   <footer>
