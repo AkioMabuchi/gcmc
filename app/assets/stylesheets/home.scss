@@ -1305,6 +1305,8 @@ form.settings-form{
   }
 
   input[type="text"],
+  input[type="email"],
+  input[type="password"],
   input[type="url"]{
     margin-top: 5px;
     width: 100%;
@@ -1352,6 +1354,10 @@ form.settings-form{
     font-size: 20px;
     border-radius: 10px;
     letter-spacing: 2px;
+    &:disabled{
+      background-color: #E6E6E6;
+      cursor: default;
+    }
   }
 
   div.warning{

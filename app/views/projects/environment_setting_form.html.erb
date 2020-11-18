@@ -1,28 +1,9 @@
 <h1>プロジェクト設定</h1>
-<div class="project-settings-big-container">
-  <div class="project-settings-small-container">
-    <ul class="project-settings-list">
-      <li>
-        <a href="/projects/<%= params[:permalink] %>/settings">基本設定</a>
-      </li>
-      <li>
-        <a href="/projects/<%= params[:permalink] %>/settings/tags">タグ設定</a>
-      </li>
-      <li>
-        <a href="/projects/<%= params[:permalink] %>/settings/environment">開発環境設定</a>
-      </li>
-      <li>
-        <a href="/projects/<%= params[:permalink] %>/settings/wants">募集一覧設定</a>
-      </li>
-      <li>
-        <a href="/projects/<%= params[:permalink] %>/settings/publish">公開設定</a>
-      </li>
-      <li>
-        <a href="/projects/<%= params[:permalink] %>/settings/destroy">プロジェクト削除</a>
-      </li>
-    </ul>
+<div class="settings-big-container">
+  <div class="settings-small-container">
+    <%= render partial: "settings_menu" %>
   </div>
-  <div class="project-settings-small-container">
-    <%= react_component("ProjectSettingEnvironmentForm", {project: @project}) %>
+  <div class="settings-small-container">
+    <%= react_component "ProjectSettingEnvironmentForm", info: @react_info %>
   </div>
 </div>

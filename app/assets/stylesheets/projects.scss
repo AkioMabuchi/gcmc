@@ -289,7 +289,48 @@ form.new-project-form{
 
 // -------------------- PROJECT SETTINGS --------------------
 
+form.wants-setting-form{
+  input[type="number"]{
+    margin-top: 5px;
+    width: 100px;
+    height: 30px;
+    border: 1px solid #BFBFBF;
+    appearance: none;
+    padding-left: 5px;
+    &::placeholder{
+      color: #E6E6E6;
+    }
+  }
 
+  ul.wants-list{
+    padding-bottom: 20px;
+    border-bottom: 1px solid #E6E6E6;
+    li{
+      padding-top: 10px;
+      display: flex;
+      div.want-name{
+        width: calc(100% - 30px);
+        text-align: left;
+        font-size: 14px;
+        line-height: 20px;
+        color: #979797;
+      }
+      div.want-amount{
+        width: 30px;
+        text-align: right;
+        font-size: 14px;
+        line-height: 20px;
+        color: #979797;
+      }
+    }
+  }
+  div.amount-explanation{
+    padding-top: 5px;
+    color: black;
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
 
 
 // -------------------- SEARCH FORM --------------------

@@ -1,32 +1,7 @@
 <h1>アカウント設定</h1>
 <div class="settings-big-container">
   <div class="settings-small-container">
-    <ul class="settings-list">
-      <li>
-        <a href="/settings">プロフィール設定</a>
-      </li>
-      <li>
-        <a href="/settings/skills">スキルセット設定</a>
-      </li>
-      <li>
-        <a href="/settings/portfolios">ポートフォリオ設定</a>
-      </li>
-      <li>
-        <a href="/settings/invitations">招待設定</a>
-      </li>
-      <li>
-        <a href="/settings/email">メールアドレス設定</a>
-      </li>
-      <li>
-        <a href="/settings/password">パスワード設定</a>
-      </li>
-      <li>
-        <a href="/settings/sns">SNS設定</a>
-      </li>
-      <li>
-        <a href="/settings/destroy">アカウント削除</a>
-      </li>
-    </ul>
+    <%= render partial: "settings_menu" %>
   </div>
   <div class="settings-small-container">
     <%= react_component "UserSettingProfileForm", info: @react_info %>

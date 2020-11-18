@@ -44,10 +44,13 @@ Rails.application.routes.draw do
   post "/settings/invitations", to: "users#invitations_setting_update"
   get "/settings/email", to: "users#email_setting_form"
   post "/settings/email", to: "users#email_setting_update"
+  post "/settings/email/create", to: "users#email_setting_create"
   get "/settings/password", to: "users#password_setting_form"
   post "/settings/password", to: "users#password_setting_update"
   get "/settings/sns", to: "users#sns_setting_form"
   post "/settings/sns", to: "users#sns_setting_update"
+  post "/settings/sns/disconnect/twitter", to: "users#disconnect_twitter"
+  post "/settings/sns/disconnect/github", to: "users#disconnect_github"
   get "/settings/destroy", to: "users#destroy_form"
   post "/settings/destroy", to: "users#destroy"
 

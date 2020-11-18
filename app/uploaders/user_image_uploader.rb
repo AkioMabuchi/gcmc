@@ -7,7 +7,7 @@ class UserImageUploader < CarrierWave::Uploader::Base
   end
 
   def store_dir
-    "uploads/images/users/"
+    "uploads/images/users/#{model.id}"
   end
 
   def default_url(*args)
@@ -19,6 +19,6 @@ class UserImageUploader < CarrierWave::Uploader::Base
   end
 
   def filename
-    "#{model.id}.#{file.extension}"
+    "image.#{file.extension}" if original_filename.present?
   end
 end

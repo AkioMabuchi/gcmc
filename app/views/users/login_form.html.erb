@@ -4,9 +4,14 @@
     <form method="post" action="/login" class="login-form">
       <h4>メールアドレス</h4>
       <input type="email" name="email">
-      <h4 style="margin-top: 20px">パスワード</h4>
+      <h4>パスワード</h4>
       <input type="password" name="password">
       <a href="/login/forgot-password" class="forgot-password">パスワードをお忘れですか？</a>
+      <% if flash[:login_warning] %>
+        <div class="warning">
+          <%= flash[:login_warning] %>
+        </div>
+      <% end %>
       <button type="submit">ログイン</button>
     </form>
   </div>
@@ -15,7 +20,7 @@
       <form method="post" action="/auth/twitter" class="sns-login">
         <button type="submit" class="twitter"><i class="fab fa-twitter"></i> Twitterでログイン</button>
       </form>
-      <form method="post" action="/auth/github" class="sns-login" style="margin-top: 30px">
+      <form method="post" action="/auth/github" class="sns-login">
         <button type="submit" class="github"><i class="fab fa-github"></i> GitHubでログイン</button>
       </form>
     </div>

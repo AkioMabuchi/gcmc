@@ -1,0 +1,9 @@
+<h1>アカウント設定</h1>
+<div class="settings-big-container">
+  <div class="settings-small-container">
+    <%= render partial: "settings_menu" %>
+  </div>
+  <div class="settings-small-container">
+    <%= react_component "UserSettingPortfoliosForm", info: @react_info %>
+  </div>
+</div>

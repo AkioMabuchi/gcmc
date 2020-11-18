@@ -1,2 +1,178 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<div class="user-show">
+  <div class="user-container1">
+    <div class="user-container2">
+      <div class="user-profile">
+        <div class="user-image">
+          <img src="<%= @info[:user][:image] %>" alt="">
+        </div>
+        <div class="user-name">
+          <%= @info[:user][:name] %>
+        </div>
+        <div class="user-urls">
+          <% if @info[:user][:url].present? %>
+            <a href="<%= @info[:user][:url] %>" class="user-url mine" target="_blank">
+              <i class="fas fa-home"></i>
+            </a>
+          <% else %>
+            <div class="user-url-disabled">
+              <i class="fas fa-home"></i>
+            </div>
+          <% end %>
+          <% if @info[:user][:is_published_twitter] %>
+            <a href="<%= @info[:user][:twitter_url] %>" class="user-url twitter" target="_blank">
+              <i class="fab fa-twitter"></i>
+            </a>
+          <% else %>
+            <div class="user-url-disabled">
+              <i class="fab fa-twitter"></i>
+            </div>
+          <% end %>
+          <% if @info[:user][:is_published_github] %>
+            <a href="<%= @info[:user][:github_url] %>" class="user-url github" target="_blank">
+              <i class="fab fa-github"></i>
+            </a>
+          <% else %>
+            <div class="user-url-disabled">
+              <i class="fab fa-github"></i>
+            </div>
+          <% end %>
+        </div>
+        <% if @info[:user][:roles].length > 0 %>
+          <ul class="user-roles">
+            <% @info[:user][:roles].each do |role| %>
+              <li>
+                <%= role.role.name %>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+        <% if @info[:user][:description].length > 0 %>
+          <div class="description">
+            <%= @info[:user][:description] %>
+          </div>
+        <% end %>
+        <% if @info[:user][:location].length > 0 %>
+          <div class="location">
+            所在地：<%= @info[:user][:location] %>
+          </div>
+        <% end %>
+        <% if @info[:user][:is_published_birth] and @info[:user][:birth] %>
+          <div class="birth">
+            誕生日：<%= @info[:user][:birth] %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="user-container3">
+      <h3>スキルセット</h3>
+      <div class="user-skills">
+        <% if @info[:skills].length > 0 %>
+          <div class="skills">
+            <% @info[:skills].each do |skill| %>
+              <div class="skill">
+                <div class="skill-name">
+                  <%= skill.name %>
+                </div>
+                <div class="skill-level">
+                  <%= skill.level %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="no-skill">
+            スキルセットが登録されていません
+          </div>
+        <% end %>
+      </div>
+      <h3>ポートフォリオ</h3>
+      <div class="user-portfolios">
+        <% if @info[:portfolios].length > 0 %>
+          <div class="portfolios">
+            <% @info[:portfolios].each do |portfolio| %>
+              <div class="portfolio">
+                <div class="portfolio-big-container">
+                  <div class="portfolio-image">
+                    <a href="/portfolios/<%= portfolio.id %>">
+                      <img src="<%= portfolio.image.url %>" alt="/NoPortfolioImage.png">
+                    </a>
+                  </div>
+                  <div class="portfolio-small-container">
+                    <div class="portfolio-name">
+                      <a href="/portfolios/<%= portfolio.id %>">
+                        <%= portfolio.name %>
+                      </a>
+                    </div>
+                    <div class="portfolio-period">
+                      制作期間：<%= portfolio.period %>
+                    </div>
+                  </div>
+                </div>
+                <div class="portfolio-description">
+                  <%= portfolio.description %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="no-portfolio">
+            ポートフォリオが登録されていません
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="user-container4">
+    <div class="user-container5">
+      <h3>参加中のプロジェクト</h3>
+      <div class="user-projects">
+        <% if @info[:owner_projects].length > 0 or @info[:member_projects].length > 0 %>
+          <div class="projects">
+            <% @info[:owner_projects].each do |project| %>
+              <div class="project">
+                <div class="project-image">
+                  <a href="/projects/<%= project.permalink %>">
+                    <img src="<%= project.image.url %>" alt="/NoProjectImage.png"/>
+                  </a>
+                </div>
+                <div class="project-title">
+                  <a href="/projects/<%= project.permalink %>">
+                    <%= project.title %>
+                  </a>
+                </div>
+                <div class="project-description">
+                  <%= project.description %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="no-project">
+            参加中のプロジェクトはありません
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="user-container6">
+      <h3>招待状況</h3>
+      <div class="user-invitations">
+        <% if @info[:positions].length > 0 %>
+          <div class="positions">
+            <h4>以下の役割での招待を待っています！</h4>
+            <ul class="positions-list">
+              <% @info[:positions].each do |position| %>
+                <li>
+                  <%= position %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        <% else %>
+          <div class="no-position">
+            今は招待待ちではありません
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

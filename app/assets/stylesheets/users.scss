@@ -29,18 +29,23 @@ div.big-container{
     padding: 0 10px 10px;
   }
 }
+
 form.login-form{
   border: 1px solid #BFBFBF;
+  border-radius: 10px;
   padding: 20px 15px 30px;
   h4{
-    line-height: 25px;
+    line-height: 20px;
     font-size: 18px;
-    font-weight: 400;
+    &:nth-child(n+2){
+      margin-top: 20px;
+    }
   }
 
   input[type="text"],
   input[type="email"],
   input[type="password"]{
+    margin-top: 5px;
     width: 100%;
     height: 30px;
     border: 1px solid #BFBFBF;
@@ -52,13 +57,13 @@ form.login-form{
     display: block;
     width: 160px;
     height: 40px;
-    border: none;
+    border-radius: 10px;
     background-color: #00FFBF;
     color: white;
     font-weight: 700;
     font-size: 20px;
     cursor: pointer;
-    margin-top: 50px;
+    margin-top: 30px;
     margin-right: auto;
     margin-left: auto;
   }
@@ -66,6 +71,12 @@ form.login-form{
   a.forgot-password{
     font-size: 10px;
     line-height: 20px;
+  }
+
+  div.warning{
+    font-size: 14px;
+    line-height: 20px;
+    color: red;
   }
 }
 
@@ -145,6 +156,7 @@ form.signup-form{
 div.sns-login-form {
 
   border: 1px solid #BFBFBF;
+  border-radius: 10px;
   padding: 20px 15px 20px;
   form.sns-login {
     margin: 0;
@@ -154,11 +166,9 @@ div.sns-login-form {
       display: block;
       width: 100%;
       height: 50px;
-      border: none;
-      font-weight: 700;
+      border-radius: 10px;
       font-size: 20px;
       letter-spacing: 1px;
-      cursor: pointer;
     }
 
     button.twitter {
@@ -169,6 +179,9 @@ div.sns-login-form {
     button.github {
       color: white;
       background-color: #171515;
+    }
+    &:nth-child(n+2){
+      margin-top: 30px;
     }
   }
 }
@@ -269,6 +282,491 @@ ul.users{
   }
 }
 
+// -------------------------------------------- USER SHOW ---------------------------------------------
+
+div.user-show {
+  $user-breakpoint: 880px;
+  padding: 30px 20px;
+  h3 {
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    line-height: 30px;
+    color: black;
+
+    &:before {
+      border-top: 1px solid #979797;
+      content: "";
+      flex-grow: 1;
+      margin-right: 10px;
+    }
+
+    &:after {
+      border-top: 1px solid #979797;
+      content: "";
+      flex-grow: 1;
+      margin-left: 10px;
+    }
+  }
+  div.user-container1 {
+    @media(max-width: $user-breakpoint) {
+      display: block;
+    }
+    @media(min-width: $user-breakpoint) {
+      display: flex;
+      width: 860px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    div.user-container2 {
+      @media(max-width: $user-breakpoint) {
+        width: 100%;
+      }
+      @media(min-width: $user-breakpoint) {
+        width: 300px;
+        margin-right: 20px;
+        margin-left: 20px;
+      }
+
+
+      padding-bottom: 50px;
+
+      div.user-profile {
+        @media(max-width: 560px){
+          margin-right: 10px;
+          margin-left: 10px;
+        }
+        @media(min-width: 560px)and(max-width: $user-breakpoint){
+          width: 540px;
+          margin-right: auto;
+          margin-left: auto;
+        }
+        @media(min-width: $user-breakpoint){
+          width: 300px;
+        }
+        border: 1px solid #BFBFBF;
+        border-radius: 10px;
+        padding: 20px 10px 30px;
+
+        div.user-image {
+          width: 200px;
+          height: 200px;
+          margin-right: auto;
+          margin-left: auto;
+
+          img {
+            display: block;
+            width: 200px;
+            height: 200px;
+            border-radius: 100px;
+          }
+        }
+
+        div.user-name {
+          height: 50px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          font-size: 24px;
+          line-height: 30px;
+          text-align: center;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        div.user-urls {
+          display: flex;
+          justify-content: center;
+
+          a.user-url {
+            display: block;
+            margin-right: 5px;
+            margin-left: 5px;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            color: white;
+            padding-top: 4px;
+            padding-bottom: 4px;
+            text-align: center;
+            font-size: 24px;
+            line-height: 32px;
+
+            &.mine {
+              background-color: #00FFBF;
+            }
+
+            &.twitter {
+              background-color: #1DA1F2;
+            }
+
+            &.github {
+              background-color: #171515;
+            }
+          }
+
+          div.user-url-disabled {
+            display: block;
+            margin-right: 5px;
+            margin-left: 5px;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            color: white;
+            background-color: #E6E6E6;
+            padding-top: 4px;
+            padding-bottom: 4px;
+            text-align: center;
+            font-size: 24px;
+            line-height: 32px;
+          }
+        }
+
+        ul.user-roles {
+          padding-top: 10px;
+          padding-bottom: 10px;
+          padding-left: 20px;
+
+          li {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            font-size: 16px;
+            line-height: 20px;
+
+            &:before {
+              position: relative;
+              top: -1px;
+              left: -10px;
+              content: "";
+              display: inline-block;
+              width: 10px;
+              height: 10px;
+              border-radius: 5px;
+              background-color: #00CC99;
+            }
+          }
+        }
+
+        div.description {
+          padding-top: 10px;
+          padding-bottom: 10px;
+          font-size: 14px;
+          line-height: 20px;
+          color: black;
+        }
+
+        div.location {
+          padding-top: 5px;
+          padding-bottom: 5px;
+          font-size: 16px;
+          line-height: 20px;
+          color: #BFBFBF;
+        }
+
+        div.birth {
+          padding-top: 5px;
+          padding-bottom: 5px;
+          font-size: 16px;
+          line-height: 20px;
+          color: #BFBFBF;
+        }
+      }
+    }
+
+    div.user-container3 {
+      @media(max-width: $user-breakpoint) {
+        width: 100%;
+      }
+      @media(min-width: $user-breakpoint) {
+        width: 480px;
+        margin-right: 20px;
+        margin-left: 20px;
+      }
+
+      div.user-skills {
+        max-width: 450px;
+        margin-right: auto;
+        margin-left: auto;
+
+        div.skills {
+          padding-top: 5px;
+          padding-bottom: 30px;
+
+          div.skill {
+            padding: 5px 10px 10px;
+
+            div.skill-name {
+              font-size: 18px;
+              color: #00CC99;
+              line-height: 30px;
+            }
+
+            div.skill-level {
+              font-size: 14px;
+              color: #979797;
+              line-height: 20px;
+            }
+          }
+        }
+
+        div.no-skill {
+          padding-top: 20px;
+          padding-bottom: 50px;
+          font-size: 16px;
+          color: #BFBFBF;
+          text-align: center;
+        }
+      }
+
+      div.user-portfolios {
+        div.portfolios {
+          @media(max-width: 420px){
+            width: 300px;
+            margin-right: auto;
+            margin-left: auto;
+          }
+          @media(min-width: 420px)and(max-width: 500px){
+            width: 380px;
+            margin-right: auto;
+            margin-left: auto;
+          }
+          @media(min-width: 500px){
+            width: 460px;
+            margin-right: auto;
+            margin-left: auto;
+          }
+
+          div.portfolio {
+            padding: 10px 10px 15px;
+            border-bottom: 1px solid #E6E6E6;
+            @media(max-width: 420px){
+              width: 300px;
+              margin-right: auto;
+              margin-left: auto;
+            }
+            @media(min-width: 420px)and(max-width: 500px){
+              width: 380px;
+              margin-right: auto;
+              margin-left: auto;
+            }
+
+            div.portfolio-big-container {
+              @media(max-width: 500px) {
+                display: block;
+
+              }
+              @media(min-width: 500px) {
+                display: flex;
+              }
+
+              div.portfolio-image {
+                @media(max-width: 420px) {
+                  width: 280px;
+                  img {
+                    display: block;
+                    width: 280px;
+                    height: 147px;
+                  }
+                }
+                @media(min-width: 420px) and(max-width: 500px) {
+                  width: 360px;
+                  img {
+                    display: block;
+                    width: 360px;
+                    height: 189px;
+                  }
+                }
+                @media(min-width: 500px) {
+                  width: 120px;
+                  img {
+                    display: block;
+                    width: 120px;
+                    height: 63px;
+                  }
+                }
+              }
+
+              div.portfolio-small-container {
+                @media(max-width: 500px) {
+                  padding-top: 5px;
+                }
+                @media(min-width: 500px) {
+                  padding-left: 10px;
+                }
+
+                div.portfolio-name {
+                  a {
+                    height: 30px;
+                    font-size: 20px;
+                    line-height: 30px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+
+                    color: #00CC99;
+
+                    &:hover {
+                      color: #00FFBF;
+                    }
+                  }
+                }
+
+                div.portfolio-period {
+                  padding-top: 5px;
+                  font-size: 16px;
+                  line-height: 20px;
+                  color: black;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                }
+              }
+            }
+
+            div.portfolio-description {
+              margin-top: 5px;
+              max-height: 80px;
+              font-size: 14px;
+              line-height: 20px;
+              color: #979797;
+              overflow: hidden;
+            }
+          }
+        }
+
+        div.no-portfolio {
+          padding-top: 20px;
+          padding-bottom: 50px;
+          font-size: 16px;
+          color: #BFBFBF;
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  div.user-container4 {
+    @media(max-width: $user-breakpoint){
+      display: block;
+    }
+    @media(min-width: $user-breakpoint){
+      display: flex;
+      width: 860px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+    div.user-container5 {
+
+      @media(max-width: $user-breakpoint){
+        width: 100%;
+      }
+      @media(min-width: $user-breakpoint){
+        width: 350px;
+        margin-right: 40px;
+      }
+      div.user-projects {
+        @media(min-width: 300px){
+          width: 340px;
+          margin-right: auto;
+          margin-left: auto;
+        }
+        div.project{
+          padding: 20px 10px;
+          border-bottom: 1px solid #E6E6E6;
+          div.project-image{
+            width: 320px;
+            height: 168px;
+            img{
+              display: block;
+              width: 320px;
+              height: 168px;
+            }
+          }
+          div.project-title{
+            padding-top: 5px;
+            a{
+              font-size: 20px;
+              line-height: 30px;
+              color: black;
+              &:hover{
+                color: #7F7F7F;
+              }
+            }
+          }
+          div.project-description{
+            padding-top: 5px;
+            font-size: 14px;
+            line-height: 20px;
+            color: #7F7F7F;
+          }
+        }
+        div.no-project{
+          padding-top: 20px;
+          padding-bottom: 50px;
+          font-size: 16px;
+          color: #BFBFBF;
+          text-align: center;
+        }
+      }
+    }
+
+    div.user-container6 {
+      @media(max-width: $user-breakpoint) {
+        width: 100%;
+
+      }
+      @media(min-width: $user-breakpoint){
+        width: 450px;
+      }
+
+      div.user-invitations {
+        div.positions{
+          h4{
+            padding-top: 20px;
+            font-size: 20px;
+            color: #FF0080;
+            text-align: center;
+          }
+          ul.positions-list {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 20px;
+            width: 360px;
+            margin-right: auto;
+            margin-left: auto;
+            li {
+              padding-top: 5px;
+              padding-bottom: 5px;
+              font-size: 16px;
+              line-height: 20px;
+
+              &:before {
+                position: relative;
+                top: -1px;
+                left: -10px;
+                content: "";
+                display: inline-block;
+                width: 10px;
+                height: 10px;
+                border-radius: 5px;
+                background-color: #FF66B3;
+              }
+            }
+          }
+        }
+        div.no-position{
+          padding-top: 20px;
+          font-size: 18px;
+          color: #BFBFBF;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+// -------------------------------------------- USER SETTINGS -----------------------------------------
 form.setting-profile-form{
   div.user-image{
     padding-top: 10px;
@@ -324,4 +822,164 @@ form.setting-skills-form{
       }
     }
   }
+}
+
+form.setting-portfolios-form{
+  div.portfolios{
+    padding-top: 20px;
+    border-bottom: 1px solid #E6E6E6;
+    div.portfolio{
+      div.portfolio-image{
+        button{
+          display: block;
+          width: 200px;
+          height: 105px;
+          img{
+            display: block;
+            width: 200px;
+            height: 105px;
+          }
+        }
+      }
+
+      div.portfolio-name{
+        padding-top: 5px;
+        padding-bottom: 15px;
+        button{
+          font-size: 16px;
+          line-height: 20px;
+          color: #00CC99;
+          &.selected{
+            color: #00BFFF;
+          }
+        }
+      }
+    }
+  }
+  div.name-notice{
+    padding-top: 5px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  div.image-portfolio{
+    padding-top: 10px;
+    padding-bottom: 20px;
+    img{
+      display: block;
+      width: 240px;
+      height: 126px;
+    }
+  }
+  button[type="submit"]{
+    &.update{
+      background-color: #00BFFF;
+    }
+    &.destroy{
+      background-color: #FF7F7F;
+    }
+  }
+}
+
+form.setting-invitations-form{
+  ul.invitations{
+    padding-left: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #E6E6E6;
+    li{
+      height: 20px;
+      line-height: 20px;
+      margin-top: 10px;
+      &::before{
+        position: relative;
+        top: -1px;
+        left: -10px;
+        content: "";
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 5px;
+        background-color: #00CC99;
+      }
+    }
+  }
+
+  button[type="submit"].destroy{
+    background-color: #00BFFF;
+  }
+}
+
+form.setting-email-form{
+  div.email-notice{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 14px;
+    line-height: 20px;
+    border-bottom: 1px solid #E6E6E6;
+  }
+}
+
+form.setting-password-form{
+
+}
+
+form.setting-sns-form{
+  div.email-notice{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #E6E6E6;
+    div.caution{
+      font-size: 16px;
+      line-height: 20px;
+      color: red;
+    }
+    div.description{
+      padding-top: 10px;
+      font-size: 14px;
+      line-height: 20px;
+    }
+  }
+  form.setting-sns-form-2{
+    button{
+      width: 250px;
+      height: 40px;
+      margin: 10px 0;
+      font-size: 16px;
+      border-width: 2px;
+      border-style: solid;
+      &.connect-twitter{
+        color: white;
+        border-color: #1DA1F2;
+        background-color: #1DA1F2;
+      }
+      &.disconnect-twitter{
+        color: #1DA1F2;
+        border-color: #1DA1F2;
+        background-color: #D2ECFC;
+        &:disabled{
+          color: #E6E6E6;
+          border-color: #E6E6E6;
+          background-color: #FAFAFA;
+        }
+      }
+      &.connect-github{
+        color: white;
+        border-color: #171515;
+        background-color: #171515;
+      }
+      &.disconnect-github{
+        color: #171515;
+        border-color: #171515;
+        background-color: #D1D0D0;
+        &:disabled{
+          color: #E6E6E6;
+          border-color: #E6E6E6;
+          background-color: #FAFAFA;
+        }
+      }
+    }
+  }
+}
+
+form.user-destroy-form{
+
 }

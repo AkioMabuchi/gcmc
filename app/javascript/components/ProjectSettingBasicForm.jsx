@@ -67,7 +67,7 @@ class ProjectSettingBasicForm extends React.Component {
         }
         return(
             <div>
-                <form action={`/projects/${this.props.permalink}/settings`} method={"POST"} className={"project-settings-form"} encType={"multipart/form-data"}>
+                <form action={`/projects/${this.props.permalink}/settings`} method={"POST"} className={"settings-form"} encType={"multipart/form-data"}>
                     <h3>基本設定</h3>
                     <h4>プロジェクトID<small>（必須、英数字および「_」のみ）</small></h4>
                     <h5>リンク名に使われます</h5>

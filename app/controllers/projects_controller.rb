@@ -1,5 +1,12 @@
 class ProjectsController < ApplicationController
-  protect_from_forgery except: [:create, :basic_setting_update, :tags_setting_update]
+  protect_from_forgery except: [
+      :create,
+      :basic_setting_update,
+      :tags_setting_update,
+      :environment_setting_update,
+      :wants_setting_update
+  ]
+
   def create_form
     unless @current_user
       raise Forbidden
@@ -249,26 +256,183 @@ class ProjectsController < ApplicationController
   end
 
   def environment_setting_form
-    @project = Project.find_by(permalink: params[:permalink])
+    project = Project.find_by(permalink: params[:permalink])
 
-    unless @project
-      raise ActiveRecord::RecordNotFound
+    @react_info = {
+        permalink: project.permalink,
+        usingLanguage: flash[:environment_using_language] ||= project.using_language,
+        usingLanguageWarning: flash[:environment_using_language_warning],
+        platform: flash[:environment_platform] ||= project.platform,
+        platformWarning: flash[:environment_platform_warning],
+        sourceTool: flash[:environment_source_tool] ||= project.source_tool,
+        sourceToolWarning: flash[:environment_source_tool_warning],
+        communicationTool: flash[:environment_communication_tool] ||= project.communication_tool,
+        communicationToolWarning: flash[:environment_communication_tool_warning],
+        projectTool: flash[:environment_project_tool] ||= project.project_tool,
+        projectToolWarning: flash[:environment_project_tool_warning],
+        period: flash[:environment_period] ||= project.period,
+        periodWarning: flash[:environment_period_warning],
+        frequency: flash[:environment_frequency] ||= project.frequency,
+        frequencyWarning: flash[:environment_frequency_warning],
+        location: flash[:environment_location] ||= project.location,
+        locationWarning: flash[:environment_location_warning]
+    }
+  end
+
+  def environment_setting_update
+    permalink = params[:permalink]
+    using_language = params[:using_language]
+    platform = params[:platform]
+    source_tool = params[:source_tool]
+    communication_tool = params[:communication_tool]
+    project_tool = params[:project_tool]
+    period = params[:period]
+    frequency = params[:frequency]
+    location = params[:location]
+
+    is_accept = true
+
+    if using_language.length > 100
+      is_accept = false
+      flash[:environment_using_language_warning] = "使用言語が長すぎます（100字以内で入力してください）"
+    else
+      flash[:environment_using_language] = using_language
     end
 
-    unless @project.owner_user.id == session[:user_id]
-      raise Forbidden
+    if platform.length > 100
+      is_accept = false
+      flash[:environment_platform_warning] = "プラットフォームが長すぎます（100字以内で入力してください）"
+    else
+      flash[:environment_platform] = platform
+    end
+
+    if source_tool.length > 100
+      is_accept = false
+      flash[:environment_source_tool_warning] = "ソースコード管理ツールが長すぎます（100字以内で入力してください）"
+    else
+      flash[:environment_source_tool] = source_tool
+    end
+
+    if communication_tool.length > 100
+      is_accept = false
+      flash[:environment_communication_tool_warning] = "コミュニケーションツールが長すぎます（100字以内で入力してください）"
+    else
+      flash[:environment_communication_tool] = communication_tool
+    end
+
+    if project_tool.length > 100
+      is_accept = false
+      flash[:environment_project_tool_warning] = "プロジェクト管理ツールが長すぎます（100字以内で入力してください）"
+    else
+      flash[:environment_project_tool] = project_tool
+    end
+
+    if period.length > 100
+      is_accept = false
+      flash[:environment_period_warning] = "制作期間の入力が長すぎます（100字以内で入力してください）"
+    else
+      flash[:environment_period] = period
+    end
+
+    if frequency.length > 100
+      is_accept = false
+      flash[:environment_frequency_warning] = "制作頻度の入力が長すぎます（100字以内で入力してください）"
+    else
+      flash[:environment_frequency] = frequency
+    end
+
+    if location.length > 100
+      is_accept = false
+      flash[:environment_location_warning] = "場所が長すぎます（100字以内で入力してください）"
+    else
+      flash[:environment_location] = location
+    end
+
+    if is_accept
+      flash[:environment_using_language] = nil
+      flash[:environment_using_language_warning] = nil
+      flash[:environment_platform] = nil
+      flash[:environment_platform_warning] = nil
+      flash[:environment_source_tool] = nil
+      flash[:environment_source_tool_warning] = nil
+      flash[:environment_communication_tool] = nil
+      flash[:environment_communication_tool_warning] = nil
+      flash[:environment_project_tool] = nil
+      flash[:environment_project_tool_warning] = nil
+      flash[:environment_period] = nil
+      flash[:environment_period_warning] = nil
+      flash[:environment_frequency] = nil
+      flash[:environment_frequency_warning] = nil
+      flash[:environment_location] = nil
+      flash[:environment_location_warning] = nil
+
+      project = Project.find_by(permalink: permalink)
+      project.using_language = using_language
+      project.platform = platform
+      project.source_tool = source_tool
+      project.communication_tool = communication_tool
+      project.project_tool = project_tool
+      project.period = period
+      project.frequency = frequency
+      project.location = location
+
+      project.save!
+      flash[:done] = "開発環境設定を更新しました"
+      redirect_to "/projects/#{permalink}/settings/environment"
+    else
+      redirect_to "/projects/#{permalink}/settings/environment"
     end
   end
 
   def wants_setting_form
-    @project = Project.find_by(permalink: params[:permalink])
+    project = Project.find_by(permalink: params[:permalink])
 
-    unless @project
-      raise ActiveRecord::RecordNotFound
+    @react_info = {
+        permalink: project.permalink,
+        wants: ProjectWant.joins(:position).where(project_id: project.id).order(sort_number: :asc).select(:name, :amount),
+        positions: Position.all.order(sort_number: :asc).select(:id, :name),
+        amountWarning: flash[:wants_amount_warning]
+    }.as_json
+  end
+
+  def wants_setting_update
+
+    permalink = params[:permalink]
+    position = params[:position]
+    amount = params[:amount]
+
+    is_accept = true
+
+    if amount.to_i < 0 or amount.to_i >= 100
+      is_accept = false
+      flash[:wants_amount_warning] = "0~99の値を入力してください"
+    else
+      flash[:wants_amount] = amount;
     end
 
-    unless @project.owner_user.id == session[:user_id]
-      raise Forbidden
+    if is_accept
+      project = Project.find_by(permalink: permalink)
+      want = ProjectWant.find_by(project_id: project.id, position_id: position)
+      if want
+        if amount.to_i > 0
+          want.amount = amount
+          want.save!
+        else
+          want.destroy!
+        end
+      elsif amount.to_i > 0
+        new_want = ProjectWant.new(
+            project_id: project.id,
+            position_id: position,
+            amount: amount
+        )
+
+        new_want.save!
+      end
+      flash[:done] = "募集設定を更新しました"
+      redirect_to "/projects/#{permalink}/settings/wants"
+    else
+      redirect_to "/projects/#{permalink}/settings/wants"
     end
   end
 

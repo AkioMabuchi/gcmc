@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_10_071813) do
+ActiveRecord::Schema.define(version: 2020_11_15_111551) do
 
   create_table "engines", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "sort_number"
@@ -44,9 +44,25 @@ ActiveRecord::Schema.define(version: 2020_11_10_071813) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "positions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "role_id"
+    t.integer "sort_number"
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "project_tags", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "project_id"
     t.integer "tag_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "project_wants", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "project_id"
+    t.integer "position_id"
+    t.integer "amount"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -115,6 +131,13 @@ ActiveRecord::Schema.define(version: 2020_11_10_071813) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "user_positions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "position_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "user_roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "user_id"
     t.integer "role_id"
@@ -139,6 +162,8 @@ ActiveRecord::Schema.define(version: 2020_11_10_071813) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "image"
     t.boolean "is_published_birth"
+    t.boolean "is_published_twitter"
+    t.boolean "is_published_github"
   end
 
 end

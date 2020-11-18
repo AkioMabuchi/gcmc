@@ -8,7 +8,7 @@ class ProjectSettingTagsForm extends React.Component {
     render(){
         return(
             <div>
-                <form action={`/projects/${this.props.project.permalink}/settings/tags`} method={"POST"} className={"project-settings-form"}>
+                <form action={`/projects/${this.props.project.permalink}/settings/tags`} method={"POST"} className={"settings-form"}>
                     <h3>タグ設定</h3>
                     <div className={"tags"}>
                         {
