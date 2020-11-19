@@ -4,7 +4,8 @@ class ProjectsController < ApplicationController
       :basic_setting_update,
       :tags_setting_update,
       :environment_setting_update,
-      :wants_setting_update
+      :wants_setting_update,
+      :publish_setting_update
   ]
 
   def create_form
@@ -437,15 +438,25 @@ class ProjectsController < ApplicationController
   end
 
   def publish_setting_form
-    @project = Project.find_by(permalink: params[:permalink])
+    project = Project.find_by(permalink: params[:permalink])
 
-    unless @project
-      raise ActiveRecord::RecordNotFound
-    end
+    @react_info = {
+        permalink: project.permalink,
+        publishCode: project.publish_code.to_s
+    }
+  end
 
-    unless @project.owner_user.id == session[:user_id]
-      raise Forbidden
-    end
+  def publish_setting_update
+    permalink = params[:permalink]
+
+    project = Project.find_by(permalink: permalink)
+    publish_code = params[:publish]
+
+    project.publish_code = publish_code
+    project.save!
+
+    flash[:done] = "公開設定を更新しました"
+    redirect_to "/projects/#{permalink}/settings/publish"
   end
 
   def destroy_form
@@ -458,6 +469,10 @@ class ProjectsController < ApplicationController
     unless @project.owner_user.id == session[:user_id]
       raise Forbidden
     end
+  end
+
+  def destroy
+
   end
 
   def join_form

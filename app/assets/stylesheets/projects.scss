@@ -332,7 +332,20 @@ form.wants-setting-form{
   }
 }
 
+form.publish-setting-form{
+  ul.publish-radios{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    li{
+      padding-bottom: 5px;
+    }
+  }
 
+  div.publish-description{
+    font-size: 14px;
+    color: #979797;
+  }
+}
 // -------------------- SEARCH FORM --------------------
 div.project-top-container{
   width: 50%;
