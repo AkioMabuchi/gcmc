@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'portfolios/show'
   root "home#top"
 
   get "/terms", to: "home#terms"
@@ -63,6 +62,8 @@ Rails.application.routes.draw do
   post "/projects/:permalink/settings", to: "projects#basic_setting_update"
   get "/projects/:permalink/settings/tags", to: "projects#tags_setting_form"
   post "/projects/:permalink/settings/tags", to: "projects#tags_setting_update"
+  get "/projects/:permalink/settings/links", to: "projects#links_setting_form"
+  post "/projects/:permalink/settings/links", to: "projects#links_setting_update"
   get "/projects/:permalink/settings/environment", to: "projects#environment_setting_form"
   post "/projects/:permalink/settings/environment", to: "projects#environment_setting_update"
   get "/projects/:permalink/settings/wants", to: "projects#wants_setting_form"
@@ -74,6 +75,10 @@ Rails.application.routes.draw do
 
   get "/articles", to: "articles#index"
 
+  get "/messages", to: "messages#index"
+  get "/messages/:permalink", to: "messages#show"
+  post "/messages/send", to: "messages#send_message"
+  post "/messages/fetch", to: "messages#fetch_messages"
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

@@ -256,6 +256,17 @@ class ProjectsController < ApplicationController
     redirect_to "/projects/#{project.permalink}/settings/tags"
   end
 
+  def links_setting_form
+    project = Project.find_by(permalink: params[:permalink])
+
+    @react_info = {
+        permalink: project.permalink
+    }
+  end
+
+  def links_setting_update
+
+  end
   def environment_setting_form
     project = Project.find_by(permalink: params[:permalink])
 
