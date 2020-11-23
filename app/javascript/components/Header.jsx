@@ -75,7 +75,7 @@ class Header extends React.Component {
                             </div>
                         </li>
                         <li>
-                            <a href={'/users/invitations'}>招待一覧（{this.props.invitations}件）</a>
+                            <a href={'/invitations'}>招待一覧（{this.props.invitations}件）</a>
                         </li>
                         <li>
                             <a href={'/new'}>新規プロジェクト</a>

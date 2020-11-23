@@ -1,0 +1,10 @@
+<h1>招待</h1>
+<ul>
+  <% @info[:projects].each do |project| %>
+    <% if project.invitable? @info[:user] %>
+      <li>
+        <%= react_component "InviteForm", info: project.invite_user_react_info(@info[:user]) %>
+      </li>
+    <% end %>
+  <% end %>
+</ul>

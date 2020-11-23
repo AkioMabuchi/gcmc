@@ -13,6 +13,8 @@ class UsersController < ApplicationController
       :disconnect_twitter,
       :disconnect_github,
       :destroy,
+      :invite,
+      :invitations_answer,
       :twitter_post,
       :github_post
   ]
@@ -692,6 +694,42 @@ class UsersController < ApplicationController
     redirect_to "/"
   end
 
+  def invite_form
+    @info = {
+        user: User.find_by(permalink: params[:permalink]),
+        projects: Project.where(owner_user_id: session[:user_id])
+    }
+  end
+
+  def invite
+    project_id = params[:project_id]
+    user_id = params[:user_id]
+    position_id = params[:position_id]
+
+    user = User.find_by(id: user_id)
+
+    invitation = UserInvitation.new(
+        user_id: user_id,
+        project_id: project_id,
+        position_id: position_id,
+        result_code: 1
+    )
+
+    invitation.save!
+
+    flash[:done] = "#{user.name}を招待しました。"
+
+    redirect_to "/users/#{user.permalink}/invite"
+  end
+
+  def invitations
+    @invitations = UserInvitation.where(user_id: session[:user_id])
+  end
+
+  def invitations_answer
+
+  end
+
   def twitter_callback
     auth_hash = request.env["omniauth.auth"]
     @provider = auth_hash[:provider]
@@ -723,7 +761,8 @@ class UsersController < ApplicationController
         if session[:user_id] # On Twitter Connection Error
           flash[:sns_twitter_warning] = "そのTwitterアカウントは既に使用されています"
           redirect_to "/settings/sns"
-        else # On Login with Twitter
+        else
+          # On Login with Twitter
           session[:user_id] = twitter_user.id
           redirect_to "/"
         end
@@ -771,7 +810,8 @@ class UsersController < ApplicationController
         if session[:user_id]
           flash[:sns_github_warning] = "そのGitHubアカウントは既に使用されています"
           redirect_to "/settings/sns"
-        else # On Login with GitHub
+        else
+          # On Login with GitHub
           session[:user_id] = github_user.id
           redirect_to "/"
         end
@@ -813,7 +853,7 @@ class UsersController < ApplicationController
 
   def auth_failure
     if session[:user_id]
-      redirect_to "settings/sns"
+      redirect_to "/settings/sns"
     else
       redirect_to "/"
     end

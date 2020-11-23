@@ -1,2 +1,8 @@
-<h1>Projects#join_requests_form</h1>
-<p>Find me in app/views/projects/join_requests_form.html.erb</p>
+<h1>応募一覧</h1>
+<ul class="join-requests">
+  <% @requests.each do |request| %>
+  <li>
+    <%= react_component "ProjectJoinRequestForm", info: request.react_info %>
+  </li>
+  <% end %>
+</ul>

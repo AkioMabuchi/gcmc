@@ -32,6 +32,8 @@ Rails.application.routes.draw do
 
   get "/users", to: "users#index"
   get "/users/:permalink", to: "users#show"
+  get "/users/:permalink/invite", to: "users#invite_form"
+  post "/users/:permalink/invite", to: "users#invite"
 
   get "/settings", to: "users#profile_setting_form"
   post "/settings", to: "users#profile_setting_update"
@@ -53,6 +55,9 @@ Rails.application.routes.draw do
   get "/settings/destroy", to: "users#destroy_form"
   post "/settings/destroy", to: "users#destroy"
 
+  get "/invitations", to: "users#invitations"
+  post "/invitations", to: "users#invitations_answer"
+
   get "/new", to: "projects#create_form"
   post "/new", to: "projects#create"
 
@@ -72,6 +77,11 @@ Rails.application.routes.draw do
   post "/projects/:permalink/settings/publish", to: "projects#publish_setting_update"
   get "/projects/:permalink/settings/destroy", to: "projects#destroy_form"
   post "/projects/:permalink/settings/destroy", to: "projects#destroy"
+
+  get "/projects/:permalink/join", to: "projects#join_form"
+  post "/projects/:permalink/join", to: "projects#join"
+  get "/projects/:permalink/requests", to: "projects#join_requests_form"
+  post "/projects/:permalink/requests", to: "projects#join_requests_answer"
 
   get "/articles", to: "articles#index"
 

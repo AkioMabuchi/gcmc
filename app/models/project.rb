@@ -5,9 +5,14 @@ class Project < ApplicationRecord
   validates :owner_user_id, presence: true
   validates :title, presence: true
 
+  has_many :project_members
   has_many :project_tags
   has_many :project_wants
   has_many :project_links
+  has_many :join_requests
+  has_many :user_invitations
+
+
 
   def tags
     ProjectTag.where(project_id: self.id)
@@ -37,7 +42,36 @@ class Project < ApplicationRecord
     567
   end
 
-  def is_inviting
-    false
+  def invitable?(user)
+    wanted_positions = ProjectWant.where(project_id: self.id).pluck(:position_id)
+    positions = UserPosition.where(user_id: user.id).where(position_id: wanted_positions)
+
+    positions.length > 0
+  end
+
+  def invitable_positions(user)
+    wanted_positions = ProjectWant.where(project_id: self.id).pluck(:position_id)
+
+    UserPosition.joins(:position).where(user_id: user.id).where(position_id: wanted_positions).order(sort_number: :asc).select(:position_id, :name)
+  end
+
+  def invite_user_react_info(user)
+    wanted_positions = ProjectWant.where(project_id: self.id).pluck(:position_id)
+
+    {
+        project:{
+            id: self.id,
+            permalink: self.permalink,
+            image: self.image.url,
+            title: self.title,
+            description: self.description
+        },
+        user:{
+            id: user.id,
+            permalink: user.permalink,
+            name: user.name
+        },
+        positions: UserPosition.joins(:position).where(user_id: user.id).where(position_id: wanted_positions).order(sort_number: :asc).select(:position_id, :name)
+    }.as_json
   end
 end

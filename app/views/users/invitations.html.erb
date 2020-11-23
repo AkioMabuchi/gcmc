@@ -1,1 +1,14 @@
 <h1>招待一覧</h1>
+<% if @invitations.length > 0 %>
+  <ul class="user-invitations">
+    <% @invitations.each do |invitation| %>
+      <li>
+        <%= react_component "InvitationForm", info: invitation.react_info %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <div class="no-invitation">
+    現在招待は届いていません。
+  </div>
+<% end %>

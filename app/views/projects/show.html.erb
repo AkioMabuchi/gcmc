@@ -1,5 +1,121 @@
-<div class="project-top-container">
+<div class="project-show">
   <div class="project-top-image">
-    <img src="<%= @project.image.url %>" alt="">
+    <img src="<%= @info[:project][:image] %>" alt="/NoProjectImage.png">
+  </div>
+  <div class="project-container1">
+    <div class="project-container2">
+      <div class="project-tags">
+        <% @info[:project][:tags].each do |tag| %>
+          <div class="project-tag">
+            <%= tag.tag.name %>
+          </div>
+        <% end %>
+      </div>
+      <div class="project-header">
+        作成日時：<%= @info[:project][:created_at] %>　更新日時：<%= @info[:project][:updated_at] %>
+      </div>
+      <div class="project-owner-user">
+        <div class="project-owner-user-image">
+          <a href="/users/<%= @info[:owner_user][:permalink] %>">
+            <img src="<%= @info[:owner_user][:image] %>" alt="/NoUserImage.png">
+          </a>
+        </div>
+        <div class="project-owner-user-owner">
+          プロジェクトオーナー
+        </div>
+        <div class="project-owner-user-name">
+          <a href="/users/<%= @info[:owner_user][:permalink] %>">
+            <%= @info[:owner_user][:name] %>
+          </a>
+        </div>
+      </div>
+      <div class="project-title">
+        <%= @info[:project][:title] %>
+      </div>
+      <div class="project-description">
+        <%= @info[:project][:description] %>
+      </div>
+      <div class="project-links">
+        <h4>外部リンク</h4>
+        <ul class="project-links-list">
+          <% @info[:project][:links].each do |link| %>
+          <li>
+            <div class="project-link-name">
+              <%= link.name %>
+            </div>
+            <div class="project-link-url">
+              <a href="<%= link.url %>" target="_blank">
+                <%= link.url %>
+              </a>
+            </div>
+          </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+    <div class="project-container3">
+      <div class="project-environment">
+        <h3>開発環境</h3>
+        <h4>使用言語</h4>
+        <p><%= @info[:project][:environment][:using_language] %></p>
+        <h4>プラットフォーム</h4>
+        <p><%= @info[:project][:environment][:platform] %></p>
+        <h4>ソースコード管理ツール</h4>
+        <p><%= @info[:project][:environment][:source_tool] %></p>
+        <h4>コミュニケーションツール</h4>
+        <p><%= @info[:project][:environment][:communication_tool] %></p>
+        <h4>タスク管理ツール</h4>
+        <p><%= @info[:project][:environment][:project_tool] %></p>
+        <h4>制作期間</h4>
+        <p><%= @info[:project][:environment][:period] %></p>
+        <h4>制作頻度</h4>
+        <p><%= @info[:project][:environment][:frequency] %></p>
+        <h4>場所</h4>
+        <p><%= @info[:project][:environment][:location] %></p>
+      </div>
+      <div class="project-members">
+        <h3>メンバー</h3>
+        <ul>
+          <% @info[:member_users].each do |member| %>
+          <li>
+            <div>
+              <a href="/users/<%= member.user.permalink %>">
+                <img src="<%= member.user.image.url %>" alt="/NoUserImage.png">
+              </a>
+            </div>
+          </li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="project-joins">
+        <h3>募集状況</h3>
+        <% if @info[:project][:wants].length > 0 %>
+        <div>
+          <h4>以下のメンバーを募集中です！</h4>
+          <ul>
+            <% @info[:project][:wants].each do |want| %>
+            <li>
+              <div>
+                <%= want.name %>
+              </div>
+              <div>
+                <%= want.amount %>名
+              </div>
+            </li>
+            <% end %>
+          </ul>
+          <div>
+            <a href="/projects/<%= @info[:project][:permalink] %>/join">
+              加入申請する
+            </a>
+          </div>
+        </div>
+        <% else %>
+        <div>
+          現在募集しておりません
+        </div>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,2 +1,54 @@
-<h1>Projects#join_form</h1>
-<p>Find me in app/views/projects/join_form.html.erb</p>
+<h1>プロジェクト加入</h1>
+<div class="project-join-container1">
+  <div class="project-join-container2">
+    <div class="project-join">
+      <div class="project-image">
+        <a href="/projects/<%= @info[:project][:permalink] %>">
+          <img src="<%= @info[:project][:image] %>" alt="/NoProjectImage.png">
+        </a>
+
+      </div>
+      <div class="project-content">
+        <div class="project-content-title">
+          <a href="/projects/<%= @info[:project][:permalink] %>">
+            <%= @info[:project][:title] %>
+          </a>
+
+        </div>
+        <div class="project-content-owner">
+          <div class="project-content-owner-image">
+            <a href="/users/<%= @info[:project][:owner_user][:permalink] %>">
+              <img src="<%= @info[:project][:owner_user][:image] %>" alt="/NoUserImage.png">
+            </a>
+          </div>
+          <div class="project-content-owner-title">
+            プロジェクトオーナー
+          </div>
+          <div class="project-content-owner-name">
+            <a href="/users/<%= @info[:project][:owner_user][:permalink] %>">
+              <%= @info[:project][:owner_user][:name] %>
+            </a>
+          </div>
+        </div>
+        <div class="project-content-description">
+          <%= @info[:project][:description] %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="project-join-container3">
+    <% if @info[:has_wants] %>
+      <% if @info[:has_request] %>
+        <div>
+          オーナーからの返答待ちです。
+        </div>
+      <% else %>
+        <%= react_component "ProjectJoinForm", info: @react_info %>
+      <% end %>
+    <% else %>
+      <div class="no-want">
+        現在募集しておりません
+      </div>
+    <% end %>
+  </div>
+</div>

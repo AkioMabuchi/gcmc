@@ -56,12 +56,10 @@ class Message extends React.Component {
                 return response.text();
             }).then((result) => {
                 if (result === "accepted") {
-                    setTimeout(() => {
-                        this.fetchMessages();
-                    }, 100);
+                    this.fetchMessages();
                 }
                 if (result === "error") {
-                    alert("メッセージの送信に失敗しました");
+                    this.setState({messageFormWarning: "メッセージの送信に失敗しました。"});
                 }
             });
         }

@@ -3,9 +3,12 @@ class ProjectsController < ApplicationController
       :create,
       :basic_setting_update,
       :tags_setting_update,
+      :links_setting_update,
       :environment_setting_update,
       :wants_setting_update,
-      :publish_setting_update
+      :publish_setting_update,
+      :join,
+      :join_requests_answer,
   ]
 
   def create_form
@@ -136,11 +139,38 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @project = Project.find_by(permalink: params[:permalink])
+    project = Project.find_by(permalink: params[:permalink])
+    owner_user = User.find_by(id: project.owner_user_id)
 
-    unless @project
-      raise ActiveRecord::RecordNotFound
-    end
+    @info = {
+        project: {
+            permalink: project.permalink,
+            image: project.image.url,
+            tags: ProjectTag.where(project_id: project.id),
+            created_at: project.created_at.strftime("%Y年%m月%d日"),
+            updated_at: project.updated_at.strftime("%Y年%m月%d日"),
+            title: project.title,
+            description: project.description,
+            links: ProjectLink.where(project_id: project.id),
+            environment: {
+                using_language: project.using_language.present? ? project.using_language : "未定",
+                platform: project.platform.present? ? project.platform : "未定",
+                source_tool: project.source_tool.present? ? project.source_tool : "未定",
+                communication_tool: project.communication_tool.present? ? project.communication_tool : "未定",
+                project_tool: project.project_tool.present? ? project.project_tool : "未定",
+                period: project.period.present? ? project.period : "未定",
+                frequency: project.frequency.present? ? project.frequency : "未定",
+                location: project.location.present? ? project.location : "未定"
+            },
+            wants: ProjectWant.joins(:position).where(project_id: project.id).order(sort_number: :asc).select(:name, :amount)
+        },
+        owner_user: {
+            permalink: owner_user.permalink,
+            image: owner_user.image.url,
+            name: owner_user.name
+        },
+        member_users: ProjectMember.where(project_id: project.id)
+    }
   end
 
   def basic_setting_form
@@ -260,13 +290,73 @@ class ProjectsController < ApplicationController
     project = Project.find_by(permalink: params[:permalink])
 
     @react_info = {
-        permalink: project.permalink
+        permalink: project.permalink,
+        links: ProjectLink.where(project_id: project.id),
+        name: flash[:links_name],
+        nameWarning: flash[:links_name_warning],
+        url: flash[:links_url],
+        urlWarning: flash[:links_url_warning]
     }
   end
 
   def links_setting_update
+    permalink = params[:permalink]
+    name = params[:name]
+    url = params[:url]
 
+    project = Project.find_by(permalink: permalink)
+    project_link = ProjectLink.find_by(project_id: project.id, name: name)
+    is_accept = true
+
+    if name == ""
+      is_accept = false
+      flash[:links_name_warning] = "入力してください"
+    elsif name.length > 200
+      is_accept = false
+      flash[:links_name_warning] = "外部リンク名の入力が長すぎます（200字以内で入力してください）"
+    else
+      flash[:links_name] = name
+    end
+
+    if url == "" and project_link.nil?
+      is_accept = false
+      flash[:links_url_warning] = "リンクを削除しない場合は入力してください"
+    elsif url.length > 200
+      is_accept = false
+      flash[:links_url_warning] = "URLの入力が長すぎます（200字以内で入力してください）"
+    else
+      flash[:links_url] = url
+    end
+
+    if is_accept
+      flash[:links_name] = nil
+      flash[:links_name_warning] = nil
+      flash[:links_url] = nil
+      flash[:links_url_warning] = nil
+
+      if project_link
+        if url == ""
+          project_link.destroy!
+          flash[:done] = "外部リンクを削除しました"
+        else
+          project_link.url = url
+          project_link.save!
+          flash[:done] = "外部リンクを更新しました"
+        end
+      else
+        new_project_link = ProjectLink.new(
+            project_id: project.id,
+            name: name,
+            url: url
+        )
+        new_project_link.save!
+        flash[:done] = "外部リンクを追加しました。"
+      end
+    end
+
+    redirect_to "/projects/#{permalink}/settings/links"
   end
+
   def environment_setting_form
     project = Project.find_by(permalink: params[:permalink])
 
@@ -487,8 +577,100 @@ class ProjectsController < ApplicationController
   end
 
   def join_form
+    project = Project.find_by(permalink: params[:permalink])
+    owner_user = User.find_by(id: project.owner_user_id)
+
+    if owner_user.id == session[:user_id]
+      raise Forbidden
+    end
+
+    wants = ProjectWant.where(project_id: project.id)
+
+    @info = {
+        project: {
+            permalink: project.permalink,
+            image: project.image.url,
+            title: project.title,
+            owner_user: {
+                permalink: owner_user.permalink,
+                image: owner_user.image.url,
+                name: owner_user.name
+            },
+            description: project.description
+        },
+        has_wants: wants.length > 0,
+        has_request: JoinRequest.find_by(project_id: project.id, user_id: session[:user_id])
+    }
+    @react_info = {
+        id: project.id,
+        positions: ProjectWant.joins(:position).where(project_id: project.id).order(sort_number: :asc).select(:position_id, :name, :amount),
+        permalink: project.permalink
+    }
+  end
+
+  def join
+    project = Project.find_by(id: params[:id])
+    position_id = params[:position]
+
+    join_request = JoinRequest.new(
+        project_id: project.id,
+        user_id: session[:user_id],
+        position_id: position_id,
+        result_code: 1
+    )
+
+    join_request.save!
+    flash[:done] = "加入申請を行いました"
+
+    redirect_to "/projects/#{project.permalink}/join"
   end
 
   def join_requests_form
+    project = Project.find_by(permalink: params[:permalink])
+    @requests = JoinRequest.where(project_id: project.id, result_code: 1)
+  end
+
+  def join_requests_answer
+    permalink = params[:permalink]
+    id = params[:id]
+    result_code = params[:answer]
+
+    join_request = JoinRequest.find_by(id: id)
+
+    join_request.result_code = result_code
+
+    join_request.save!
+
+    if result_code == "2"
+      member_user = ProjectMember.new(
+          project_id: join_request.project_id,
+          user_id: join_request.user_id,
+          position_id: join_request.position_id
+      )
+
+      member_user.save!
+
+      flash[:done] = "#{join_request.user.name}をプロジェクトに加入しました"
+    end
+
+    if result_code == "3"
+      flash[:done] = "#{join_request.user.name}の加入申請を拒否しました"
+    end
+
+    redirect_to "/projects/#{permalink}/requests"
+  end
+
+  private
+
+  def owner_only
+    project = Project.find_by(permalink: params[:permalink])
+
+    if project
+      if project.owner_user_id != session[:user_id]
+        raise Forbidden
+      end
+    else
+      raise ActiveRecord::RecordNotFound
+    end
   end
 end
