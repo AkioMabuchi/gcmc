@@ -44,6 +44,7 @@ class UserInvitation < ApplicationRecord
             id: user.id
         },
         position:{
+            id: position.id,
             name: position.name
         }
     }.as_json

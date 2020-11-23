@@ -3,14 +3,29 @@ import React from "react"
 class InvitationForm extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            answer: 1
+        }
     }
 
     onClickAcceptButton(){
+        let result = confirm("招待を受諾してプロジェクトに加入しますか？");
 
+        if(result){
+            this.setState({answer: 2},()=>{
+                document.getElementById(`react-invitation-answer${this.props.info.id}`).click();
+            });
+        }
     }
 
     onClickRejectButton(){
+        let result = confirm("招待を拒否しますか？");
 
+        if(result){
+            this.setState({answer: 3},()=>{
+                document.getElementById(`react-invitation-answer${this.props.info.id}`).click();
+            });
+        }
     }
 
     render(){
@@ -54,13 +69,18 @@ class InvitationForm extends React.Component {
                     </div>
                     <div className={"buttons-container"}>
                         <button type={"button"} className={"button-accept"} onClick={()=>{this.onClickAcceptButton()}}>
-                            承認
+                            受諾
                         </button>
                         <button type={"button"} className={"button-reject"} onClick={()=>{this.onClickRejectButton()}}>
                             拒否
                         </button>
                     </div>
-                    <input type={"submit"} id={`react-join-request-answer${this.props.info.id}`}/>
+
+                    <input type={"hidden"} name={"project_id"} value={this.props.info.project.id}/>
+                    <input type={"hidden"} name={"user_id"} value={this.props.info.user.id}/>
+                    <input type={"hidden"} name={"position_id"} value={this.props.info.position.id}/>
+                    <input type={"hidden"} name={"result_code"} value={this.state.answer}/>
+                    <input type={"submit"} id={`react-invitation-answer${this.props.info.id}`}/>
                 </form>
             </div>
         )

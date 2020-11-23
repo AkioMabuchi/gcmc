@@ -723,11 +723,38 @@ class UsersController < ApplicationController
   end
 
   def invitations
-    @invitations = UserInvitation.where(user_id: session[:user_id])
+    @invitations = UserInvitation.where(user_id: session[:user_id], result_code: 1)
   end
 
   def invitations_answer
+    project_id = params[:project_id]
+    user_id = params[:user_id]
+    position_id = params[:position_id]
+    result_code = params[:result_code]
 
+    invitation = UserInvitation.find_by(project_id: project_id, user_id: user_id, position_id: position_id)
+
+    invitation.result_code = result_code
+
+    invitation.save!
+
+    if result_code == "2"
+      project_member = ProjectMember.new(
+          project_id: project_id,
+          user_id: user_id,
+          position_id: position_id
+      )
+
+      project_member.save!
+
+      flash[:done] = "招待を受諾しプロジェクトに加入しました"
+    end
+
+    if result_code == "3"
+      flash[:done] = "招待を拒否しました"
+    end
+
+    redirect_to "/invitations"
   end
 
   def twitter_callback
