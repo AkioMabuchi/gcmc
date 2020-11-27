@@ -18,14 +18,14 @@
       <%= react_component("Header", {mode: "guest"}) %>
     <% end %>
   </header>
-  <div class="main-content">
+  <main role="main">
     <% if flash[:done] %>
-      <div class="main-content-done">
+      <div class="main-done">
         <%= flash[:done] %>
       </div>
     <% end %>
     <%= yield %>
-  </div>
+  </main>
   <footer>
     <ul class="menu">
       <li>

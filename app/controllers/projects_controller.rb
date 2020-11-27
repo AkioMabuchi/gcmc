@@ -249,25 +249,14 @@ class ProjectsController < ApplicationController
   end
 
   def tags_setting_form
-    @project = Project.find_by(permalink: params[:permalink])
-    @tags = Tag.all.order(sort_number: :asc).as_json(only: [:id, :name])
+    project = Project.find_by(permalink: params[:permalink])
 
-    selected_tags = ProjectTag.where(project_id: @project.id)
-    @selected_tags = []
+    @react_info = {
+        permalink: project.permalink,
+        tags: Tag.all.order(sort_number: :asc).select(:id, :name),
+        selectedTags: ProjectTag.where(project_id: project.id).pluck(:tag_id)
+    }.as_json
 
-    selected_tags.each do |selected_tag|
-      @selected_tags.append selected_tag.tag_id
-    end
-
-    puts @selected_tags
-
-    unless @project
-      raise ActiveRecord::RecordNotFound
-    end
-
-    unless @project.owner_user.id == session[:user_id]
-      raise Forbidden
-    end
   end
 
   def tags_setting_update

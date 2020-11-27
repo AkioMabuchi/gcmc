@@ -8,15 +8,15 @@ class ProjectSettingTagsForm extends React.Component {
     render(){
         return(
             <div>
-                <form action={`/projects/${this.props.project.permalink}/settings/tags`} method={"POST"} className={"settings-form"}>
+                <form action={`/projects/${this.props.info.permalink}/settings/tags`} method={"POST"} className={"settings-form"}>
                     <h3>タグ設定</h3>
                     <div className={"tags"}>
                         {
-                            this.props.tags.map((tag) => {
+                            this.props.info.tags.map((tag) => {
                                 return (
                                     <p>
                                         <input type={"checkbox"} name={`tags[]`} value={tag.id}
-                                               defaultChecked={this.props.selectedTags.includes(Number(tag.id))}/>
+                                               defaultChecked={this.props.info.selectedTags.includes(Number(tag.id))}/>
                                         {tag.name}
                                     </p>
                                 );

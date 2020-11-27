@@ -4,6 +4,6 @@
     <%= render partial: "settings_menu" %>
   </div>
   <div class="settings-small-container">
-    <%= react_component("ProjectSettingTagsForm", {project: @project, tags: @tags, selectedTags: @selected_tags}) %>
+    <%= react_component "ProjectSettingTagsForm", info: @react_info %>
   </div>
 </div>
