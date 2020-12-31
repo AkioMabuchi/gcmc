@@ -1,61 +1,11 @@
 <h1>プロジェクト一覧</h1>
-<div class="project-index-big-container">
-  <div class="project-index-search-container">
-    <%= react_component("ProjectSearchForm", {
-        tags: @tags,
-        selectedTags: @selected_tags
-    }) %>
-  </div>
-  <div class="project-list-container">
-    <ul class="projects">
-      <% @projects.each do |project| %>
-        <li>
-          <a class="thumbnail" href="<%= "/projects/#{project[:project_permalink]}" %>">
-            <img src="<%= project[:project_image] %>">
-          </a>
-          <div class="tags">
-            <% project[:tags].each do |tag| %>
-              <div class="tag">
-                <%= tag %>
-              </div>
-            <% end %>
-          </div>
-          <div class="title">
-            <a href="<%= "/projects/#{project[:project_permalink]}" %>">
-              <%= project[:title] %>
-            </a>
-          </div>
-          <div class="content">
-            <%= project[:description] %>
-          </div>
-          <div class="owner">
-            <a href="<%= "/users/#{project[:user_permalink]}" %>">
-              <img src="<%= project[:user_image] %>">
-            </a>
-            <a href="<%= "/users/#{project[:user_permalink]}" %>">
-              <%= project[:user_name] %>
-            </a>
-          </div>
-          <table class="status">
-            <tbody>
-            <tr>
-              <td><i class="far fa-eye"></i></td>
-              <td><%= project[:accesses] %></td>
-              <td><i class="far fa-star"></i></td>
-              <td><%= project[:likes] %></td>
-              <td><i class="far fa-comment-dots"></i></td>
-              <td><%= project[:comments] %></td>
-            </tr>
-            </tbody>
-          </table>
-        </li>
-      <% end %>
-    </ul>
-    <%= react_component("ProjectsPagination",{
-        query: @query,
-        tagAll: nil,
-        tags: @selected_tags,
-        tagMode: "or"
-    }) %>
+<div class="projects-index-page">
+  <div class="container1">
+    <div class="container2">
+      <%= react_component "ProjectSearchForm", info: @search_react_info %>
+    </div>
+    <div class="container3">
+
+    </div>
   </div>
 </div>

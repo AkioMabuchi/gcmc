@@ -7,7 +7,7 @@
     <content url="file://$MODULE_DIR$/../../vendor/bundle/ruby/2.6.0/gems/nio4r-2.5.2" />
     <orderEntry type="jdk" jdkName="rbenv: 2.6.1" jdkType="RUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="bundler (v2.1.4, rbenv: 2.6.1) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bundler (v2.2.1, rbenv: 2.6.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rake (v12.3.2, rbenv: 2.6.1) [gem]" level="application" />
   </component>
   <component name="RubyModuleProperties">

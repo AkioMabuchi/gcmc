@@ -81,61 +81,9 @@ class ProjectsController < ApplicationController
   end
 
   def index
-    @query = params[:q]
-    @tags = Tag.all.order(sort_number: :asc).as_json(only: [:id, :name])
-    @selected_tags = []
-    @projects = []
-
-    projects = Project.where(publish_code: 0).order(updated_at: :asc)
-    if params[:q]
-      if params[:q] != ""
-        projects = projects.reject do |project|
-          is_reject = true
-          if project.title.index(params[:q])
-            is_reject = false
-          end
-          if project.description.index(params[:q])
-            is_reject = false
-          end
-          is_reject
-        end
-      end
-
-      tags = params[:tags]
-      tags = [] if tags.nil?
-      tags.each do |tag|
-        @selected_tags.append tag
-      end
-    else
-      @tags.each do |tag|
-        @selected_tags.append tag[:id]
-      end
-    end
-
-    min_index = 0
-    max_index = 4
-
-    projects[min_index..max_index].each do |project|
-      project_tags = []
-      project.tags.each do |project_tag|
-        project_tags.append project_tag.tag.name
-      end
-      shown_project = {
-          project_permalink: project.permalink,
-          project_image: project.image.url,
-          tags: project_tags,
-          title: project.title,
-          description: project.description,
-          user_permalink: project.owner_user.permalink,
-          user_image: project.owner_user.image.url,
-          user_name: project.owner_user.name,
-          accesses: project.accesses,
-          likes: project.likes,
-          comments: project.comments,
-          is_inviting: project.is_inviting
-      }
-      @projects.append shown_project
-    end
+    @search_react_info = {
+        tags: Tag.all.order(sort_number: :asc)
+    }
   end
 
   def show

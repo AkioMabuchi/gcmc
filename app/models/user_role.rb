@@ -2,6 +2,8 @@ class UserRole < ApplicationRecord
   validates :user_id, presence: true
   validates :role_id, presence: true
 
+  belongs_to :user
+
   def user
     User.find_by id: self.user_id
   end

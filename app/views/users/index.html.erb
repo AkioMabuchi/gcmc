@@ -1,36 +1,44 @@
 <h1>ユーザー一覧</h1>
-<div class="user-index-big-container">
-  <div class="user-index-small-container">
-
-  </div>
-  <div class="user-index-small-container">
-    <ul class="users">
-      <% @users.each do |user| %>
-      <li>
-        <div class="image-name">
-          <div class="user-image">
-            <a href="/users/<%= user.permalink %>">
-              <img src="<%= user.image.url %>" alt="">
-            </a>
-          </div>
-          <div class="user-name">
-            <a href="/users/<%= user.permalink %>">
-              <%= user.name %>
-            </a>
-          </div>
-        </div>
-        <div class="roles">
-          <% user.roles.each do |role| %>
-          <div class="role">
-            <%= role.role.name %>
-          </div>
-          <% end %>
-        </div>
-        <div class="description">
-          <%= user.description %>
-        </div>
-      </li>
-      <% end %>
-    </ul>
+<div class="user-index-page">
+  <div class="container1">
+    <div class="container2">
+      <%= react_component "UserSearchForm", info: @search_react_info %>
+    </div>
+    <div class="container3">
+      <ul class="users">
+        <% @info[:users].each do |user| %>
+          <li>
+            <div class="image-name">
+              <div class="user-image">
+                <a href="/users/<%= user.permalink %>">
+                  <img src="<%= user.image.url %>" alt="">
+                </a>
+              </div>
+              <div class="user-name">
+                <a href="/users/<%= user.permalink %>">
+                  <%= user.name %>
+                </a>
+              </div>
+            </div>
+            <div class="roles">
+              <% user.roles.each do |role| %>
+                <div class="role">
+                  <%= role.role.name %>
+                </div>
+              <% end %>
+            </div>
+            <div class="description">
+              <%= user.description %>
+            </div>
+            <% if user.wanted? @current_user %>
+            <div class="wanted">
+              あなたのプロジェクトに招待できます！
+            </div>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+      <%= react_component "UsersPagination", info: @pagination_react_info %>
+    </div>
   </div>
 </div>

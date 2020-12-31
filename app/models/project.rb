@@ -30,18 +30,6 @@ class Project < ApplicationRecord
     User.find_by(id: self.owner_user_id)
   end
 
-  def accesses
-    144
-  end
-
-  def likes
-    1728
-  end
-
-  def comments
-    567
-  end
-
   def invitable?(user)
     wanted_positions = ProjectWant.where(project_id: self.id).pluck(:position_id)
     positions = UserPosition.where(user_id: user.id).where(position_id: wanted_positions)

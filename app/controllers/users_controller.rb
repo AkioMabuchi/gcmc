@@ -16,7 +16,7 @@ class UsersController < ApplicationController
       :invite,
       :invitations_answer,
       :twitter_post,
-      :github_post
+      :github_post,
   ]
 
   before_action :user_only, only: [
@@ -40,7 +40,82 @@ class UsersController < ApplicationController
   ]
 
   def index
-    @users = User.all
+    users = User.all
+
+    if params[:q]
+      users = users.reject{|user|
+        r = true
+        r = false if user.name.include? params[:q]
+        r = false if user.description.include? params[:q]
+        r
+      }
+    end
+
+    if params[:roles]
+      users = users.reject{|user|
+        r = false
+        roles = UserRole.where(user_id: user.id).pluck(:role_id)
+        if params[:mode] == "and"
+          params[:roles].each do |role|
+            r = true unless roles.include? role.to_i
+          end
+        end
+        if params[:mode] == "or"
+          r = true
+          params[:roles].each do |role|
+            r = false if roles.include? role.to_i
+          end
+        end
+        r
+      }
+    end
+
+    wanted_users = []
+    not_wanted_users = []
+
+    users.each do |user|
+      if user.wanted? @current_user
+        wanted_users.append user
+      else
+        not_wanted_users.append user
+      end
+    end
+
+    users = wanted_users + not_wanted_users
+
+    page = 1
+    if params[:p]
+      page = params[:p].to_i
+    end
+
+    l = users.length - 1
+    l = 0 if l < 0
+    max_page = l / 10 + 1
+
+    page = 1 if page < 1
+    page = max_page if page > max_page
+
+    index = 10 * page - 10
+
+    shown_users = users[index, 10]
+    @search_react_info = {
+        q: params[:q] ||= "",
+        roles: Role.all.order(sort_number: :asc).select(:id, :name),
+        selectedRoles: params[:roles] ||= [],
+        mode: params[:mode] ||= "and"
+    }.as_json
+
+    @pagination_react_info = {
+        q: params[:q],
+        roles: params[:roles],
+        mode: params[:mode],
+        page: page,
+        maxPage: max_page
+    }.as_json
+
+    @info = {
+        users: shown_users
+    }
   end
 
   def show
@@ -885,6 +960,7 @@ class UsersController < ApplicationController
       redirect_to "/"
     end
   end
+
 
   private
 
