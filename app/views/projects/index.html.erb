@@ -5,7 +5,53 @@
       <%= react_component "ProjectSearchForm", info: @search_react_info %>
     </div>
     <div class="container3">
-
+      <ul class="projects">
+        <% @info[:projects].each do |project| %>
+          <li>
+            <div class="thumbnail">
+              <a href="/projects/<%= project[:permalink] %>">
+                <img src="<%= project[:image] %>" alt="/NoProjectImage.png">
+              </a>
+            </div>
+            <div class="tags">
+              <% project[:tags].each do |tag| %>
+                <div class="tag">
+                  <%= tag %>
+                </div>
+              <% end %>
+            </div>
+            <div class="title">
+              <a href="/projects/<%= project[:permalink] %>">
+                <%= project[:title] %>
+              </a>
+            </div>
+            <div class="description">
+              <%= project[:description] %>
+            </div>
+            <div class="owner">
+              <div class="owner-image">
+                <a href="/users/<%= project[:owner_user][:permalink] %>">
+                  <img src="<%= project[:owner_user][:image] %>" alt="<%= project[:owner_user][:name] %>">
+                </a>
+              </div>
+              <div class="owner-title">
+                プロジェクトオーナー
+              </div>
+              <div class="owner-name">
+                <a href="/users/<%= project[:owner_user][:permalink] %>">
+                  <%= project[:owner_user][:name] %>
+                </a>
+              </div>
+            </div>
+            <% if project[:is_inviting] %>
+            <div class="inviting">
+              あなたの参加を待っています！
+            </div>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+      <%= react_component "ProjectsPagination", info: @pagination_react_info %>
     </div>
   </div>
 </div>

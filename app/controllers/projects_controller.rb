@@ -9,6 +9,7 @@ class ProjectsController < ApplicationController
       :publish_setting_update,
       :join,
       :join_requests_answer,
+      :sample_projects
   ]
 
   def create_form
@@ -81,9 +82,95 @@ class ProjectsController < ApplicationController
   end
 
   def index
+    projects = Project.all.order(updated_at: :desc)
+
+    inviting_projects = []
+    non_inviting_projects = []
+
+    current_user = User.find_by(id: session[:user_id])
+    if current_user
+      projects.each do |project|
+        if project.invitable? current_user and project.owner_user_id.to_i != current_user.id.to_i
+          inviting_projects.append project
+        else
+          non_inviting_projects.append project
+        end
+      end
+    else
+      non_inviting_projects = projects
+    end
+
+    projects = inviting_projects + non_inviting_projects
+
+    if params[:p]
+      page = params[:p].to_i
+      if page < 1
+        page = 1
+      end
+    else
+      page = 1
+    end
+
+    l = projects.length
+    if l < 0
+      l = 0
+    end
+    max_page = l / 5 + 1
+
+    if page > max_page
+      page = max_page
+    end
+
+    index = 5 * page - 5
+    shown_projects = []
+
+    projects[index, 5].each do |project|
+      description = project.description
+      if description.size > 100
+        description = description[0, 100]
+        description += "..."
+      end
+
+      owner_user = project.owner_user
+
+      if current_user
+        if project.invitable? current_user and project.owner_user_id.to_i != current_user.id.to_i
+          is_inviting = true
+        else
+          is_inviting = false
+        end
+      else
+        is_inviting = false
+      end
+      shown_project = {
+          permalink: project.permalink,
+          image: project.image.url,
+          tags: Tag.where(id: ProjectTag.where(project_id: project.id).pluck(:tag_id)).order(sort_number: :asc).pluck(:name),
+          title: project.title,
+          description: description,
+          owner_user: {
+              permalink: owner_user.permalink,
+              image: owner_user.image.url,
+              name: owner_user.name
+          },
+          is_inviting: is_inviting
+      }
+      shown_projects.append shown_project
+    end
+
+    @info = {
+        projects: shown_projects
+    }
+
     @search_react_info = {
         tags: Tag.all.order(sort_number: :asc)
-    }
+    }.as_json
+
+    @pagination_react_info = {
+        query: params[:q],
+        page: page,
+        maxPage: max_page
+    }.as_json
   end
 
   def show
@@ -595,6 +682,26 @@ class ProjectsController < ApplicationController
     end
 
     redirect_to "/projects/#{permalink}/requests"
+  end
+
+  def sample_projects
+    projects = Project.all
+    positions = Position.all
+
+    projects.each do |project|
+      positions.each do |position|
+        if rand(4) == 0
+          project_want = ProjectWant.new(
+              project_id: project.id,
+              position_id: position.id,
+              amount: 1
+          )
+          project_want.save!
+        end
+      end
+    end
+
+    redirect_to "/"
   end
 
   private

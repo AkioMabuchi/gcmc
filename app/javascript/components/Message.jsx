@@ -1,76 +1,63 @@
 import React from "react"
+import consumer from "../channels/consumer";
 
 class Message extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            messages: [],
+            messages: this.props.info.messages,
             messageFormWarning: ""
         };
     }
 
     componentDidMount() {
-        this.fetchMessages();
-        setInterval(() => {
-            this.fetchMessages()
-        }, 5000);
-    }
-
-    fetchMessages() {
-        fetch("/messages/fetch", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
+        consumer.subscriptions.create("MessageChannel", {
+            received(data) {
+                return this.updateMessage(data);
             },
-            body: JSON.stringify({
-                from_user_id: this.props.info.fromUserId,
-                to_user_id: this.props.info.toUserId,
-            })
-        }).then((response) => {
-            return response.json();
-        }).then((result) => {
-            this.setState({messages: result});
+
+            updateMessage: this.updateMessage.bind(this)
         });
     }
 
-    onClickButtonSendMessage() {
-        let content = document.getElementById("react-message-content").value;
-        if (content.length === 0) {
-            this.setState({messageFormWarning: "入力してください"});
-        } else if (content.length > 200) {
-            this.setState({messageFormWarning: "200字以内で入力してください"});
-        } else {
-            this.setState({messageFormWarning: ""});
-            fetch("/messages/send", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    from_user_id: this.props.info.fromUserId,
-                    to_user_id: this.props.info.toUserId,
-                    content: content
-                })
-            }).then((response) => {
-                return response.text();
-            }).then((result) => {
-                if (result === "accepted") {
-                    this.fetchMessages();
+    updateMessage(data) {
+        let plainMessage = data.message;
+        if ((plainMessage.fromUserId === this.props.info.toUserId &&
+            plainMessage.toUserId === this.props.info.fromUserId) ||
+            (plainMessage.fromUserId === this.props.info.fromUserId &&
+                plainMessage.toUserId === this.props.info.toUserId)) {
+            let message = [
+                {
+                    image: plainMessage.image,
+                    name: plainMessage.name,
+                    date: plainMessage.date,
+                    content: plainMessage.content
                 }
-                if (result === "error") {
-                    this.setState({messageFormWarning: "メッセージの送信に失敗しました。"});
-                }
-            });
+            ];
+
+            this.setState({messages: message.concat(this.state.messages)});
         }
-        document.getElementById("react-message-content").value = "";
     }
 
+    sendMessage() {
+        let content = document.getElementById("react-input-message-content").value;
+
+        if (content.length > 200) {
+            this.setState({messageFormWarning: "200字以内で入力してください"});
+        } else if (content.length > 0) {
+            this.setState({messageFormWarning: ""});
+            document.getElementById("react-input-message-submit").click();
+            document.getElementById("react-input-message-content").value = "";
+        } else {
+            this.setState({messageFormWarning: "入力してください"});
+        }
+    }
 
     render() {
         let messageFormWarning;
 
-        if (this.state.messageFormWarning !== "") {
+        if (this.state.messageFormWarning.length > 0) {
             messageFormWarning = (
                 <div className={"warning"}>
                     {this.state.messageFormWarning}
@@ -80,7 +67,8 @@ class Message extends React.Component {
 
         return (
             <div className={"messages"}>
-                <div className={"send-message-box"}>
+                <form action={`/messages/${this.props.info.permalink}/create`} method={"POST"}
+                      className={"send-message-box"}>
                     <h4>送信先ユーザー</h4>
                     <div className={"user-image-name"}>
                         <div className={"user-image"}>
@@ -95,13 +83,14 @@ class Message extends React.Component {
                         </div>
                     </div>
                     <h4>メッセージ内容</h4>
-                    <textarea id={"react-message-content"}/>
+                    <textarea name={"content"} id={"react-input-message-content"}/>
                     {messageFormWarning}
-                    <button type={"button"} onClick={() => {
-                        this.onClickButtonSendMessage()
+                    <button type={"button"} onClick={(e) => {
+                        this.sendMessage()
                     }}>送信
                     </button>
-                </div>
+                    <input type={"submit"} id={"react-input-message-submit"}/>
+                </form>
                 <ul className={"messages-list"}>
                     {
                         this.state.messages.map((message) => {

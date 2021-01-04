@@ -7,7 +7,7 @@ class Header extends React.Component {
             isPullDownMenuOpen: false,
             hamburgerImage: "close",
             pullDownMenu: "close",
-            isPopupMenuOpen: false
+            isPopupMenuOpen: false,
         };
     }
 

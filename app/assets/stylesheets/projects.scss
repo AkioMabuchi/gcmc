@@ -2,117 +2,109 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
-div.project-index-big-container{
-  @media(min-width: 900px) {
-    width: 840px;
-    margin-right: auto;
-    margin-left: auto;
-    display: -webkit-flex;
+div.projects-index-page{
+  div.container1{
     display: flex;
-  }
-}
+    div.container2{
 
-div.project-list-container{
-  width: 500px;
-  margin-left: 40px;
-}
-
-ul.projects{
-  width: 500px;
-  li{
-    width: 500px;
-    padding: 0 10px 10px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #BFBFBF;
-
-    a.thumbnail{
-      img{
-        width: 480px;
-        height: 252px;
-      }
     }
-
-    div.title{
-      padding-top: 5px;
-      a {
-        color: black;
-        font-size: 20px;
-        line-height: 25px;
-
-        &:hover {
-          color: #333333;
-        }
-      }
-    }
-
-    div.tags{
-      display: flex;
-      flex-wrap: wrap;
-      div.tag{
-        font-size: 16px;
-        line-height: 20px;
-        height: 30px;
-        border: 2px solid #00CC99;
-        border-radius: 5px;
-        margin-top: 5px;
-        margin-right: 10px;
-        margin-bottom: 5px;
-        padding: 3px 20px;
-        text-align: center;
-        color: #00CC99;
-      }
-    }
-    div.content{
-      padding-top: 10px;
-      padding-bottom: 5px;
-      color: #9B9B9B;
-      font-size: 12px;
-      line-height: 15px;
-    }
-
-    div.owner{
-      height: 70px;
-      position: relative;
-      a:nth-child(1){
-        display: block;
-        width: 50px;
-        height: 50px;
-        position: absolute;
-        top: 10px;
-        left: 0;
-        img{
-          display: block;
-          width: 50px;
-          height: 50px;
-          border-radius: 25px;
-        }
-      }
-      a:nth-child(2){
-        height: 20px;
-        line-height: 20px;
-        position: absolute;
-        top: 25px;
-        left: 60px;
-        font-size: 16px;
-        color: black;
-        &:hover{
-          color: #333333;
-        }
-      }
-    }
-
-    table.status{
-      font-size: 16px;
-      tbody{
-        tr{
-          td:nth-child(2),
-          td:nth-child(4){
-            padding-right: 10px;
+    div.container3{
+      ul.projects{
+        li{
+          width: 500px;
+          padding: 0 10px 20px;
+          margin-bottom: 20px;
+          border-bottom: 1px solid #E6E6E6;
+          div.thumbnail{
+            display: block;
+            width: 480px;
+            height: 252px;
+            a{
+              img{
+                display: block;
+                width: 480px;
+                height: 252px;
+              }
+            }
+          }
+          div.tags{
+            display: flex;
+            flex-wrap: wrap;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            div.tag{
+              height: 30px;
+              line-height: 20px;
+              color: #00CC99;
+              border: 2px solid #00CC99;
+              border-radius: 5px;
+              padding: 3px 10px;
+              margin-top: 5px;
+              margin-right: 5px;
+            }
+          }
+          div.title{
+            padding-top: 5px;
+            a{
+              font-size: 20px;
+              line-height: 30px;
+              color: black;
+              &:hover{
+                color: #7F7F7F;
+              }
+            }
+          }
+          div.description{
+            padding-top: 5px;
+            padding-bottom: 10px;
+            font-size: 14px;
+            line-height: 20px;
+            color: #979797;
+          }
+          div.owner{
+            height: 50px;
+            position: relative;
+            div.owner-image{
+              width: 50px;
+              height: 50px;
+              position: absolute;
+              top: 0;
+              left: 0;
+              img{
+                display: block;
+                width: 50px;
+                height: 50px;
+                border-radius: 25px;
+              }
+            }
+            div.owner-title{
+              width: calc(100% - 60px);
+              height: 20px;
+              line-height: 20px;
+              position: absolute;
+              top: 0;
+              left: 60px;
+              font-size: 12px;
+              color: #979797;
+            }
+            div.owner-name{
+              width: calc(100% - 60px);
+              height: 30px;
+              line-height: 30px;
+              position: absolute;
+              top: 20px;
+              left: 60px;
+              a{
+                color: black;
+                &:hover{
+                  color: #7F7F7F;
+                }
+              }
+            }
           }
         }
       }
     }
-
   }
 }
 // -------------------- SEARCH FORM --------------------

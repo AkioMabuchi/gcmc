@@ -16,7 +16,7 @@ div.message-container1 {
       margin-right: auto;
       margin-left: auto;
 
-      div.send-message-box {
+      form.send-message-box {
         padding: 20px 10px;
 
         h4 {
@@ -92,6 +92,10 @@ div.message-container1 {
           font-size: 20px;
           border-radius: 10px;
           letter-spacing: 2px;
+        }
+
+        input[type="submit"]{
+          display: none;
         }
 
       }

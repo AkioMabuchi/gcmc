@@ -1,7 +1,6 @@
 class MessagesController < ApplicationController
   protect_from_forgery except: [
-      :send_message,
-      :fetch_messages
+      :create
   ]
 
   def index
@@ -9,37 +8,13 @@ class MessagesController < ApplicationController
   end
 
   def show
+    from_user = @current_user
     to_user = User.find_by(permalink: params[:permalink])
 
+    raise Forbidden unless from_user
     raise ActiveRecord::RecordNotFound unless to_user
-    @react_info = {
-        permalink: params[:permalink],
-        fromUserId: session[:user_id],
-        toUserId: to_user.id,
-        toUserName: to_user.name,
-        toUserImage: to_user.image.url
-    }
-  end
 
-  def send_message
-    message = Message.new(
-        from_user_id: params[:from_user_id],
-        to_user_id: params[:to_user_id],
-        content: params[:content]
-    )
-
-    if message.save
-      render plain: "accepted"
-    else
-      render plain: "error"
-    end
-  end
-
-  def fetch_messages
-    from_user_id = params[:from_user_id]
-    to_user_id = params[:to_user_id]
-
-    plain_messages = Message.where(from_user_id: from_user_id, to_user_id: to_user_id).or(Message.where(from_user_id: to_user_id, to_user_id: from_user_id)).order(updated_at: :desc)
+    plain_messages = Message.where(from_user_id: from_user.id, to_user_id: to_user.id).or(Message.where(from_user_id: to_user.id, to_user_id: from_user.id)).order(updated_at: :desc)
 
     messages = []
 
@@ -54,6 +29,35 @@ class MessagesController < ApplicationController
       messages.append message
     end
 
-    render json: messages
+    @react_info = {
+        permalink: params[:permalink],
+        fromUserId: session[:user_id],
+        toUserId: to_user.id,
+        toUserName: to_user.name,
+        toUserImage: to_user.image.url,
+        messages: messages
+    }
+  end
+
+  def create
+    to_user = User.find_by(permalink: params[:permalink])
+    message = Message.new(
+        from_user_id: session[:user_id],
+        to_user_id: to_user.id,
+        content: params[:content]
+    )
+
+    message.save!
+
+    message_output = {
+        fromUserId: message.from_user_id,
+        toUserId: message.to_user_id,
+        image: message.from_user.image.url,
+        name: message.from_user.name,
+        date: message.updated_at.strftime("%Y-%m-%d %H:%M"),
+        content: message.content
+    }
+
+    ActionCable.server.broadcast "message_channel", message: message_output.as_json
   end
 end

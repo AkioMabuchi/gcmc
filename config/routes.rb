@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount ActionCable.server, at: "/cable"
   root "home#top"
 
   get "/terms", to: "home#terms"
@@ -87,8 +88,8 @@ Rails.application.routes.draw do
 
   get "/messages", to: "messages#index"
   get "/messages/:permalink", to: "messages#show"
-  post "/messages/send", to: "messages#send_message"
-  post "/messages/fetch", to: "messages#fetch_messages"
+  post "/messages/:permalink/create", to: "messages#create"
 
+  post "/sampleprojects", to: "projects#sample_projects"
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

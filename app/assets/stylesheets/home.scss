@@ -1389,3 +1389,46 @@ form.settings-form{
     line-height: 20px;
   }
 }
+
+form.pagination-form{
+  input[type="submit"]{
+    display: none;
+  }
+  ul.buttons{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    li{
+      padding-right: 3px;
+      padding-left: 3px;
+      button[type="button"]{
+        display: block;
+        margin-top: 3px;
+        margin-bottom: 3px;
+        width: 30px;
+        height: 30px;
+        line-height: 28px;
+        border: 1px solid #4A90E2;
+        border-radius: 5px;
+        color: #4A90E2;
+      }
+      div.dots{
+        color: #BFBFBF;
+      }
+
+      div.current-page{
+        width: 36px;
+        height: 36px;
+        background-color: #4A90E2;
+        color: white;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        line-height: 20px;
+        text-align: center;
+        font-size: 18px;
+        border-radius: 6px;
+      }
+    }
+  }
+}

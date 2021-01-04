@@ -4,49 +4,140 @@ class ProjectsPagination extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            nextPage: 1
+            page: this.props.info.page
         }
     }
 
-    onClickPageButton(page){
-        this.setState({nextPage: page}, ()=>{this.nextPage()});
+    onClickButtonPage(page) {
+        this.setState({page: page}, () => {
+            document.getElementById("react-project-pagination-form").click();
+        });
     }
 
-    nextPage(){
-        document.getElementById("react-submit").click();
-    }
-    render(){
-        let inputQuery;
-        let inputTags;
-        if(this.props.query !== null){
-            inputQuery = (
-                <input type={"hidden"} name={"q"} value={this.props.query}/>
-            );
+    render() {
+        let q;
+        let tags;
+
+        let numberButtons = [];
+        let buttons;
+
+        if (this.props.info.query !== null) {
+            q = (
+                <input type={"hidden"} name={"q"} value={this.props.info.query}/>
+            )
         }
+        if (this.props.info.page <= this.props.info.maxPage) {
+            let hasLeftDots = false;
+            let hasRightDots = false;
 
-        if(this.props.tags !== null){
-            inputTags = (
-                <div>
-                    {
-                        this.props.tags.map((tag)=>{
-                            return(
-                                <input type={"hidden"} name={"tags[]"} value={tag}/>
+            if (this.props.info.page > 1) {
+                numberButtons.push(
+                    <li>
+                        <button type={"button"} onClick={() => {
+                            this.onClickButtonPage(1)
+                        }}>
+                            <i className={"fas fa-angle-double-left"}/>
+                        </button>
+                    </li>
+                );
+                numberButtons.push(
+                    <li>
+                        <button type={"button"} onClick={() => {
+                            this.onClickButtonPage(this.props.info.page - 1)
+                        }}>
+                            <i className={"fas fa-angle-left"}/>
+                        </button>
+                    </li>
+                );
+            }
+            for (let i = 1; i <= this.props.info.maxPage; i++) {
+                let isDraw = true;
+                if (i > 1 && i < this.props.info.maxPage) {
+                    if (i < this.props.info.page - 2) {
+                        isDraw = false;
+                        if (!hasLeftDots) {
+                            hasLeftDots = true;
+                            numberButtons.push(
+                                <li>
+                                    <div className={"dots"}>
+                                        ...
+                                    </div>
+                                </li>
                             );
-                        })
+                        }
                     }
-                </div>
+                    if (i > this.props.info.page + 2) {
+                        isDraw = false;
+                        if (!hasRightDots) {
+                            hasRightDots = true;
+                            numberButtons.push(
+                                <li>
+                                    <div className={"dots"}>
+                                        ...
+                                    </div>
+                                </li>
+                            );
+                        }
+                    }
+                }
+                if (isDraw) {
+                    if (i === this.props.info.page) {
+                        numberButtons.push(
+                            <li>
+                                <div className={"current-page"}>
+                                    {i}
+                                </div>
+                            </li>
+                        );
+                    } else {
+                        numberButtons.push(
+                            <li>
+                                <button type={"button"} onClick={() => {
+                                    this.onClickButtonPage(i)
+                                }}>
+                                    {i}
+                                </button>
+                            </li>
+                        );
+                    }
+                }
+            }
+            if (this.props.info.page < this.props.info.maxPage) {
+                numberButtons.push(
+                    <li>
+                        <button type={"button"} onClick={() => {
+                            this.onClickButtonPage(this.state.page + 1)
+                        }}>
+                            <i className={"fas fa-angle-right"}/>
+                        </button>
+                    </li>
+                );
+                numberButtons.push(
+                    <li>
+                        <button type={"button"} onClick={() => {
+                            this.onClickButtonPage(this.props.info.maxPage)
+                        }}>
+                            <i className={"fas fa-angle-double-right"}/>
+                        </button>
+                    </li>
+                );
+            }
+
+            buttons = (
+                <ul className={"buttons"}>
+                    {numberButtons}
+                </ul>
             );
         }
-        return(
+
+        return (
             <div>
-                <form action={"/projects"} method={"GET"} className={"projects-pagination"}>
-                    {inputQuery}
-                    {inputTags}
-                    <input type={"hidden"} name={"p"} value={this.state.nextPage}/>
-                    <input type={"submit"} id={"react-submit"}/>
-                    <div>
-                        <button type={"button"} onClick={()=>{this.onClickPageButton(2)}}>2</button>
-                    </div>
+                <form action={"/projects"} method={"GET"} className={"pagination-form"}>
+                    <input type={"hidden"} name={"p"} value={this.state.page}/>
+                    {q}
+                    {tags}
+                    <input type={"submit"} id={"react-project-pagination-form"}/>
+                    {buttons}
                 </form>
             </div>
         );
