@@ -22,8 +22,9 @@ Rails.application.routes.draw do
 
   get "/signup", to: "users#signup_form"
   post "/signup", to: "users#signup"
-  post "/signup/confirm/permalink", to: "users#confirm_exists_permalink"
-  post "/signup/confirm/email", to: "users#confirm_exists_email"
+  get "/signup/details", to: "users#signup_details_form"
+  post "/signup/details", to: "users#signup_details"
+
   get "/signup/notice", to: "users#signup_notice"
   get "/signup/confirmation", to: "users#signup_confirmation"
   post "/signup/confirmation", to: "users#signup_confirm"

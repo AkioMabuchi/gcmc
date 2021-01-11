@@ -227,17 +227,76 @@ class UsersController < ApplicationController
   end
 
   def password_reset_form
+    user_new_password = UserNewPassword.find_by(hash_code: params[:h])
 
+    if user_new_password
+      if user_new_password.updated_at < 30.minutes.ago
+        flash[:error] = "パスワードの再設定期限が切れています"
+        redirect_to "/"
+      end
+    else
+      flash[:error] = "そのパスワード再設定リンクは無効です"
+      redirect_to "/"
+    end
+
+    @react_info = {
+        hash: params[:h],
+        password: flash[:reset_password],
+        passwordWarning: flash[:reset_password_warning],
+        passwordConfirmation: flash[:reset_password_confirmation],
+        passwordConfirmationWarning: flash[:reset_password_confirmation_warning]
+    }.as_json
   end
 
   def password_reset
-    password = params[:password]
-    password_confirmation = params[:password]
-    is_accept = true
+    user_new_password = UserNewPassword.find_by(hash_code: params[:hash])
 
-    if is_accept
+    if user_new_password
+      if user_new_password.updated_at > 30.minutes.ago
+        password = params[:password]
+        password_confirmation = params[:password_confirmation]
+        is_accept = true
+
+        if password.length == 0
+          is_accept = false
+          flash[:reset_password_warning] = "入力してください"
+        elsif password.length < 8 or password.length > 32
+          is_accept = false
+          flash[:reset_password_warning] = "8字以上、32字以内で入力してください"
+        else
+          flash[:reset_password] = password
+          flash[:reset_password_warning] = nil
+        end
+
+        if password != password_confirmation
+          is_accept = false
+          flash[:reset_password_confirmation_warning] = "もう一度入力してください"
+        else
+          flash[:reset_password_confirmation] = password_confirmation
+          flash[:reset_password_confirmation_warning] = nil
+        end
+
+        if is_accept
+          user = User.find_by(id: user_new_password.user_id)
+          user.password = password
+          user.password_confirmation = password_confirmation
+          user.save!
+
+          user_new_password.destroy!
+
+          session[:user_id] = user.id
+          flash[:done] = "パスワードを再設定しました"
+          redirect_to "/"
+        else
+          redirect_to "/reset?h=#{params[:hash]}"
+        end
+      else
+        flash[:error] = "パスワードの再設定期限が切れています"
+        redirect_to "/"
+      end
     else
-      
+      flash[:error] = "そのパスワード再設定は無効です"
+      redirect_to "/"
     end
   end
 
@@ -385,6 +444,126 @@ class UsersController < ApplicationController
       redirect_to "/verification"
     else
       redirect_to "/signup"
+    end
+  end
+
+  def signup_details_form
+    user_signup_detail = UserSignupDetail.find_by(hash_code: params[:h])
+
+    if user_signup_detail
+      if user_signup_detail.updated_at < 30.minutes.ago
+        flash[:error] = "有効期限が切れています"
+        redirect_to "/"
+      end
+    else
+      flash[:error] = "そのリンクは無効です"
+      redirect_to "/"
+    end
+
+    @react_info = {
+        hash: params[:h],
+        permalink: flash[:signup_details_permalink],
+        permalinkWarning: flash[:signup_details_permalink_warning],
+        email: flash[:signup_details_email],
+        emailWarning: flash[:signup_details_email_warning],
+        password: flash[:signup_details_password],
+        passwordWarning: flash[:signup_details_password_warning],
+        passwordConfirmation: flash[:signup_details_password_confirmation],
+        passwordConfirmationWarning: flash[:signup_details_password_confirmation_warning],
+    }.as_json
+  end
+
+  def signup_details
+    signup_detail = UserSignupDetail.find_by(hash_code: params[:hash])
+
+    if signup_detail
+      if signup_detail.updated_at > 30.minutes.ago
+        permalink = params[:permalink]
+        email = params[:email]
+        password = params[:password]
+        password_confirmation = params[:password_confirmation]
+
+        is_accept = true
+
+        if permalink.length == 0
+          is_accept = false
+          flash[:signup_details_permalink_warning] = "入力してください"
+        elsif User.find_by(permalink: permalink)
+          is_accept = false
+          flash[:signup_details_permalink_warning] = "そのユーザーIDは即に使用されています"
+        elsif permalink.length > 24
+          is_accept = false
+          flash[:signup_details_permalink_warning] = "24字以内で入力してください"
+        elsif !permalink.match /^[0-9a-zA-Z\\-]*$/
+          is_accept = false
+          flash[:signup_details_permalink_warning] = "英数字およびハイフンのみ使用できます"
+        else
+          flash[:signup_details_permalink] = permalink
+          flash[:signup_details_permalink_warning] = nil
+        end
+
+        if email.length == 0
+          is_accept = false
+          flash[:signup_details_email_warning] = "入力してください"
+        elsif User.find_by(email: email)
+          is_accept = false
+          flash[:signup_details_email_warning] = "そのメールアドレスは即に使用されています"
+        else
+          flash[:signup_details_email] = email
+          flash[:signup_details_email_warning] = nil
+        end
+
+        if password.length == 0
+          is_accept = false
+          flash[:signup_details_password_warning] = "入力してください"
+        elsif password.length < 8 or password.length > 32
+          is_accept = false
+          flash[:signup_details_password_warning] = "8字以上、32字以内で入力してください"
+        else
+          flash[:signup_details_password] = password
+          flash[:signup_details_password_warning] = nil
+        end
+
+        if password != password_confirmation
+          is_accept = false
+          flash[:signup_details_password_confirmation_warning] = "もう一度入力してください"
+        else
+          flash[:signup_details_password_confirmation] = password_confirmation
+          flash[:signup_details_password_confirmation_warning] = nil
+        end
+
+        if is_accept
+          user = User.find_by(id: signup_detail.user_id)
+
+          user.permalink = permalink
+          user.email = email
+          user.password = password
+          user.password_confirmation = password_confirmation
+
+          user.save!
+
+          hash_code = generate_random_token 48
+          user_verification = UserVerification.new(
+              hash_code: hash_code,
+              user_id: user.id
+          )
+
+          user_verification.save!
+
+          UserVerificationMailer.send_text(name, email, hash_code).deliver_now
+
+          session[:user_id] = user.id
+          redirect_to "/verification"
+        else
+          redirect_to "/signup/details"
+        end
+      else
+        flash[:error] = "有効期限が切れています"
+        redirect_to "/"
+      end
+    else
+      flash[:error] = "そのリンク名は無効です"
+      redirect_to "/"
     end
   end
 
@@ -936,14 +1115,16 @@ class UsersController < ApplicationController
 
   def twitter_callback
     auth_hash = request.env["omniauth.auth"]
-    @provider = auth_hash[:provider]
-    @twitter_uid = auth_hash[:uid]
-    @name = auth_hash[:info][:name]
-    @image = auth_hash[:info][:image]
-    @description = auth_hash[:info][:description]
-    @url = auth_hash[:info][:urls][:Website]
-    @twitter_url = auth_hash[:info][:urls][:Twitter]
-    @location = auth_hash[:info][:location]
+    @react_info = {
+        provider: auth_hash[:provider],
+        twitterUid: auth_hash[:uid],
+        name: auth_hash[:info][:name],
+        image: auth_hash[:info][:image],
+        description: auth_hash[:info][:description],
+        url: auth_hash[:info][:urls][:Website],
+        twitterUrl: auth_hash[:info][:urls][:Twitter],
+        location: auth_hash[:info][:location]
+    }.as_json
   end
 
   def github_callback
@@ -967,8 +1148,45 @@ class UsersController < ApplicationController
           redirect_to "/settings/sns"
         else
           # On Login with Twitter
-          session[:user_id] = twitter_user.id
-          redirect_to "/"
+          if twitter_user.permalink
+            if twitter_user.is_verified
+              session[:user_id] = twitter_user.id
+              redirect_to "/"
+            else
+              hash_code = generate_random_token 48
+              user_verification = UserVerification.find_by(user_id: twitter_user.id)
+
+              if user_verification
+                user_verification.hash_code = hash_code
+                user_verification.save!
+              else
+                new_user_verification = UserVerification.new(
+                    hash_code: hash_code,
+                    user_id: twitter_user.id
+                )
+                new_user_verification.save!
+              end
+
+              UserVerificationMailer.send_text(twitter_user.name, twitter_user.email, hash_code).deliver_now
+              redirect_to "/verification"
+            end
+          else
+            hash_code = generate_random_token 48
+            signup_detail = UserSignupDetail.find_by(user_id: twitter_user.id)
+
+            if signup_detail
+              signup_detail.hash_code = hash_code
+              signup_detail.save!
+            else
+              new_signup_detail = UserSignupDetail.new(
+                  hash_code: hash_code,
+                  user_id: twitter_user.id
+              )
+              new_signup_detail.save!
+            end
+
+            redirect_to "/signup/details?h=#{hash_code}"
+          end
         end
       else
         if session[:user_id] # On Twitter Connection
@@ -981,25 +1199,37 @@ class UsersController < ApplicationController
           flash[:done] = "Twitterと連携しました"
           redirect_to "/settings/sns"
         else
-          permalink = generate_random_token(16)
-          password = generate_random_token(32)
+          password = generate_random_token 64
           new_user = User.new(
-              permalink: permalink,
               name: params[:name],
+              remote_image_url: params[:image],
               password: password,
               password_confirmation: password,
-              remote_image_url: params[:image],
               url: params[:url],
               twitter_uid: params[:twitter_uid],
               twitter_url: params[:twitter_url],
               is_published_twitter: false,
               description: params[:description],
-              location: params[:location]
+              location: params[:location],
+              is_verified: false
           )
-
           new_user.save!
-          flash[:done] = "GCMCへようこそ、#{new_user.name}さん"
-          redirect_to "/"
+
+          hash_code = generate_random_token 48
+
+          signup_detail = UserSignupDetail.find_by(user_id: new_user.id)
+          if signup_detail
+            signup_detail.hash_code = hash_code
+            signup_detail.save!
+          else
+            new_signup_detail = UserSignupDetail.new(
+                hash_code: hash_code,
+                user_id: new_user.id
+            )
+            new_signup_detail.save!
+          end
+
+          redirect_to "/signup/details?h=#{hash_code}"
         end
       end
     else
@@ -1016,8 +1246,16 @@ class UsersController < ApplicationController
           redirect_to "/settings/sns"
         else
           # On Login with GitHub
-          session[:user_id] = github_user.id
-          redirect_to "/"
+          if github_user.permalink
+            session[:user_id] = github_user.id
+            if github_user.is_verified
+              redirect_to "/"
+            else
+              redirect_to "/verification"
+            end
+          else
+            redirect_to "/signup/details"
+          end
         end
       else
         if session[:user_id]
@@ -1029,10 +1267,8 @@ class UsersController < ApplicationController
           flash[:done] = "GitHubと連携しました"
           redirect_to "/settings/sns"
         else
-          permalink = generate_random_token(16)
-          password = generate_random_token(32)
+          password = generate_random_token 64
           new_user = User.new(
-              permalink: permalink,
               name: params[:name],
               password: password,
               password_confirmation: password,
@@ -1042,12 +1278,12 @@ class UsersController < ApplicationController
               github_url: params[:github_url],
               is_published_github: false,
               description: params[:description],
-              location: params[:location]
+              location: params[:location],
+              is_verified: false
           )
 
           new_user.save!
-          flash[:done] = "GCMCへようこそ、#{new_user.name}さん"
-          redirect_to "/"
+
         end
       end
     else

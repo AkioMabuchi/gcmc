@@ -1,55 +1,59 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <link href="https://fonts.googleapis.com/css?family=M+PLUS+1p" rel="stylesheet">
-    <title>GCMC</title>
-    <%= display_meta_tags(default_meta_tags) %>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=M+PLUS+1p" rel="stylesheet">
+  <title>GCMC</title>
+  <%= display_meta_tags(default_meta_tags) %>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all'%>
-    <%= javascript_pack_tag 'application' %>
-  </head>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= javascript_pack_tag 'application' %>
+</head>
 
-  <body>
-  <header>
-    <% if @current_user %>
-      <%= react_component("Header", {mode: "user", permalink: @current_user.permalink, name: @current_user.name, image: @current_user.image.url, invitations: @current_user.invitations}) %>
-    <% else %>
-      <%= react_component("Header", {mode: "guest"}) %>
-    <% end %>
-  </header>
-  <main role="main">
-    <% if flash[:done] %>
-      <div class="main-done">
-        <%= flash[:done] %>
-      </div>
-    <% end %>
-    <%= yield %>
-  </main>
-  <footer>
-    <ul class="menu">
-      <li>
-        <a href="/terms">利用規約</a>
-      </li>
-      <li>
-        <a href="/privacy">プライバシーポリシー</a>
-      </li>
-      <li>
-        <a href="/contact">お問い合わせ</a>
-      </li>
-    </ul>
-    <h5>公式Twitter</h5>
-    <a href="https://twitter.com/official_gcmc" target="_blank" class="twitter">
-      <%= image_tag "Twitter.png" %>
-    </a>
-    <address>Copyright <i class="far fa-copyright"></i> 2020 GCMC All Rights Reserved.</address>
-  </footer>
-  <% if flash[:notice] %>
-  <div id="react-flash-notice" class="flash-notice" style="height: 50px">
-    <p><%= flash[:notice] %></p>
-    <%= react_component("FlashNotice") %>
-  </div>
+<body>
+<header>
+  <% if @current_user %>
+    <%= react_component("Header", {mode: "user", permalink: @current_user.permalink, name: @current_user.name, image: @current_user.image.url, invitations: @current_user.invitations}) %>
+  <% else %>
+    <%= react_component("Header", {mode: "guest"}) %>
   <% end %>
-  </body>
+</header>
+<main role="main">
+  <% if flash[:verification_warning] %>
+    <div class="main-verification-warning">
+      <%= flash[:verification_warning] %>>
+    </div>
+  <% end %>
+  <% if flash[:error] %>
+    <div class="main-error">
+      <%= flash[:error] %>
+    </div>
+  <% end %>
+  <% if flash[:done] %>
+    <div class="main-done">
+      <%= flash[:done] %>
+    </div>
+  <% end %>
+  <%= yield %>
+</main>
+<footer>
+  <ul class="menu">
+    <li>
+      <a href="/terms">利用規約</a>
+    </li>
+    <li>
+      <a href="/privacy">プライバシーポリシー</a>
+    </li>
+    <li>
+      <a href="/contact">お問い合わせ</a>
+    </li>
+  </ul>
+  <h5>公式Twitter</h5>
+  <a href="https://twitter.com/official_gcmc" target="_blank" class="twitter">
+    <%= image_tag "Twitter.png" %>
+  </a>
+  <address>Copyright <i class="far fa-copyright"></i> 2020 GCMC All Rights Reserved.</address>
+</footer>
+</body>
 </html>
