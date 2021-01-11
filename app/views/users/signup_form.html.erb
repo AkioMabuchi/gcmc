@@ -1,23 +1,19 @@
 <h1>新規登録</h1>
-<div class="signup-notice">
-  <h4>はじめに</h4>
-  <p>まず<a href="/terms">利用規約</a>および<a href="/privacy">プライバシーポリシー</a>をお読みください</p>
-</div>
-<div class="big-container" style="margin-bottom: 100px">
-  <div class="small-container">
-    <%= react_component("SignupForm") %>
+<div class="signup-page">
+  <div class="attention">
+    <h3>はじめに</h3>
+    <p>まず<a href="/terms">利用規約</a>および<a href="/privacy">プライバシーポリシー</a>をお読みください</p>
   </div>
-  <div class="small-container">
-    <div class="sns-login-form">
-      <form method="post" action="/auth/twitter" class="sns-login">
-        <button type="submit" class="twitter"><i class="fab fa-twitter"></i> Twitterで新規登録</button>
-      </form>
-      <form method="post" action="/auth/github" class="sns-login" style="margin-top: 30px">
-        <button type="submit" class="github"><i class="fab fa-github"></i> GitHubで新規登録</button>
-      </form>
+  <div class="container1">
+    <div class="container2">
+      <%= react_component "SignupForm", info: @signup_react_info %>
     </div>
-    <div class="login-notice">
-      既にアカウントをお持ちの方は<a href="/login">ログイン</a>
+    <div class="container3">
+      <%= react_component "SnsForm", info: @sns_react_info %>
+      <div class="notice">
+        既にアカウントをお持ちの方は<a href="/login">ログイン</a>
+      </div>
     </div>
   </div>
 </div>
+<script src="https://www.google.com/recaptcha/api.js"></script>

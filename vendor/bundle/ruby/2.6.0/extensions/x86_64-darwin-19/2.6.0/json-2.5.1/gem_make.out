@@ -1,0 +1,13 @@
+current directory: /Users/amestric/rails/gcmc/vendor/bundle/ruby/2.6.0/gems/json-2.5.1/ext/json
+/Users/amestric/.rbenv/versions/2.6.1/bin/ruby -I /Users/amestric/.rbenv/versions/2.6.1/lib/ruby/2.6.0 -r ./siteconf20210107-80041-o77zm.rb extconf.rb
+creating Makefile
+
+current directory: /Users/amestric/rails/gcmc/vendor/bundle/ruby/2.6.0/gems/json-2.5.1/ext/json
+make "DESTDIR=" clean
+
+current directory: /Users/amestric/rails/gcmc/vendor/bundle/ruby/2.6.0/gems/json-2.5.1/ext/json
+make "DESTDIR="
+make: Nothing to be done for `all'.
+
+current directory: /Users/amestric/rails/gcmc/vendor/bundle/ruby/2.6.0/gems/json-2.5.1/ext/json
+make "DESTDIR=" install

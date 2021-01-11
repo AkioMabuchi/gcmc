@@ -2,6 +2,9 @@ class UsersController < ApplicationController
   protect_from_forgery except: [
       :login,
       :logout,
+      :password_forgot,
+      :password_reset,
+      :signup,
       :profile_setting_update,
       :skills_setting_update,
       :portfolios_setting_update,
@@ -17,6 +20,7 @@ class UsersController < ApplicationController
       :invitations_answer,
       :twitter_post,
       :github_post,
+      :verify
   ]
 
   before_action :user_only, only: [
@@ -43,7 +47,7 @@ class UsersController < ApplicationController
     users = User.all
 
     if params[:q]
-      users = users.reject{|user|
+      users = users.reject { |user|
         r = true
         r = false if user.name.include? params[:q]
         r = false if user.description.include? params[:q]
@@ -52,7 +56,7 @@ class UsersController < ApplicationController
     end
 
     if params[:roles]
-      users = users.reject{|user|
+      users = users.reject { |user|
         r = false
         roles = UserRole.where(user_id: user.id).pluck(:role_id)
         if params[:mode] == "and"
@@ -145,17 +149,95 @@ class UsersController < ApplicationController
 
   def login_form
     raise Forbidden if @current_user
+
+    @login_react_info = {
+
+    }.as_json
+
+    @sns_react_info = {
+        loginOrSignup: "ログイン"
+    }.as_json
   end
 
   def login
     user = User.find_by(email: params[:email])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
-      flash[:done] = "ようこそ、#{user.name}さん"
-      redirect_to "/"
+      if user.is_verified
+        flash[:done] = "ようこそ、#{user.name}さん"
+        redirect_to "/"
+      else
+        hash_code = generate_random_token 48
+        user_verification = UserVerification.find_by(user_id: user.id)
+
+        if user_verification
+          user_verification.hash_code = hash_code
+          user_verification.save!
+        else
+          new_user_verification = UserVerification.new(
+              hash_code: hash_code,
+              user_id: user.id
+          )
+          new_user_verification.save!
+        end
+
+        UserVerificationMailer.send_text(user.name, user.email, hash_code).deliver_now
+        redirect_to "/verification"
+      end
     else
       flash[:login_warning] = "メールアドレスもしくはパスワードが間違っています"
       redirect_to "/login"
+    end
+  end
+
+  def password_forgot_form
+    @react_info = {
+        emailWarning: flash[:forgot_email_warning]
+    }.as_json
+  end
+
+  def password_forgot
+    email = params[:email]
+    user = User.find_by(email: email)
+
+    if user
+      hash_code = generate_random_token 48
+      user_new_password = UserNewPassword.find_by(user_id: user.id)
+      if user_new_password
+        user_new_password.hash_code = hash_code
+        user_new_password.save!
+      else
+        new_user_new_password = UserNewPassword.new(
+            hash_code: hash_code,
+            user_id: user.id
+        )
+        new_user_new_password.save!
+      end
+
+      PasswordResetMailer.send_text(user.name, user.email, hash_code).deliver_now
+      redirect_to "/login/forgot/done"
+    else
+      flash[:forgot_email_warning] = "そのメールアドレスは使用されていません"
+      redirect_to "/login/forgot"
+    end
+  end
+
+  def password_forgot_done
+
+  end
+
+  def password_reset_form
+
+  end
+
+  def password_reset
+    password = params[:password]
+    password_confirmation = params[:password]
+    is_accept = true
+
+    if is_accept
+    else
+      
     end
   end
 
@@ -164,11 +246,27 @@ class UsersController < ApplicationController
     redirect_to "/"
   end
 
-  def forgot_password_form
-
-  end
-
   def signup_form
+    @signup_react_info = {
+        recaptchaSiteKey: Rails.application.credentials.recaptcha[:site_key],
+        permalink: flash[:signup_permalink],
+        permalinkWarning: flash[:signup_permalink_warning],
+        name: flash[:signup_name],
+        nameWarning: flash[:signup_name_warning],
+        email: flash[:signup_email],
+        emailWarning: flash[:signup_email_warning],
+        password: flash[:signup_password],
+        passwordWarning: flash[:signup_password_warning],
+        passwordConfirmation: flash[:signup_password_confirmation],
+        passwordConfirmationWarning: flash[:signup_password_confirmation_warning],
+        agreement: flash[:signup_agreement] ||= false,
+        agreementWarning: flash[:signup_agreement_warning],
+        captchaWarning: flash[:signup_captcha_warning]
+    }.as_json
+
+    @sns_react_info = {
+        loginOrSignup: "新規登録"
+    }.as_json
 
   end
 
@@ -177,156 +275,160 @@ class UsersController < ApplicationController
     name = params[:name]
     email = params[:email]
     password = params[:password]
-    password_confirmation = params[:password]
+    password_confirmation = params[:password_confirmation]
     agreement = params[:agreement]
 
-    is_genuine = "true"
+    is_accept = true
 
-    if permalink == ""
-      is_genuine = nil
-      flash[:permalink_warning] = "入力してください"
-    elsif permalink.length > 24
-      is_genuine = nil
-      flash[:permalink_warning] = "24字以内で入力してください"
-    elsif !permalink.match(/^[0-9a-zA-Z\\-]*$/)
-      is_genuine = nil
-      flash[:permalink_warning] = "英数字およびハイフンのみ利用可能です"
+    if permalink.length == 0
+      is_accept = false
+      flash[:signup_permalink_warning] = "入力してください"
     elsif User.find_by(permalink: permalink)
-      is_genuine = nil
-      flash[:permalink_warning] = "そのユーザーIDは既に使用されています"
+      is_accept = false
+      flash[:signup_permalink_warning] = "そのユーザーIDは即に使用されています"
+    elsif permalink.length > 24
+      is_accept = false
+      flash[:signup_permalink_warning] = "24字以内で入力してください"
+    elsif !permalink.match /^[0-9a-zA-Z\\-]*$/
+      is_accept = false
+      flash[:signup_permalink_warning] = "英数字およびハイフンのみ使用できます"
     else
-      flash[:permalink] = permalink
+      flash[:signup_permalink] = permalink
+      flash[:signup_permalink_warning] = nil
     end
 
-    if name == ""
-      is_genuine = nil
-      flash[:name_warning] = "入力してください"
+    if name.length == 0
+      is_accept = false
+      flash[:signup_name_warning] = "入力してください"
     elsif name.length > 24
-      is_genuine = nil
-      flash[:name_warning] = "24字以内で入力してください"
+      is_accept = false
+      flash[:signup_name_warning] = "24字以内で入力してください"
     else
-      flash[:name] = name
+      flash[:signup_name] = name
+      flash[:signup_name_warning] = nil
     end
 
-    if email == ""
-      is_genuine = nil
-      flash[:email_warning] = "入力してください"
-    elsif !email.match(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
-      is_genuine = nil
-      flahs[:email_warning] = "メールアドレスを入力してください"
+    if email.length == 0
+      is_accept = false
+      flash[:signup_email_warning] = "入力してください"
     elsif User.find_by(email: email)
-      is_genuine = nil
-      flash[:email_warning] = "そのメールアドレスは既に使用されています"
+      is_accept = false
+      flash[:signup_email_warning] = "そのメールアドレスは即に使用されています"
     else
-      flash[:email] = email
+      flash[:signup_email] = email
+      flash[:signup_email_warning] = nil
     end
 
-    if password.length < 8 || password.length > 32
-      is_genuine = nil
-      flash[:password_warning] = "8字以上、32字以下のパスワードを入力してください"
+    if password.length == 0
+      is_accept = false
+      flash[:signup_password_warning] = "入力してください"
+    elsif password.length < 8 or password.length > 32
+      is_accept = false
+      flash[:signup_password_warning] = "8字以上、32字以内で入力してください"
     else
-      flash[:password] = password
+      flash[:signup_password] = password
+      flash[:signup_password_warning] = nil
     end
 
     if password != password_confirmation
-      is_genuine = nil
-      flash[:password_confirmation_warning] = "もう一度入力してください"
+      is_accept = false
+      flash[:signup_password_confirmation_warning] = "もう一度入力してください"
     else
-      flash[:password_confirmation] = password_confirmation
+      flash[:signup_password_confirmation] = password_confirmation
+      flash[:signup_password_confirmation_warning] = nil
     end
 
     if !agreement
-      is_genuine = nil
-      flash[:agreement_warning] = "利用規約に同意してください"
+      is_accept = false
+      flash[:signup_agreement] = false
+      flash[:signup_agreement_warning] = "同意してください"
     else
-      flash[:agreement] = true
+      flash[:signup_agreement] = true
+      flash[:signup_agreement_warning] = nil
     end
 
-    if is_genuine
-      hash_code = generate_random_token(32)
-      number_1 = rand(9).to_s
-      number_2 = rand(9).to_s
-      number_3 = rand(9).to_s
-      number_4 = rand(9).to_s
-      number_5 = rand(9).to_s
-      user = SignupConfirmation.new(
-          hash_code: hash_code,
+    if !verify_recaptcha
+      is_accept = false
+      flash[:signup_captcha_warning] = "認証してください"
+    else
+      flash[:signup_captcha_warning] = nil
+    end
+
+    if is_accept
+      user = User.new(
           permalink: permalink,
           name: name,
           email: email,
           password: password,
-          confirmation_number_1: number_1,
-          confirmation_number_2: number_2,
-          confirmation_number_3: number_3,
-          confirmation_number_4: number_4,
-          confirmation_number_5: number_5
+          password_confirmation: password_confirmation,
+          description: "",
+          url: "",
+          location: "",
+          birth: DateTime.parse("2000/01/01 12:00:00"),
+          is_published_birth: false,
+          is_verified: false,
       )
 
-      if user.save
-        SignupConfirmationMailer.send_text(name, email, hash_code, number_1, number_2, number_3, number_4, number_5).deliver_now
-        redirect_to("/signup/notice")
-      else
-        flash[:notice] = "新規登録に失敗しました"
-        redirect_to("/signup")
-      end
+      user.save!
+
+      hash_code = generate_random_token 48
+      user_verification = UserVerification.new(
+          hash_code: hash_code,
+          user_id: user.id
+      )
+
+      user_verification.save!
+
+      UserVerificationMailer.send_text(name, email, hash_code).deliver_now
+
+      session[:user_id] = user.id
+      redirect_to "/verification"
     else
-      redirect_to("/signup")
+      redirect_to "/signup"
     end
   end
 
-  def signup_notice
+  def verification
 
   end
 
-  def signup_confirmation
-    @hash_code = params[:hash]
-    unless SignupConfirmation.find_by(hash_code: @hash_code)
-      redirect_to("/")
-    end
+  def verify_form
+    @react_info = {
+        hash: params[:h]
+    }.as_json
   end
 
-  def signup_confirm
-    signup_confirmation = SignupConfirmation.find_by(hash_code: params[:hash_code])
-    if signup_confirmation
-      if true
-        user = User.new(
-            permalink: signup_confirmation.permalink,
-            name: signup_confirmation.name,
-            email: signup_confirmation.email,
-            password: signup_confirmation.password,
-            password_confirmation: signup_confirmation.password
-        )
-        if user.save
-          signup_confirmation.destroy
-          redirect_to("/")
+  def verify
+    user_verification = UserVerification.find_by(hash_code: params[:hash])
+
+    if user_verification
+      if @current_user
+        if user_verification.user_id == @current_user.id
+          if user_verification.updated_at > 30.minutes.ago
+            user = User.find_by(id: user_verification.user_id)
+
+            user.is_verified = true
+            user.save!
+
+            user_verification.destroy!
+
+            flash[:done] = "本人確認を行いました"
+            redirect_to "/"
+          else
+            flash[:error] = "有効期限が切れています"
+            redirect_to "/"
+          end
         else
-          redirect_to("/")
+          flash[:error] = "別のユーザーの本人確認を行おうとしました"
+          redirect_to "/"
         end
       else
-        redirect_to("/")
+        flash[:error] = "ログインしたまま本人確認を行ってください"
+        redirect_to "/"
       end
-    end
-
-  end
-
-  def signup_done
-
-  end
-
-  def confirm_exists_permalink
-    if User.find_by(permalink: params[:permalink])
-      render plain: "exists"
     else
-      render plain: "vacant"
-    end
-  end
-
-  def confirm_exists_email
-
-    if User.find_by(email: params[:email])
-      render plain: "exists"
-    else
-      render plain: "vacant"
+      flash[:error] = "本人確認に失敗しました"
+      redirect_to "/"
     end
   end
 

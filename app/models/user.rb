@@ -1,7 +1,8 @@
 class User < ApplicationRecord
   mount_uploader :image, UserImageUploader
-  validates :permalink, presence: true, uniqueness: {case_sensitive: true}
+  validates :permalink, presence: true, uniqueness: {case_sensitive: true}, allow_nil: true
   validates :name, presence: true
+  validates :email, presence: true, uniqueness: {case_sensitive: true}, allow_nil: true
   validates :twitter_uid, uniqueness: {case_sensitive: true}, allow_nil: true
   validates :github_uid, uniqueness: {case_sensitive: true}, allow_nil: true
   has_secure_password
@@ -9,6 +10,11 @@ class User < ApplicationRecord
   has_many :user_roles
   has_many :user_positions
   has_many :user_invitations
+
+  has_one :user_verification
+  has_one :user_signup_detail
+  has_one :user_new_email
+  has_one :user_new_password
 
   def roles
     UserRole.where user_id: self.id

@@ -10,8 +10,14 @@ Rails.application.routes.draw do
   get "/about", to: "home#about"
 
   get "/login", to: "users#login_form"
-  get "/login/forgot-password", to: "users#forgot_password_form"
+
   post "/login", to: "users#login"
+  get "/login/forgot", to: "users#password_forgot_form"
+  post "/login/forgot", to: "users#password_forgot"
+  get "/login/forgot/done", to: "users#password_forgot_done"
+
+  get "/reset", to: "users#password_reset_form"
+  post "/reset", to: "users#password_reset"
   post "/logout", to: "users#logout"
 
   get "/signup", to: "users#signup_form"
@@ -28,6 +34,10 @@ Rails.application.routes.draw do
   post "/auth/twitter/callback/done", to: "users#twitter_post"
   post "/auth/github/callback/done", to: "users#github_post"
   get "/auth/failure", to: "users#auth_failure"
+
+  get "/verification", to: "users#verification"
+  get "/verify", to: "users#verify_form"
+  post "/verify", to: "users#verify"
 
   get "/search", to: "home#search"
 

@@ -1,0 +1,2 @@
+class UserSignupDetail < ApplicationRecord
+end

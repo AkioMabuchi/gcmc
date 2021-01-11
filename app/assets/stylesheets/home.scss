@@ -3,14 +3,7 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
 *{
-  font-family: "ヒラギノ丸ゴ Pro W4",
-  "ヒラギノ丸ゴ Pro",
-  "Hiragino Maru Gothic Pro",
-  "ヒラギノ角ゴ Pro W3",
-  "Hiragino Kaku Gothic Pro",
-  "HG丸ｺﾞｼｯｸM-PRO",
-  "HGMaruGothicMPRO",
-  sans-serif;
+  font-family: "M PLUS 1p";
   box-sizing: border-box;
   &.focus{
     outline: none;
@@ -74,7 +67,6 @@ h1{
   padding-top: 30px;
   padding-bottom: 30px;
   font-size: 32px;
-  font-weight: 300;
   line-height: 40px;
   color: #00CC99;
   text-align: center;

@@ -1,5 +1,8 @@
 class HomeController < ApplicationController
-  protect_from_forgery except: :contact
+  protect_from_forgery except: [
+      :contact
+  ]
+
   def top
     if @current_user
       @owner_projects = Project.where(owner_user_id: @current_user.id)
@@ -23,11 +26,9 @@ class HomeController < ApplicationController
     message = params[:message]
 
     ContactMailer.send_text(email, title, message).deliver_now
-    redirect_to("/contact/done")
-  end
 
-  def contact_done
-
+    flash[:done] = "お問い合わせありがとうございます。"
+    redirect_to "/contact"
   end
 
   def about

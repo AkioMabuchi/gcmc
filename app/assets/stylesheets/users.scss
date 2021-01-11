@@ -2,284 +2,363 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
-div.big-container{
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  overflow-x: auto;
-  margin-right: auto;
-  margin-left: auto;
+// ------------------------------ LOGIN PAGE ------------------------------
+div.login-page {
+  div.container1 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    overflow-x: auto;
+    margin-right: auto;
+    margin-left: auto;
 
-  @media (max-width: 420px) {
-    width: 100%;
-  }
-  @media (min-width: 420px) {
-    width: 420px;
-  }
-  @media (min-width: 840px){
-    width: 840px;
-  }
-  div.small-container{
     @media (max-width: 420px) {
       width: 100%;
     }
-    @media (min-width: 420px) {
+    @media (min-width: 420px) and(max-width: 840px) {
       width: 420px;
     }
-    padding: 0 10px 10px;
-  }
-}
-
-form.login-form{
-  border: 1px solid #BFBFBF;
-  border-radius: 10px;
-  padding: 20px 15px 30px;
-  h4{
-    line-height: 20px;
-    font-size: 18px;
-    &:nth-child(n+2){
-      margin-top: 20px;
-    }
-  }
-
-  input[type="text"],
-  input[type="email"],
-  input[type="password"]{
-    margin-top: 5px;
-    width: 100%;
-    height: 30px;
-    border: 1px solid #BFBFBF;
-    padding-left: 5px;
-    appearance: none;
-  }
-
-  button[type=submit]{
-    display: block;
-    width: 160px;
-    height: 40px;
-    border-radius: 10px;
-    background-color: #00FFBF;
-    color: white;
-    font-weight: 700;
-    font-size: 20px;
-    cursor: pointer;
-    margin-top: 30px;
-    margin-right: auto;
-    margin-left: auto;
-  }
-
-  a.forgot-password{
-    font-size: 10px;
-    line-height: 20px;
-  }
-
-  div.warning{
-    font-size: 14px;
-    line-height: 20px;
-    color: red;
-  }
-}
-
-form.signup-form{
-  border: 1px solid #BFBFBF;
-  padding: 20px 15px 30px;
-
-  h4{
-    line-height: 25px;
-    font-size: 18px;
-    font-weight: 400;
-    small{
-      font-size: 12px;
-      color: #9B9B9B;
-    }
-    &:nth-child(n+2){
-      margin-top: 20px;
-    }
-  }
-
-  input[type="text"],
-  input[type="email"],
-  input[type="password"]{
-    width: 100%;
-    height: 30px;
-    border-width: 1px;
-    border-style: solid;
-    padding-left: 5px;
-    appearance: none;
-    &.normal{
-      border-color: #BFBFBF;
-    }
-    &.error{
-      border-color: red;
-    }
-    &.done{
-      border-color: green;
-    }
-  }
-
-  p{
-    line-height: 20px;
-    font-size: 12px;
-    &.normal{
-      color: black;
-    }
-    &.error{
-      color: red;
-    }
-    &.done{
-      color: green;
-    }
-  }
-  div.agreement{
-    margin-top: 30px;
-    text-align: center;
-  }
-  button[type=submit]{
-    display: block;
-    width: 160px;
-    height: 40px;
-    border: none;
-    background-color: #00FFBF;
-    color: white;
-    font-weight: 700;
-    font-size: 20px;
-    cursor: pointer;
-    margin-top: 20px;
-    margin-right: auto;
-    margin-left: auto;
-    &:disabled{
-      background-color: #E6E6E6;
-      cursor: default;
-    }
-  }
-}
-div.sns-login-form {
-
-  border: 1px solid #BFBFBF;
-  border-radius: 10px;
-  padding: 20px 15px 20px;
-  form.sns-login {
-    margin: 0;
-    padding: 0;
-
-    button[type=submit] {
-      display: block;
-      width: 100%;
-      height: 50px;
-      border-radius: 10px;
-      font-size: 20px;
-      letter-spacing: 1px;
+    @media (min-width: 840px) {
+      width: 840px;
     }
 
-    button.twitter {
-      color: white;
-      background-color: #1DA1F2;
-    }
+    div.container2 {
+      @media (max-width: 420px) {
+        width: 100%;
+      }
+      @media (min-width: 420px) {
+        width: 420px;
+      }
+      padding: 0 10px 10px;
 
-    button.github {
-      color: white;
-      background-color: #171515;
-    }
-    &:nth-child(n+2){
-      margin-top: 30px;
-    }
-  }
-}
+      form.login-form{
+        border: 1px solid #BFBFBF;
+        border-radius: 10px;
+        padding: 20px 15px 30px;
+        h4{
+          line-height: 20px;
+          font-size: 18px;
+          &:nth-child(n+2){
+            margin-top: 20px;
+          }
+        }
 
-div.signup-notice{
-  padding-bottom: 30px;
+        input[type="email"],
+        input[type="password"]{
+          margin-top: 5px;
+          width: 100%;
+          height: 30px;
+          border: 1px solid #BFBFBF;
+          padding-left: 5px;
+          appearance: none;
+        }
 
-  h4{
-    font-size: 20px;
-    font-weight: 300;
-    line-height: 30px;
-    text-align: center;
-    padding-bottom: 10px;
-  }
-
-  p{
-    font-size: 14px;
-    font-weight: 100;
-    line-height: 20px;
-    text-align: center;
-  }
-}
-div.login-notice{
-  padding-top: 10px;
-  font-size: 14px;
-  text-align: center;
-}
-
-form.auth-form{
-  display: none;
-}
-
-ul.users{
-  li{
-    width: 540px;
-    padding: 0 10px 20px;
-    border-bottom: 1px solid #E6E6E6;
-    div.image-name{
-      height: 50px;
-      position: relative;
-      div.user-image{
-        position: absolute;
-        top: 0;
-        left: 0;
-        a{
+        button[type=submit]{
           display: block;
-          width: 50px;
-          height: 50px;
-          img{
-            display: block;
-            width: 50px;
-            height: 50px;
-            border-radius: 25px;
+          width: 160px;
+          height: 40px;
+          border-radius: 10px;
+          background-color: #00FFBF;
+          color: white;
+          font-weight: 700;
+          font-size: 20px;
+          cursor: pointer;
+          margin-top: 30px;
+          margin-right: auto;
+          margin-left: auto;
+        }
 
+        div.forgot-password{
+          a {
+            font-size: 10px;
+            line-height: 20px;
           }
         }
-      }
 
-
-      div.user-name{
-        height: 30px;
-        position: absolute;
-        top: 10px;
-        left: 60px;
-        a{
-          font-size: 20px;
-          line-height: 30px;
-          color: black;
-          &:hover{
-            color: #7F7F7F;
-          }
+        div.warning{
+          font-size: 14px;
+          line-height: 20px;
+          color: red;
         }
       }
     }
-    div.roles{
-      padding-top: 5px;
-      padding-bottom: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      div.role{
-        margin-top: 5px;
-        margin-right: 5px;
-        border: 1px solid #00CC99;
-        border-radius: 5px;
-        padding: 4px 10px;
+
+    div.container3 {
+      @media (max-width: 420px) {
+        width: 100%;
+      }
+      @media (min-width: 420px) {
+        width: 420px;
+      }
+      padding: 0 10px 10px;
+      div.sns-box {
+        border: 1px solid #BFBFBF;
+        border-radius: 10px;
+        padding: 20px 15px;
+        form.sns-form {
+          margin: 0;
+          padding: 0;
+
+          button[type=submit] {
+            display: block;
+            width: 100%;
+            height: 50px;
+            border-radius: 10px;
+            font-size: 20px;
+            letter-spacing: 1px;
+          }
+
+          button.twitter {
+            color: white;
+            background-color: #1DA1F2;
+          }
+
+          button.github {
+            color: white;
+            background-color: #171515;
+          }
+          &:nth-child(n+2){
+            margin-top: 30px;
+          }
+        }
+      }
+      div.notice{
+        padding-top: 10px;
         font-size: 14px;
-        line-height: 20px;
-        color: #00CC99;
         text-align: center;
       }
     }
-    div.description{
-      max-height: 80px;
-      font-size: 14px;
-      color: #979797;
-      overflow-y: hidden;
+  }
+}
+// ------------------------------ SIGNUP PAGE ------------------------------
+div.signup-page {
+  div.attention{
+    padding-bottom: 30px;
+    h3{
+      text-align: center;
+      font-size: 22px;
+      line-height: 30px;
+    }
+    p{
+      padding-top: 10px;
+      text-align: center;
+      line-height: 20px;
     }
   }
+  div.container1 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    overflow-x: auto;
+    margin-right: auto;
+    margin-left: auto;
+
+    @media (max-width: 420px) {
+      width: 100%;
+    }
+    @media (min-width: 420px) and(max-width: 840px) {
+      width: 420px;
+    }
+    @media (min-width: 840px) {
+      width: 840px;
+    }
+
+    div.container2 {
+      @media (max-width: 420px) {
+        width: 100%;
+      }
+      @media (min-width: 420px) {
+        width: 420px;
+      }
+      padding: 0 10px 10px;
+
+      form.signup-form{
+        border: 1px solid #BFBFBF;
+        border-radius: 10px;
+        padding: 20px 15px 30px;
+        h4{
+          line-height: 20px;
+          font-size: 18px;
+          small{
+            font-size: 12px;
+            color: #BFBFBF;
+          }
+          &:nth-child(n+2){
+            margin-top: 20px;
+          }
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"]{
+          margin-top: 5px;
+          width: 100%;
+          height: 30px;
+          border: 1px solid #BFBFBF;
+          padding-left: 5px;
+          appearance: none;
+        }
+
+        button[type=submit]{
+          display: block;
+          width: 160px;
+          height: 40px;
+          border-radius: 10px;
+          background-color: #00FFBF;
+          color: white;
+          font-weight: 700;
+          font-size: 20px;
+          cursor: pointer;
+          margin-top: 30px;
+          margin-right: auto;
+          margin-left: auto;
+        }
+
+        div.checkbox{
+          padding-top: 20px;
+          font-size: 14px;
+        }
+
+        div.recaptcha{
+          padding-top: 20px;
+        }
+
+        div.warning{
+          font-size: 14px;
+          line-height: 20px;
+          color: red;
+        }
+      }
+    }
+
+    div.container3 {
+      @media (max-width: 420px) {
+        width: 100%;
+      }
+      @media (min-width: 420px) {
+        width: 420px;
+      }
+      padding: 0 10px 10px;
+      div.sns-box {
+        border: 1px solid #BFBFBF;
+        border-radius: 10px;
+        padding: 20px 15px;
+        form.sns-form {
+          margin: 0;
+          padding: 0;
+
+          button[type=submit] {
+            display: block;
+            width: 100%;
+            height: 50px;
+            border-radius: 10px;
+            font-size: 20px;
+            letter-spacing: 1px;
+          }
+
+          button.twitter {
+            color: white;
+            background-color: #1DA1F2;
+          }
+
+          button.github {
+            color: white;
+            background-color: #171515;
+          }
+          &:nth-child(n+2){
+            margin-top: 30px;
+          }
+        }
+      }
+      div.notice{
+        padding-top: 10px;
+        font-size: 14px;
+        text-align: center;
+      }
+    }
+  }
+}
+
+
+// ------------------------------ PASSWORD FORGOT PAGE ------------------------------
+div.password-forgot-page{
+  form.forgot-password-form{
+    padding: 20px 15px 30px;
+    border: 1px solid #BFBFBF;
+    border-radius: 10px;
+    @media(max-width: 500px){
+      margin-right: 10px;
+      margin-left: 10px;
+    }
+    @media(min-width: 500px){
+      margin-right: auto;
+      margin-left: auto;
+      width: 480px;
+    }
+    div.description{
+      border-bottom: 1px solid #E6E6E6;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      h3{
+        font-size: 20px;
+        line-height: 30px;
+        padding-bottom: 10px;
+        text-align: center;
+      }
+      p{
+        padding-top: 5px;
+        padding-bottom: 5px;
+        line-height: 20px;
+      }
+    }
+    h4{
+      line-height: 20px;
+      font-size: 18px;
+      &:nth-child(n+2){
+        margin-top: 20px;
+      }
+    }
+
+    input[type="email"]{
+      margin-top: 5px;
+      width: 100%;
+      height: 30px;
+      border: 1px solid #BFBFBF;
+      padding-left: 5px;
+      appearance: none;
+    }
+
+    button[type=submit]{
+      display: block;
+      width: 200px;
+      height: 40px;
+      border-radius: 10px;
+      background-color: #00FFBF;
+      color: white;
+      font-weight: 700;
+      font-size: 20px;
+      cursor: pointer;
+      margin-top: 30px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    div.warning{
+      font-size: 14px;
+      line-height: 20px;
+      color: red;
+    }
+  }
+
+  div.return{
+    padding-top: 50px;
+    text-align: center;
+    line-height: 20px;
+  }
+}
+// ------------------------------ LOGIN PAGE ------------------------------
+form.auth-form{
+  display: none;
 }
 // -------------------------------------------- USER INDEX ---------------------------------------------
 

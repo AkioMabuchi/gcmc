@@ -1,31 +1,14 @@
 <h1>ログイン</h1>
-<div class="big-container" style="margin-bottom: 100px">
-  <div class="small-container">
-    <form method="post" action="/login" class="login-form">
-      <h4>メールアドレス</h4>
-      <input type="email" name="email">
-      <h4>パスワード</h4>
-      <input type="password" name="password">
-      <a href="/login/forgot-password" class="forgot-password">パスワードをお忘れですか？</a>
-      <% if flash[:login_warning] %>
-        <div class="warning">
-          <%= flash[:login_warning] %>
-        </div>
-      <% end %>
-      <button type="submit">ログイン</button>
-    </form>
-  </div>
-  <div class="small-container">
-    <div class="sns-login-form">
-      <form method="post" action="/auth/twitter" class="sns-login">
-        <button type="submit" class="twitter"><i class="fab fa-twitter"></i> Twitterでログイン</button>
-      </form>
-      <form method="post" action="/auth/github" class="sns-login">
-        <button type="submit" class="github"><i class="fab fa-github"></i> GitHubでログイン</button>
-      </form>
+<div class="login-page">
+  <div class="container1">
+    <div class="container2">
+      <%= react_component "LoginForm", info: @login_react_info %>
     </div>
-    <div class="login-notice">
-      アカウントをお持ちでない方は<a href="/signup">新規登録</a>
+    <div class="container3">
+      <%= react_component "SnsForm", info: @sns_react_info %>
+      <div class="notice">
+        まだアカウントをお持ちでない方は<a href="/signup">新規登録</a>
+      </div>
     </div>
   </div>
 </div>
